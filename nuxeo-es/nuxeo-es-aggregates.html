@@ -1,0 +1,120 @@
+<!--
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and contributors.
+
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the GNU Lesser General Public License
+(LGPL) version 2.1 which accompanies this distribution, and is available at
+http://www.gnu.org/licenses/lgpl.html
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+Contributors:
+  Michael Vachette <mvachette@nuxeo.com>
+-->
+<link rel="import" href="../../polymer/polymer.html">
+<!--
+An element which build an agg filter using child elements
+
+Example:
+
+    <nuxeo-es-aggregates></nuxeo-es-aggregates>
+
+@group Nuxeo Labs Elements
+@element nuxeo-es-aggregates
+-->
+<dom-module id="nuxeo-es-aggregates">
+  <style>
+  
+  </style>
+  <template>
+     <content id="aggregates"></content>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'nuxeo-es-aggregates',
+
+        properties: {
+          /**
+           * The computed aggregation
+           */
+         agg : {
+            type: Object,
+            readOnly: true,
+            notify:true,
+            value: function() {
+               return {};
+            }
+         },
+
+         /**
+          * The computed query post filters
+          */
+         postFilters : {
+            type: Array,
+            readOnly: true,
+            notify:true,
+            value: function() {
+               return {};
+            }
+         }
+
+        },
+
+        ready: function() {
+          //When component is ready.
+          this._setListeners();
+        },
+
+        _setListeners:function() {
+            var children = Polymer.dom(this).children;
+            var _this=this;
+            this.addEventListener('aggregate-change', function (e) {
+               _this._computeProperties();
+            });
+        },
+
+        _computeProperties:function() {
+            //var children = Polymer.dom(this).children;
+            var children = this.getContentChildren('#aggregates');
+            var agg = {};
+            var postFilters = [];
+            console.log('compute properties');
+            for(var i=0;i<children.length;i++) {
+                  var current = children[i];
+
+                  if (current.isAggregate === undefined) continue // this is not an aggregate elements
+
+                  if (!current.agg && !current.filter) return; //aggregates elements not fully initialized, no need to continue
+
+                  //add aggregation
+                  agg[current.name+"_agg_filter"] = current.agg;
+
+                  // add post filter
+                  if (current.selectedValues && current.selectedValues.length>0) {
+                     postFilters.push(current.filter);
+                  }
+                  // set own filter in agg
+                  var currentFilter = current.agg.filter;
+                  for(var j=0;j<children.length;j++) {
+                     if (i==j) continue;
+                     var other = children[j];
+                     if (other.selectedValues &&other.selectedValues.length>0) {
+                           if (current.agg.filter.and === undefined) current.agg.filter = {and: {filters: []}};
+                           current.agg.filter.and.filters.push(other.filter);
+                     }
+                  }
+            }
+            this._setAgg(agg);
+            this._setPostFilters(postFilters);
+        }
+
+      });
+    })();
+  </script>
+
+</dom-module>
