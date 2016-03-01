@@ -1,0 +1,27 @@
+{
+  "name": "nuxeo-util-html-echo",
+  "version": "1.0.0",
+  "authors": [
+    "Josh Fletcher <jfletcher@nuxeo.com>"
+  ],
+  "description": "An element for injecting HTML in Polymer DOM helper elements.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "seed",
+    "nuxeo"
+  ],
+  "main": "nuxeo-util-html-echo.html",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
+  "homepage": "https://github.com/nuxeo-sandbox/nuxeo-labs-elements/nuxeo-util-html-echo",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+  }
+}
