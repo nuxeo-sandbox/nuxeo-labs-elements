@@ -9,15 +9,15 @@
     "polymer",
     "nuxeo"
   ],
-  "license": "LGPL",
+  "license": "http://www.apache.org/licenses/LICENSE-2.0",
   "homepage": "https://github.com/nuxeo-sandbox/nuxeo-labs-elements/",
   "ignore": [
     "/.*",
     "/test/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.1.4",
-    "nuxeo-elements": "nuxeo/nuxeo-elements#^0.2.4",
+   "polymer": "Polymer/polymer#^1.1.4",
+   "nuxeo-elements": "nuxeo/nuxeo-elements#^0.2.4",
    "paper-elements": "PolymerElements/paper-elements#^1.0.5"
 
   },

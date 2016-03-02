@@ -1,0 +1,57 @@
+<!doctype html>
+<!--
+(C) Copyright 2015 Nuxeo SA (http://nuxeo.com/) and contributors.
+
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the GNU Lesser General Public License
+(LGPL) version 2.1 which accompanies this distribution, and is available at
+http://www.gnu.org/licenses/lgpl.html
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+Contributors:
+  Nelson Silva <nsilva@nuxeo.com>
+-->
+<html>
+   <head>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+      <link rel="import" href="nuxeo-es/nuxeo-es-aggregates.html">
+      <link rel="import" href="nuxeo-es/nuxeo-es-aggregate-term.html">
+      <link rel="import" href="nuxeo-es/nuxeo-es-search.html">
+      <link rel="import" href="search/nuxeo-search-filter.html">
+      <link rel="import" href="search/nuxeo-search-sort.html">
+      <link rel="import" href="widgets/nuxeo-checkbox-aggregation.html">
+      <link rel="import" href="widgets/nuxeo-sort-property.html">
+
+      <style>
+
+         html,
+         body {
+            height: 100%;
+         }
+
+      </style>
+   </head>
+   <body unresolved>
+      <div>
+         <template is="dom-bind">
+            <nuxeo-sort-property label="test" property="test"></nuxeo-sort-property>
+            <nuxeo-search-sort></nuxeo-search-sort>
+            <nuxeo-connection url="http://dam.cloud.nuxeo.com/nuxeo" username="Administrator" password="Nuxeo2015"></nuxeo-connection>
+            <nuxeo-search-filter aggregations={{aggregations}}>
+               <nuxeo-es-aggregate-term name="Type" field="ecm:primaryType" selected-values="{{typeAgg}}" ></nuxeo-es-aggregate-term>
+               <nuxeo-es-aggregate-term name="Creator" field="dc:creator" selected-values="{{creatorAgg}}"></nuxeo-es-aggregate-term>
+               <nuxeo-checkbox-aggregation name="Type" selected-values="{{typeAgg}}" aggregations='[[aggregations]]'></nuxeo-checkbox-aggregation>
+               <nuxeo-checkbox-aggregation name="Creator" selected-values="{{creatorAgg}}" aggregations='[[aggregations]]'></nuxeo-checkbox-aggregation>
+            </nuxeo-search-filter>
+         </template>
+      </div>
+   </body>
+</html>

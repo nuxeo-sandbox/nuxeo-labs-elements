@@ -24,7 +24,7 @@ Contributors:
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>nuxeo-util-html-echo Demo</title>
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="../nuxeo-util-html-echo.html">
+    <link rel="import" href="../nuxeo-util/nuxeo-util-html-echo.html">
   </head>
   <body unresolved>
 
@@ -39,19 +39,19 @@ Contributors:
 
     <script>
       var seedElement = document.querySelector('nuxeo-util-html-echo');
-      
+
       document.querySelector('#saybtn').addEventListener('click', function() {
         alert(seedElement.sayHello('Hallo!'));
       });
-      
+
       document.querySelector('#laserbtn').addEventListener('click', function() {
         seedElement.fireLasers();
       });
-      
+
       document.addEventListener("nuxeo-util-html-echo-lasers", function(e) {
         console.log(e.detail.sound);
       });
-      
+
     </script>
 
   </body>
