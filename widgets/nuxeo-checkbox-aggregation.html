@@ -22,87 +22,92 @@ Contributors:
 @element nuxeo-checkbox-aggregation
 -->
 <dom-module id="nuxeo-checkbox-aggregation">
- <template>
-   <style>
-     :host {
-       display: block;
-     }
-
-     paper-checkbox {
-        display: block;
-       font-size: 0.8em;
-       --paper-checkbox-label-spacing: 15px;
-       margin-bottom: 5px;
-     }
-
-     label {
-       color: #c6c6c6;
-       font-style: italic;
-     }
-
-     .filterItemLabel {
-        margin-top: 10px;
-        margin-bottom: 8px;
-     }
-   </style>
-
-  <div class="layout vertical">
-     <div class="filterItemLabel">{{name}}</div>
-    <template is="dom-repeat" items="[[_getBuckets(aggregations, name)]]">
-      <paper-checkbox value="[[item.key]]" on-change="_computeValues">[[item.key]] ([[item.doc_count]])</paper-checkbox>
-    </template>
-    <template is="dom-if" if="[[_isEmpty(aggregations, name)]]">
-      <label>No available result</label>
-    </template>
-  </div>
-
- </template>
- <script>
-   (function() {
-     'use strict';
-
-     Polymer({
-       is: 'nuxeo-checkbox-aggregation',
-
-       properties: {
-
-         aggregations: {
-           type: Object
-         },
-
-         name: {
-           type: String
-         },
-
-         value: {
-           type: Array,
-           value: [],
-           notify: true
-         },
-       },
-
-       _computeValues: function() {
-         var values = [];
-         var checkboxes = this.getElementsByTagName('paper-checkbox');
-         for (var i = 0; i < checkboxes.length; i++) {
-           if (checkboxes[i].checked) {
-             values.push(checkboxes[i].value);
-           }
+   <template>
+      <style>
+         :host {
+            display: block;
          }
-         this.value = values;
-       },
 
-       _getBuckets: function(aggregations, name) {
-         if (aggregations && aggregations[name+'_agg_filter'] && aggregations[name+'_agg_filter'][name+'_agg']) {
-           return aggregations[name+'_agg_filter'][name+'_agg'].buckets;
+         paper-checkbox {
+            display: block;
+            font-size: 0.8em;
+            --paper-checkbox-label-spacing: 15px;
+            margin-bottom: 5px;
          }
-       },
 
-       _isEmpty: function(aggregations, name) {
-         return aggregations && aggregations[name+'_agg_filter'] && aggregations[name+'_agg_filter'][name+'_agg'] &&
-            aggregations[name+'_agg_filter'][name+'_agg'].buckets.length === 0;
-       }
-     });
-   })();
- </script>
+         label {
+            color: #c6c6c6;
+            font-style: italic;
+         }
+
+         .filterItemLabel {
+            margin-top: 10px;
+            margin-bottom: 8px;
+         }
+
+      </style>
+
+      <div class="layout vertical">
+         <div class="filterItemLabel">{{name}}</div>
+         <template is="dom-repeat" items="[[_getBuckets(aggregations, name)]]">
+            <paper-checkbox value="[[item.key]]" on-change="_computeValues" checked="[[_isChecked(item)]]">[[item.key]] ([[item.doc_count]])</paper-checkbox>
+         </template>
+         <template is="dom-if" if="[[_isEmpty(aggregations, name)]]">
+            <label>No available result</label>
+         </template>
+      </div>
+
+   </template>
+   <script>
+      (function() {
+         'use strict';
+
+         Polymer({
+            is: 'nuxeo-checkbox-aggregation',
+
+            properties: {
+
+               aggregations: {
+                  type: Object,
+               },
+
+               name: {
+                  type: String,
+               },
+
+               selectedValues: {
+                  type: Array,
+                  value: function() {
+                     return [];
+                  },
+                  notify: true
+               }
+            },
+
+            _computeValues: function() {
+               this.splice('selectedValues', 0, this.selectedValues.length);
+               var checkboxes = this.getElementsByTagName('paper-checkbox');
+               for (var i = 0; i < checkboxes.length; i++) {
+                  if (checkboxes[i].checked) {
+                     this.push('selectedValues', checkboxes[i].value);
+                  }
+               }
+            },
+
+            _getBuckets: function(aggregations, name) {
+               if (aggregations && aggregations[name + '_agg_filter'] && aggregations[name + '_agg_filter'][name + '_agg']) {
+                  return aggregations[name + '_agg_filter'][name + '_agg'].buckets;
+               }
+            },
+
+            _isEmpty: function(aggregations, name) {
+               return aggregations && aggregations[name + '_agg_filter'] && aggregations[name + '_agg_filter'][name + '_agg'] && aggregations[name + '_agg_filter'][name + '_agg'].buckets.length === 0;
+            },
+
+            _isChecked: function(item) {
+               return this.selectedValues.indexOf(item.key)!==-1;
+            }
+         });
+      })();
+   </script>
 </dom-module>

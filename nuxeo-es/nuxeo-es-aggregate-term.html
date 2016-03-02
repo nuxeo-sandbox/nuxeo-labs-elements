@@ -35,95 +35,109 @@ Example:
    <template></template>
 
    <script>
-         Polymer({
-            is: 'nuxeo-es-aggregate-term',
+      Polymer({
+         is: 'nuxeo-es-aggregate-term',
 
-            properties: {
+         properties: {
 
-               /**
+            /**
            * The name of the aggregate.
            */
-               name: {
-                  type: String
-               },
+            name: {
+               type: String
+            },
 
-               /**
+            /**
            * The field to aggregate.
            */
-               field: {
-                  type: String
-               },
+            field: {
+               type: String
+            },
 
-               /**
-           * The aggregate query corresponding to the field and name
+            /**
+           * The selected values
            */
-               agg: {
-                  type: Object,
-                  notify: true,
-                  computed: '_computeAgg(name,field)'
-               },
-
-               /**
-           * The filter corresponding to the field, name and slected values
-           */
-               filter: {
-                  type: Object,
-                  notify: true,
-                  computed: '_computeFilter(name,field,selectedValues)'
-               },
-
-               selectedValues: {
-                  type: Array,
-                  value: function() {
-                     return [];
-                  }
+            selectedValues: {
+               type: Array,
+               value: function() {
+                  return [];
                }
             },
 
-            observers: [
-               '_notify(agg,filter)'
-            ],
-
-            isAggregate: function() {
-               return true;
+            /**
+           * The aggregate query corresponding to the field and name
+           */
+            agg: {
+               type: Object,
+               notify: true,
+               computed: '_computeAgg(name,field)'
             },
 
-            ready: function() {
-               //When component is ready.
-            },
+            /**
+           * The filter corresponding to the field, name and slected values
+           */
+            filter: {
+               type: Object,
+               notify: true,
+               readOnly:true
+            }
+         },
 
-            _computeAgg: function() {
-               if (this.name===undefined || this.field===undefined) return;
-               var agg = {
-                  filter: {match_all: {}},
-                  aggregations: {}
-               };
+         observers: ['_notify(agg,filter)','_computeFilter(name,field)','_onSelectedValuesChange(selectedValues.splices)'],
 
-               agg.aggregations["" + this.name + "_agg"] = {
-                  terms: {
-                     field: this.field,
-                     order: {
-                        _count: "desc"
-                     }
+         isAggregate: function() {
+            return true;
+         },
+
+         ready: function() {
+            //When component is ready.
+         },
+
+         _computeAgg: function() {
+            if (this.name === undefined || this.field === undefined)
+               return;
+            var agg = {
+               filter: {
+                  match_all: {}
+               },
+               aggregations: {}
+            };
+
+            agg.aggregations["" + this.name + "_agg"] = {
+               terms: {
+                  field: this.field,
+                  order: {
+                     _count: "desc"
                   }
-               };
-               return agg;
-            },
+               }
+            };
+            return agg;
+         },
 
-            _computeFilter: function() {
-               if (this.name===undefined || this.field===undefined) return;
-               var filter = {
+         _computeFilter: function() {
+            if (this.name === undefined || this.field === undefined)
+               return;
+
+            var filter={};
+            if (this.selectedValues.length>0) {
+               filter = {
                   terms: {}
                }
                filter.terms[this.field] = this.selectedValues;
-               return filter;
-            },
+            }
+            this._setFilter(filter);
+         },
 
-            _notify:function() {
-               if (this.filter !==undefined && this.agg!==undefined) this.fire('aggregate-change', {kicked: true});
+         _onSelectedValuesChange:function() {
+            this._computeFilter();
+         },
+
+         _notify: function() {
+            if (this.filter !== undefined && this.agg !== undefined)
+               this.fire('aggregate-change', {kicked: true});
             }
 
-         });
+      });
    </script>
 
 </dom-module>

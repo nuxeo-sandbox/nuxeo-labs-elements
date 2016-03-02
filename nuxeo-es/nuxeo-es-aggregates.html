@@ -27,7 +27,7 @@ Example:
 -->
 <dom-module id="nuxeo-es-aggregates">
   <style>
-  
+
   </style>
   <template>
      <content id="aggregates"></content>
@@ -55,7 +55,7 @@ Example:
           * The computed query post filters
           */
          postFilters : {
-            type: Array,
+            type: Object,
             readOnly: true,
             notify:true,
             value: function() {
@@ -82,7 +82,7 @@ Example:
             //var children = Polymer.dom(this).children;
             var children = this.getContentChildren('#aggregates');
             var agg = {};
-            var postFilters = [];
+            var postFilters = {};
             console.log('compute properties');
             for(var i=0;i<children.length;i++) {
                   var current = children[i];
@@ -92,20 +92,22 @@ Example:
                   if (!current.agg && !current.filter) return; //aggregates elements not fully initialized, no need to continue
 
                   //add aggregation
-                  agg[current.name+"_agg_filter"] = current.agg;
+                  agg[current.name+"_agg_filter"] = {};
+                  agg[current.name+"_agg_filter"].aggregations = current.agg.aggregations;
+                  agg[current.name+"_agg_filter"].filter = current.agg.filter;
 
                   // add post filter
                   if (current.selectedValues && current.selectedValues.length>0) {
-                     postFilters.push(current.filter);
+                     if (postFilters.and ===undefined) postFilters = {and:{filters:[]}};
+                     postFilters.and.filters.push(current.filter);
                   }
                   // set own filter in agg
-                  var currentFilter = current.agg.filter;
                   for(var j=0;j<children.length;j++) {
                      if (i==j) continue;
                      var other = children[j];
-                     if (other.selectedValues &&other.selectedValues.length>0) {
-                           if (current.agg.filter.and === undefined) current.agg.filter = {and: {filters: []}};
-                           current.agg.filter.and.filters.push(other.filter);
+                     if (current.isAggregate !== undefined && other.filter!==undefined && other.selectedValues && other.selectedValues.length>0) {
+                           if (agg[current.name+"_agg_filter"].filter.and === undefined) agg[current.name+"_agg_filter"].filter = {and: {filters: []}};
+                           agg[current.name+"_agg_filter"].filter.and.filters.push(other.filter);
                      }
                   }
             }
