@@ -16,38 +16,41 @@ Contributors:
   Nelson Silva <nsilva@nuxeo.com>
 -->
 <html>
-   <head>
+<head>
 
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-      <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-      <link rel="import" href="nuxeo-es/nuxeo-es-aggregates.html">
-      <link rel="import" href="nuxeo-es/nuxeo-es-aggregate-term.html">
-      <link rel="import" href="nuxeo-es/nuxeo-es-search.html">
-      <link rel="import" href="search/nuxeo-search-filter.html">
-      <link rel="import" href="widgets/nuxeo-checkbox-aggregation.html">
+  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../iron-component-page/iron-component-page.html">
 
-      <style>
+  <style>
+    header[main]   {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 15px 20px;
+      background-color: #fff;
+      box-sizing: border-box;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+    #logo {
+      background:transparent url('https://sso.nuxeo.com/cas/images/logo_connect_white.png') no-repeat;
+      background-size: cover;
+      display: inline-block;
+      height:28px;
+      width:160px;
+    }
+  </style>
 
-         html,
-         body {
-            height: 100%;
-         }
+</head>
+<body unresolved>
+  <!-- Note: if the main element for this repository doesn't
+       match the folder name, add a src="&lt;main-component&gt;.html" attribute,
+       where &lt;main-component&gt;.html" is a file that imports all of the
+       components you want documented. -->
+  <iron-component-page></iron-component-page>
 
-      </style>
-   </head>
-   <body unresolved>
-      <div>
-         <template is="dom-bind">
-            <nuxeo-connection url="http://demo.nuxeo.com/nuxeo" username="Administrator" password="Administrator"></nuxeo-connection>
-            <nuxeo-search-filter aggregations={{aggregations}}>
-               <nuxeo-es-aggregate-term name="Type" field="ecm:primaryType"></nuxeo-es-aggregate-term>
-               <nuxeo-es-aggregate-term name="Creator" field="dc:creator"></nuxeo-es-aggregate-term>
-               <nuxeo-checkbox-aggregation name="Type" value="{{typeAgg}}" aggregations='[[aggregations]]'></nuxeo-checkbox-aggregation>
-               <nuxeo-checkbox-aggregation name="Creator" value="{{creatorAgg}}" aggregations='[[aggregations]]'></nuxeo-checkbox-aggregation>
-            </nuxeo-search-filter>
-         </template>
-      </div>
-   </body>
+</body>
 </html>
