@@ -1,0 +1,69 @@
+<!--
+(C) Copyright 2015 Nuxeo SA (http://nuxeo.com/) and contributors.
+
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the GNU Lesser General Public License
+(LGPL) version 2.1 which accompanies this distribution, and is available at
+http://www.gnu.org/licenses/lgpl.html
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+Contributors:
+	Josh Fletcher <jfletcher@nuxeo.com>
+-->
+<!--
+  An element that returns the highest rated documents.
+-->
+<dom-module id="nuxeo-dashboard-top-rated">
+
+  <template>
+
+    <nuxeo-connection id="nx"></nuxeo-connection>
+
+    <nuxeo-page-provider auto pageSize="7" query="SELECT * FROM	[[docType]] WHERE ecm:mixinType != 'HiddenInNavigation' AND ecm:isProxy = 0 AND ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted' AND rated:avg > 0 ORDER BY rated:avg" current-page="{{documents}}"></nuxeo-page-provider>
+
+    <paper-card heading="Highest Rated [[docType]]s">
+      <div class="card-content">
+        <nuxeo-data-table-stars columns='["[[docType]]", "Rating (Votes)"]' data="[[_dataForRatings(documents)]]">
+        </nuxeo-data-table-stars>
+      </div>
+    </paper-card>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'nuxeo-dashboard-top-rated',
+
+      properties: {
+        docType: {
+          type: String
+        }
+      },
+
+      _dataForRatings: function(data) {
+        data = data.slice(0, 6);
+        return data.map(function(e) {
+          return {
+            key: e.key,
+            value: Math.round(e.avgVote.value),
+            count: e.doc_count
+          };
+        }.bind(this));
+      },
+
+      _debug: function(stuff) {
+        console.log(stuff);
+
+        debugger;
+      }
+
+
+    });
+
+  </script>
+</dom-module>
