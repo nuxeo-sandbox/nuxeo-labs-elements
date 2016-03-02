@@ -27,21 +27,31 @@ Contributors:
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
+  <link rel="import" href="../../polymer/polymer.html">
+
   <link rel="import" href="../nuxeo-util-mimetypes.html">
 
+  <style>
+    code {
+      padding: 2px;
+      background-color: rgba(0, 0, 0, 0.04);
+      border-radius: 3px;
+    }
+
+  </style>
 </head>
 
 <body unresolved class="fullbleed">
 
   <template is="dom-bind">
 
-    <h1>Get File Extensions from MIME Type</h1>
+    <h2>Get File Extension from MIME Type</h2>
     <nuxeo-util-mimetypes mime-type="application/pdf" data="{{pdfExts}}"></nuxeo-util-mimetypes>
-    <p>application/pdf -> [[pdfExts]]</p>
+    <p><code>application/pdf</code> = <code>[[pdfExts]]</code></p>
 
-    <h1>Get "Friendly Name" from from MIME Type</h1>
+    <h2>Get "Friendly Name" from from MIME Type</h2>
     <nuxeo-util-mimetypes mime-type="application/vnd.google-apps.spreadsheet" friendly="true" data={{gSheetFriendly}}></nuxeo-util-mimetypes>
-    <p>application/vnd.google-apps.spreadsheet -> [[gSheetFriendly]]</p>
+    <p><code>application/vnd.google-apps.spreadsheet</code> = <code>[[gSheetFriendly]]</code></p>
 
   </template>
 </body>
