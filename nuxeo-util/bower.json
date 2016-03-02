@@ -4,7 +4,7 @@
   "authors": [
     "Josh Fletcher <jfletcher@nuxeo.com>"
   ],
-  "description": "An element for injecting HTML in Polymer DOM helper elements.",
+  "description": "Helpful elements for working with Polymer.",
   "keywords": [
     "web-component",
     "polymer",
