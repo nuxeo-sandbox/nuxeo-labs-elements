@@ -9,6 +9,11 @@ Helpful elements for working with Polymer.
 An element An element for injecting HTML in Polymer DOM helper elements (e.g. "dom-if", "dom-repeat"). By default Polymer templates always escape HTML.
 
 
+## nuxeo-util-mimetypes
+
+A Polymer element for dealing with MIME types. Returns file extensions or "friendly" file types given a MIME type.
+
+
 ## Dependencies
 
 Install Node.js (I use [Homebrew](http://brew.sh/))
