@@ -44,7 +44,7 @@ Contributors:
          <template is="dom-bind">
             <nuxeo-sort-property label="test" property="test"></nuxeo-sort-property>
             <nuxeo-search-sort></nuxeo-search-sort>
-            <nuxeo-connection url="http://dam.cloud.nuxeo.com/nuxeo" username="Administrator" password="Nuxeo2015"></nuxeo-connection>
+            <nuxeo-connection url="http://dam.cloud.nuxeo.com/nuxeo"></nuxeo-connection>
             <nuxeo-search-filter aggregations={{aggregations}}>
                <nuxeo-es-aggregate-term name="Type" field="ecm:primaryType" selected-values="{{typeAgg}}" ></nuxeo-es-aggregate-term>
                <nuxeo-es-aggregate-term name="Creator" field="dc:creator" selected-values="{{creatorAgg}}"></nuxeo-es-aggregate-term>
