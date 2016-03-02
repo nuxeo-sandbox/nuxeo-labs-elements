@@ -22,14 +22,14 @@ Element dependencies are managed via [Bower](http://bower.io/). You can install 
 
     npm install -g bower
 
-Then, go ahead and download the element's dependencies:
+Then, go ahead and download the elements' dependencies:
 
     bower install
 
 
 ## Demo
 
-If you wish to work on the element in isolation, we recommend that you use [Polyserve](https://github.com/PolymerLabs/polyserve) to keep your element's bower dependencies in line. You can install it via:
+If you wish to work on the elements in isolation, we recommend that you use [Polyserve](https://github.com/PolymerLabs/polyserve) to keep the elements' bower dependencies in line. You can install it via:
 
     npm install -g polyserve
 
@@ -37,9 +37,7 @@ And you can run it via:
 
     polyserve -p 3000
 
-Once running, you can view the element's documentation at `http://localhost:3000/components/nuxeo-util-html-echo/`, where `nuxeo-util-html-echo` is the name of the directory containing it.
-
-To jump straight to the demo page, use `http://localhost:3000/components/nuxeo-util-html-echo/demo/index.html`.
+Once running, you can view the elements' documentation at `http://localhost:3000/components/nuxeo-util/`, where `nuxeo-util` is the name of the directory containing the elements.
 
 
 ## Reporting Issues
