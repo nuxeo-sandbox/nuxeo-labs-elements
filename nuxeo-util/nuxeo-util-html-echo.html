@@ -17,16 +17,28 @@ limitations under the License.
 Contributors:
   Joshua Fletcher <jfletcher@nuxeo.com>
 -->
-<link rel="import" href="../polymer/polymer.html">
 <!--
 An element for injecting HTML in Polymer DOM helper elements (e.g.
 "dom-if", "dom-repeat"). By default Polymer templates always escape
-HTML.
+HTML to prevent XSS attacks.
+
+See: https://github.com/Polymer/TemplateBinding/issues/57
 
 Example:
 
     <nuxeo-util-html-echo html-to-inject="{{myHTMLString}}"
     </nuxeo-util-html-echo>
+
+Note: you don't need this if using hard-coded HTML within the template,
+only when using bound values.
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--nuxeo-util-html-echo` | Mixin applied to the element | `{}`
 
 @group Nuxeo Labs Elements
 @element nuxeo-util-html-echo
@@ -35,7 +47,16 @@ Example:
 <dom-module id="nuxeo-util-html-echo">
 
   <template>
+
+    <style include="paper-material">
+      :host {
+        @apply(--nuxeo-util-html-echo);
+      }
+
+    </style>
+
     <span id="htmlEchoContent"></span>
+
   </template>
 
   <script>
@@ -49,10 +70,10 @@ Example:
       },
 
       observers: [
-        '_innerHTMLChanged(htmlToInject)'
+        '_htmlChanged(htmlToInject)'
       ],
 
-      _innerHTMLChanged: function() {
+      _htmlChanged: function() {
         this.$.htmlEchoContent.innerHTML = this.htmlToInject;
       }
     });
