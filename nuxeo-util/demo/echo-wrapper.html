@@ -17,31 +17,36 @@ limitations under the License.
 Contributors:
   Joshua Fletcher <jfletcher@nuxeo.com>
 -->
-<html>
+<dom-module id="echo-wrapper">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <template>
 
-  <title>nuxeo-util-html-echo Demo</title>
+    <h2>Without nuxeo-util-html-echo</h2>
 
-  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <template is="dom-if" if="true">
+      <p>[[_getHTMLString()]]</p>
+    </template>
 
-  <link rel="import" href="../../polymer/polymer.html">
 
-  <link rel="import" href="../nuxeo-util-html-echo.html">
-  <link rel="import" href="echo-wrapper.html">
+    <h2>With nuxeo-util-html-echo</h2>
 
-</head>
-
-<body unresolved class="fullbleed">
-
-  <template is="dom-bind">
-
-    <echo-wrapper></echo-wrapper>
+    <template is="dom-if" if="true">
+      <p>
+        <nuxeo-util-html-echo html-to-inject="[[_getHTMLString()]]"></nuxeo-util-html-echo>
+      </p>
+    </template>
 
   </template>
 
-</body>
+  <script>
+    Polymer({
+      is: 'echo-wrapper',
 
-</html>
+      _getHTMLString: function() {
+        return "This text is bold &rarr; <b>right here</b>.";
+      }
+    });
+
+  </script>
+
+</dom-module>

@@ -16,12 +16,8 @@
     "/test/"
   ],
   "dependencies": {
-   "polymer": "Polymer/polymer#^1.1.4",
-   "nuxeo-elements": "nuxeo/nuxeo-elements#^0.2.4",
-   "paper-elements": "PolymerElements/paper-elements#^1.0.5"
-
-  },
-  "resolutions": {
-    "nuxeo-elements": "b14c260342fc44ead950ab5eb934f861f78dad11"
+    "polymer": "Polymer/polymer#^1.1.4",
+    "nuxeo-elements": "nuxeo/nuxeo-elements#b14c260342fc44ead950ab5eb934f861f78dad11",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.5"
   }
 }
