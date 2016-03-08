@@ -27,7 +27,7 @@ An element to compute percentages that add up to 100 using the largest remainder
       is: 'nuxeo-util-largest-remainder',
 
       properties: {
-        values: {
+        valuesToFix: {
           type: Array
         },
         percentages: {
@@ -37,13 +37,13 @@ An element to compute percentages that add up to 100 using the largest remainder
       },
 
       observers: [
-        '_computePercentages(values)'
+        '_computePercentages(valuesToFix)'
       ],
 
       _computePercentages: function() {
-        if (this.values && this.values.length > 0) {
+        if (this.valuesToFix && this.valuesToFix.length > 0) {
           // Rounding everything down
-          var flooredValues = this.values.map(Math.floor);
+          var flooredValues = this.valuesToFix.map(Math.floor);
 
           // Getting the difference in sum and 100
           var flooredTotal = flooredValues.reduce(function(a, b) {
