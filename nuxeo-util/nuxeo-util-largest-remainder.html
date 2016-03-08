@@ -41,31 +41,33 @@ An element to compute percentages that add up to 100 using the largest remainder
       ],
 
       _computePercentages: function() {
-        // Rounding everything down
-        var flooredValues = this.values.map(Math.floor);
+        if (this.values && this.values.length > 0) {
+          // Rounding everything down
+          var flooredValues = this.values.map(Math.floor);
 
-        // Getting the difference in sum and 100
-        var flooredTotal = flooredValues.reduce(function(a, b) {
-          return a + b;
-        });
+          // Getting the difference in sum and 100
+          var flooredTotal = flooredValues.reduce(function(a, b) {
+            return a + b;
+          });
 
-        var difference = 100 - flooredTotal;
+          var difference = 100 - flooredTotal;
 
-        // Distributing the difference by adding 1 to items in decreasing order of their decimal parts */
-        var decimalParts = this.valus.map(function(value) {
-          return value % 1;
-        })
+          // Distributing the difference by adding 1 to items in decreasing order of their decimal parts */
+          var decimalParts = this.valus.map(function(value) {
+            return value % 1;
+          })
 
-        decimalParts.sort();
+          decimalParts.sort();
 
-        var position = 0;
-        while (difference > 0) {
-          flooredValues[position] = flooredValues[position] + 1;
-          position = position + 1;
-          difference = difference - 1;
+          var position = 0;
+          while (difference > 0) {
+            flooredValues[position] = flooredValues[position] + 1;
+            position = position + 1;
+            difference = difference - 1;
+          }
+
+          this.percentages = flooredValues;
         }
-
-        this.percentages = flooredValues;
       },
 
       _debug: function(data) {
