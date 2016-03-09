@@ -18,7 +18,21 @@ Contributors:
   Joshua Fletcher <jfletcher@nuxeo.com>
 -->
 <!--
-An element to compute percentages that add up to 100 using the largest remainder method: https://en.wikipedia.org/wiki/Largest_remainder_method
+An element to compute percentages that add up to 100 using the largest remainder method. You should pass in an array with the percentage values to adjust.
+
+See: https://en.wikipedia.org/wiki/Largest_remainder_method
+
+Example:
+
+    var largestRemainder = document.createElement('nuxeo-util-largest-remainder');
+    largestRemainder.valuesToFix = [13,88];
+    var fixedValues = largestRemainder.computePercentages();
+
+Note: I was unable to get this working properly using an array binding, the binding did not work when adding elements to the array, that's why you need to call it from Javascript.
+
+@group Nuxeo Labs Elements
+@element nuxeo-util-html-echo
+@demo demo/echo.html
 -->
 <dom-module id="nuxeo-util-largest-remainder">
 
@@ -35,10 +49,10 @@ An element to compute percentages that add up to 100 using the largest remainder
       computePercentages: function() {
         if (this.valuesToFix && this.valuesToFix.length > 0) {
 
-          // Round everything down
+          // Floor everything
           var flooredValues = this.valuesToFix.map(Math.floor);
 
-          // Get the difference between sum and 100
+          // Get the difference between the sum of the floored values and 100
           var flooredTotal = flooredValues.reduce(function(a, b) {
             return a + b;
           });
