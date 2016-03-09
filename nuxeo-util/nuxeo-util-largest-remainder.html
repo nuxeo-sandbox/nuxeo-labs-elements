@@ -29,30 +29,22 @@ An element to compute percentages that add up to 100 using the largest remainder
       properties: {
         valuesToFix: {
           type: Array
-        },
-        percentages: {
-          type: Array,
-          notify: true
         }
       },
 
-      observers: [
-        '_computePercentages(valuesToFix)'
-      ],
-
-      _computePercentages: function() {
+      computePercentages: function() {
         if (this.valuesToFix && this.valuesToFix.length > 0) {
-          // Rounding everything down
+          // Round everything down
           var flooredValues = this.valuesToFix.map(Math.floor);
 
-          // Getting the difference in sum and 100
+          // Get the difference between sum and 100
           var flooredTotal = flooredValues.reduce(function(a, b) {
             return a + b;
           });
 
           var difference = 100 - flooredTotal;
 
-          // Distributing the difference by adding 1 to items in decreasing order of their decimal parts */
+          // Distribute the difference by adding 1 to items in decreasing order of their decimal parts
           var decimalParts = this.valuesToFix.map(function(value) {
             return value % 1;
           })
@@ -66,7 +58,9 @@ An element to compute percentages that add up to 100 using the largest remainder
             difference = difference - 1;
           }
 
-          this.percentages = flooredValues;
+          return flooredValues;
+        } else {
+          return null;
         }
       },
 
