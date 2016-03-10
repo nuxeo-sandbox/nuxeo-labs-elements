@@ -2,6 +2,7 @@
 
 Polymer elements for working on Nuxeo projects.
 
+[API and Docs](http://nuxeo-sandbox.github.io/nuxeo-labs-elements/)
 
 ## Support
 
