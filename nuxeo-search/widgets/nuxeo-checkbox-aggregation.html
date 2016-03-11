@@ -46,16 +46,15 @@ Contributors:
          }
 
       </style>
+         <template is="dom-if" if="[[!_isEmpty(aggregations, name)]]">
 
       <div class="layout vertical">
          <div class="filterItemLabel">{{name}}</div>
          <template is="dom-repeat" items="[[_getBuckets(aggregations, name)]]">
             <paper-checkbox value="[[item.key]]" on-change="_computeValues" checked="[[_isChecked(item)]]">[[item.key]] ([[item.doc_count]])</paper-checkbox>
          </template>
-         <template is="dom-if" if="[[_isEmpty(aggregations, name)]]">
-            <label>No available result</label>
-         </template>
       </div>
+         </template>
 
    </template>
    <script>
