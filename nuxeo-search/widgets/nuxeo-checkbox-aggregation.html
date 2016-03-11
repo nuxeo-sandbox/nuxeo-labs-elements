@@ -1,5 +1,5 @@
 <!--
-(C) Copyright 2015 Nuxeo SA (http://nuxeo.com/) and contributors.
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and contributors.
 
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the GNU Lesser General Public License
@@ -22,91 +22,96 @@ Contributors:
 @element nuxeo-checkbox-aggregation
 -->
 <dom-module id="nuxeo-checkbox-aggregation">
-   <template>
-      <style>
-         :host {
-            display: block;
-         }
 
-         paper-checkbox {
-            display: block;
-            font-size: 0.8em;
-            --paper-checkbox-label-spacing: 15px;
-            margin-bottom: 5px;
-         }
+  <template>
 
-         label {
-            color: #c6c6c6;
-            font-style: italic;
-         }
+    <style>
+      :host {
+        display: block;
+      }
+      
+      paper-checkbox {
+        display: block;
+        font-size: 0.8em;
+        --paper-checkbox-label-spacing: 15px;
+        margin-bottom: 5px;
+      }
+      
+      label {
+        color: #c6c6c6;
+        font-style: italic;
+      }
+      
+      .filterItemLabel {
+        margin-top: 10px;
+        margin-bottom: 8px;
+      }
 
-         .filterItemLabel {
-            margin-top: 10px;
-            margin-bottom: 8px;
-         }
+    </style>
 
-      </style>
-         <template is="dom-if" if="[[!_isEmpty(aggregations, name)]]">
+    <template is="dom-if" if="[[!_isEmpty(aggregations, name)]]">
 
       <div class="layout vertical">
-         <div class="filterItemLabel">{{name}}</div>
-         <template is="dom-repeat" items="[[_getBuckets(aggregations, name)]]">
-            <paper-checkbox value="[[item.key]]" on-change="_computeValues" checked="[[_isChecked(item)]]">[[item.key]] ([[item.doc_count]])</paper-checkbox>
-         </template>
+        <div class="filterItemLabel">{{name}}</div>
+        <template is="dom-repeat" items="[[_getBuckets(aggregations, name)]]">
+          <paper-checkbox value="[[item.key]]" on-change="_computeValues" checked="[[_isChecked(item)]]">[[item.key]] ([[item.doc_count]])</paper-checkbox>
+        </template>
       </div>
-         </template>
+    </template>
 
-   </template>
-   <script>
-      (function() {
-         'use strict';
+  </template>
 
-         Polymer({
-            is: 'nuxeo-checkbox-aggregation',
+  <script>
+    (function() {
+      'use strict';
 
-            properties: {
+      Polymer({
+        is: 'nuxeo-checkbox-aggregation',
 
-               aggregations: {
-                  type: Object,
-               },
+        properties: {
 
-               name: {
-                  type: String,
-               },
+          aggregations: {
+            type: Object,
+          },
 
-               selectedValues: {
-                  type: Array,
-                  value: function() {
-                     return [];
-                  },
-                  notify: true
-               }
+          name: {
+            type: String,
+          },
+
+          selectedValues: {
+            type: Array,
+            value: function() {
+              return [];
             },
+            notify: true
+          }
+        },
 
-            _computeValues: function() {
-               this.splice('selectedValues', 0, this.selectedValues.length);
-               var checkboxes = this.getElementsByTagName('paper-checkbox');
-               for (var i = 0; i < checkboxes.length; i++) {
-                  if (checkboxes[i].checked) {
-                     this.push('selectedValues', checkboxes[i].value);
-                  }
-               }
-            },
-
-            _getBuckets: function(aggregations, name) {
-               if (aggregations && aggregations[name + '_agg_filter'] && aggregations[name + '_agg_filter'][name + '_agg']) {
-                  return aggregations[name + '_agg_filter'][name + '_agg'].buckets;
-               }
-            },
-
-            _isEmpty: function(aggregations, name) {
-               return aggregations && aggregations[name + '_agg_filter'] && aggregations[name + '_agg_filter'][name + '_agg'] && aggregations[name + '_agg_filter'][name + '_agg'].buckets.length === 0;
-            },
-
-            _isChecked: function(item) {
-               return this.selectedValues.indexOf(item.key)!==-1;
+        _computeValues: function() {
+          this.splice('selectedValues', 0, this.selectedValues.length);
+          var checkboxes = this.getElementsByTagName('paper-checkbox');
+          for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+              this.push('selectedValues', checkboxes[i].value);
             }
-         });
-      })();
-   </script>
+          }
+        },
+
+        _getBuckets: function(aggregations, name) {
+          if (aggregations && aggregations[name + '_agg_filter'] && aggregations[name + '_agg_filter'][name + '_agg']) {
+            return aggregations[name + '_agg_filter'][name + '_agg'].buckets;
+          }
+        },
+
+        _isEmpty: function(aggregations, name) {
+          return aggregations && aggregations[name + '_agg_filter'] && aggregations[name + '_agg_filter'][name + '_agg'] && aggregations[name + '_agg_filter'][name + '_agg'].buckets.length === 0;
+        },
+
+        _isChecked: function(item) {
+          return this.selectedValues.indexOf(item.key) !== -1;
+        }
+      });
+    })();
+
+  </script>
 </dom-module>
