@@ -17,8 +17,6 @@ limitations under the License.
 Contributors:
 -->
 <link rel="import" href="../../../nuxeo-elements/nuxeo-connection.html">
-<link rel="import" href="../../../iron-ajax/iron-request.html">
-
 <!--
 An element allowing querying the Nuxeo ES passthrough.
 
@@ -160,17 +158,6 @@ Example:
                   url += '?search_type=' + this.type;
                }
 
-               // add auth headers
-               var auth = {
-                  'Content-Type': 'application/json'
-               };
-               this.$.nx.client._computeAuthentication(auth);
-
-               // Normalize headers in lower case
-               var headers = {};
-               for (var header in auth) {
-                  headers[header.toLowerCase()] = auth[header].toString();
-               }
 
                var body = {
                   fields: this.fields,
