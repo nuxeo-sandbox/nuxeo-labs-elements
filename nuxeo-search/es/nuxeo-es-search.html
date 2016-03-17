@@ -178,13 +178,21 @@ Example:
           if (Object.keys(this.sort).length > 0)
             body.sort = this.sort;
 
-          return document.createElement('iron-request').send({
-            url: url,
+          var options = {
             method: 'POST',
-            headers: headers,
+            headers: {
+              'Content-Type': 'application/json'
+            },
             body: body,
-            handleAs: 'json'
-          }).then(this._handleResponse.bind(this)).catch(this._handleError.bind(this));
+            url: url
+          };
+
+          return this.$.nx.request().then(function(request) {
+            return request
+              .execute(options)
+              .then(this._handleResponse.bind(this))
+              .catch(this._handleError.bind(this))
+          }.bind(this));
         },
 
         _handleError: function(request, error) {
@@ -195,8 +203,7 @@ Example:
           });
         },
 
-        _handleResponse: function(request) {
-          var response = request.response;
+        _handleResponse: function(response) {
           this._setHits(response.hits);
           this._setAggregations(response.aggregations);
           this._setSuggestions(response.suggest);
