@@ -73,6 +73,15 @@ Example:
           this._setListeners();
         },
 
+        reset:function() {
+            var children = this.getContentChildren('#aggregates');
+            for (var i=0;i<children.length;i++) {
+               var child = children[i];
+               if (child.isAggregate === undefined) continue;
+               child.reset();
+            }
+         },
+
         _setListeners:function() {
             var children = Polymer.dom(this).children;
             var _this=this;

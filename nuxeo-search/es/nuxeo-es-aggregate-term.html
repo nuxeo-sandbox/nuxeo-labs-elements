@@ -64,7 +64,8 @@ Example:
                type: Array,
                value: function() {
                   return [];
-               }
+               },
+               notify:true;
             },
 
             /**
@@ -90,6 +91,11 @@ Example:
 
          isAggregate: function() {
             return true;
+         },
+
+         reset: function() {
+            if (this.selectedValues === undefined || this.selectedValues ===null) return;
+            this.splice('selectedValues',0,this.selectedValues.length);
          },
 
          ready: function() {
