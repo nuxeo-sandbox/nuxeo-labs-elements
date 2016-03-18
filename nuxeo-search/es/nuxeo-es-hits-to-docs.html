@@ -83,20 +83,22 @@ Example:
             },
 
             _handleResponse: function(response) {
-               if (response ===undefined || response === null)
-                  return;
+               if (response ===undefined || response === null) return;
+               var hits = this.hits.hits;
                var entries = response.entries;
-               for (var i = 0; i < entries.length; i++) {
-                  var entry = entries[i];
-                  var id = entry.uid;
-                  for (var j = 0; j < this.hits.hits.length; j++) {
-                     var hit = this.hits.hits[j];
-                     if (id === hit._id) {
+               var results = [];
+
+               for (var i = 0; i < hits.length; i++) {
+                  var hit = hits[i];
+                  for (var j = 0; j < entries.length; j++) {
+                     var entry = entries[j];
+                     if (entry.uid === hit._id) {
                         entry.highlight = hit.highlight;
+                        results.push(entry);
                      }
                   }
                }
-               this._setDocs(entries);
+               this._setDocs(results);
             }
          });
       })();
