@@ -66,7 +66,7 @@ Example:
         _convert: function() {
 
           // Don't query if we don't acutally have hits.
-          if (!this.hits || !this.hits.hits) {
+          if (!this.hits || !this.hits.hits || this.hits.hits.length = 0) {
             return;
           }
 
