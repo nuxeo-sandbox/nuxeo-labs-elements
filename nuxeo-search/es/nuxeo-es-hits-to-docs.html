@@ -28,85 +28,86 @@ Example:
 @element nuxeo-es-hits-to-docs
 -->
 <dom-module id="nuxeo-es-hits-to-docs">
-   <style>
-      :host {
-         display: none;
-      }
+  <style>
+    :host {
+      display: none;
+    }
 
-   </style>
-   <template>
-      <nuxeo-resource id="query" path="/query" response="{{response}}" enrichers="[[enrichers]]" success="{{success}}" error="{{error}}"></nuxeo-resource>
-   </template>
+  </style>
+  <template>
+    <nuxeo-resource id="query" path="/query" response="{{response}}" enrichers="[[enrichers]]" success="{{success}}" error="{{error}}"></nuxeo-resource>
+  </template>
 
-   <script>
-      (function() {
-         Polymer({
-            is: 'nuxeo-es-hits-to-docs',
+  <script>
+    (function() {
+      Polymer({
+        is: 'nuxeo-es-hits-to-docs',
 
-            properties: {
+        properties: {
 
-               hits: {
-                  type: Object,
-                  observer: '_convert'
-               },
+          hits: {
+            type: Object,
+            observer: '_convert'
+          },
 
-               enrichers: {
-                  type: String
-               },
+          enrichers: {
+            type: String
+          },
 
-               docs: {
-                  type: Object,
-                  notify: true,
-                  readOnly: true
-               }
-            },
+          docs: {
+            type: Object,
+            notify: true,
+            readOnly: true
+          }
+        },
 
-            observers: ['_handleResponse(response)'],
+        observers: ['_handleResponse(response)'],
 
-            _convert: function() {
-               // Build id list
-               var ids = "(";
-               for (var i = 0; i < this.hits.hits.length; i++) {
-                  if (i !== 0)
-                     ids += ","
-                  ids += "'" + this.hits.hits[i]._id + "'";
-               }
-               ids += ")"
-               if (ids.length < 3)
-                  return;
+        _convert: function() {
+          // Build id list
+          var ids = "(";
+          for (var i = 0; i < this.hits.hits.length; i++) {
+            if (i !== 0)
+              ids += ","
+            ids += "'" + this.hits.hits[i]._id + "'";
+          }
+          ids += ")"
+          if (ids.length < 3)
+            return;
 
-               // fetch documents
-               this.$.query.params = {
-                  query: "SELECT * FROM Document WHERE ecm:uuid IN " + ids
-               }
-               this.$.query.get();
-            },
+          // fetch documents
+          this.$.query.params = {
+            query: "SELECT * FROM Document WHERE ecm:uuid IN " + ids
+          }
+          this.$.query.get();
+        },
 
-            _handleResponse: function(response) {
-               if (response ===undefined || response === null) return;
+        _handleResponse: function(response) {
+          if (response === undefined || response === null) return;
 
-               if(!this.hits || !this.hits.hits){
-                this._setDocs({});
-                 return;
-               }
-              
-               var hits = this.hits.hits;
-               var entries = response.entries;
-               var results = [];
+          if (!this.hits || !this.hits.hits) {
+            this._setDocs({});
+            return;
+          }
 
-               for (var i = 0; i < hits.length; i++) {
-                  var hit = hits[i];
-                  for (var j = 0; j < entries.length; j++) {
-                     var entry = entries[j];
-                     if (entry.uid === hit._id) {
-                        entry.highlight = hit.highlight;
-                        results.push(entry);
-                     }
-                  }
-               }
-               this._setDocs(results);
+          var hits = this.hits.hits;
+          var entries = response.entries;
+          var results = [];
+
+          for (var i = 0; i < hits.length; i++) {
+            var hit = hits[i];
+            for (var j = 0; j < entries.length; j++) {
+              var entry = entries[j];
+              if (entry.uid === hit._id) {
+                entry.highlight = hit.highlight;
+                results.push(entry);
+              }
             }
-         });
-      })();
-   </script>
+          }
+          this._setDocs(results);
+        }
+      });
+    })();
+
+  </script>
 </dom-module>
