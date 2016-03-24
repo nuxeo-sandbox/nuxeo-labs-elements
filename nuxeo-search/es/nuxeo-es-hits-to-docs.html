@@ -84,6 +84,12 @@ Example:
 
             _handleResponse: function(response) {
                if (response ===undefined || response === null) return;
+
+               if(!this.hits || !this.hits.hits){
+                this._setDocs({});
+                 return;
+               }
+              
                var hits = this.hits.hits;
                var entries = response.entries;
                var results = [];
