@@ -61,9 +61,15 @@ Example:
           }
         },
 
-        observers: ['_handleResponse(response)'],
+        observers: ['_handleResponse(response.*)'],
 
         _convert: function() {
+
+          // Don't query if we don't acutally have hits.
+          if (!this.hits || !this.hits.hits) {
+            return;
+          }
+
           // Build id list
           var ids = "(";
           for (var i = 0; i < this.hits.hits.length; i++) {
@@ -84,11 +90,6 @@ Example:
 
         _handleResponse: function(response) {
           if (response === undefined || response === null) return;
-
-          if (!this.hits || !this.hits.hits) {
-            this._setDocs({});
-            return;
-          }
 
           var hits = this.hits.hits;
           var entries = response.entries;
