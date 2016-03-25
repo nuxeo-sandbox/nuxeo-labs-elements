@@ -55,7 +55,7 @@ Example:
           },
 
           docs: {
-            type: Object,
+            type: Array,
             notify: true,
             readOnly: true
           }
@@ -67,7 +67,7 @@ Example:
 
           // Don't query if we don't acutally have hits.
           if (!this.hits || !this.hits.hits || (this.hits.hits.length == 0)) {
-            this._setDocs({});
+            this._setDocs([]);
             return;
           }
 
