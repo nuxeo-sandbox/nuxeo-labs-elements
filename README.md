@@ -4,6 +4,9 @@ Polymer elements for working on Nuxeo projects.
 
 [API and Docs](http://nuxeo-sandbox.github.io/nuxeo-labs-elements/)
 
+The script `publish-docs.sh` can be used to republish the documentation (and it's a reminder for me about how to do it!)
+
+
 ## Support
 
 **These features are not part of the Nuxeo Production platform.**
