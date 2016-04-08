@@ -1,0 +1,236 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+  Joshua Fletcher <jfletcher@nuxeo.com>
+-->
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../paper-material/paper-material.html">
+<link rel="import" href="../../paper-progress/paper-progress.html">
+<link rel="import" href="../../nuxeo-util-elements/nuxeo-util-largest-remainder.html">
+
+<link rel="import" href="nuxeo-labs-percentage-chart-styles.html">
+<!--
+An element for displaying a chart of progress bars with a progress histogram at the bottom.
+
+Example:
+
+    <nuxeo-labs-percentage-chart title="Chart Title"
+                                 data="[[data]]"
+                                 data-type="Claims">
+    </nuxeo-labs-percentage-chart>
+
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--nuxeo-labs-percentage-chart` | Mixin applied to the element | `{}`
+
+@group Nuxeo CM Demo Elements
+@element nuxeo-labs-percentage-chart
+@demo demo/percentage-chart.html
+-->
+<dom-module id="nuxeo-labs-percentage-chart">
+
+  <template>
+
+    <style include="nuxeo-labs-percentage-chart-styles">
+      :host {
+        line-height: initial;
+        @apply(--nuxeo-labs-percentage-chart);
+      }
+      
+      paper-material {
+        border-radius: 3px;
+        display: inline-block;
+      }
+      
+      .main-header {
+        color: #ffffff;
+        background: #236ba5;
+        font-size: 18px;
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+      }
+      
+      .main-content {
+        padding: 16px;
+      }
+      
+      .progress-row {
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .progress-bar-container {
+        display: table;
+      }
+      
+      .progress-percent-label {
+        padding-left: 5px;
+        font-size: smaller;
+        display: table-cell;
+        vertical-align: middle;
+      }
+      
+      paper-progress.single-stat {
+        --paper-progress-height: 20px;
+        display: table-cell;
+        vertical-align: middle;
+      }
+      
+      .progress-hidden {
+        width: 0;
+      }
+      
+      .progress-histogram {
+        display: inline-flex;
+      }
+      
+      .count-single-stat {
+        color: #545454;
+        font-size: x-small;
+      }
+
+    </style>
+
+    <paper-material elevation="2">
+
+      <div class="main-header">[[title]]</div>
+
+      <div class="main-content">
+
+        <template is="dom-repeat" items="[[_chartData]]">
+          <div class="progress-row">
+            <div>[[item.label]] <span class="count-single-stat">[[item.value]] [[dataType]]</span></div>
+            <div class="progress-bar-container">
+              <paper-progress value="[[item.percentage]]" class$="progress-color-[[index]] single-stat"></paper-progress>
+              <div class="progress-percent-label">[[item.percentage]]%</div>
+            </div>
+          </div>
+        </template>
+
+        <div>Total [[dataType]]: [[_totalItems]]</div>
+
+        <div class="progress-histogram">
+          <template is="dom-repeat" items="[[_chartData]]">
+            <paper-progress value="100" class$="progress-color-[[index]]" style="width: [[item.width]]px"></paper-progress>
+          </template>
+        </div>
+
+      </div>
+
+    </paper-material>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'nuxeo-labs-percentage-chart',
+
+      properties: {
+        /** 
+         * The title for the chart.
+         * @public
+         */
+        title: {
+          type: String
+        },
+        /** 
+         * The data for the chart.
+         * @type {Array<{label: string, value: number}>}
+         * @public
+         */
+        data: {
+          type: Array
+        },
+        /** 
+         * A label for the kind of data you are charting (e.g. "Claims", "Cases", "Tickets", ...).
+         * @public
+         */
+        dataType: {
+          type: String
+
+        },
+        _totalItems: {
+          type: Number
+        },
+        _chartData: {
+          type: Array
+        }
+      },
+
+      observers: [
+        '_set_chartData(data)'
+      ],
+
+      /* Covert the supplied data into percentages.
+         Use the Largest Remainder method to make sure they add up to 100. */
+      _set_chartData: function(data) {
+        if (data.length > 0) {
+
+          var totalItems = data.map(function(item) {
+            return item.value;
+          }).reduce(function(previousValue, currentValue, currentIndex, array) {
+            return previousValue + currentValue;
+          });
+
+          var tempPercentages = data.map(function(item) {
+            return item.value / totalItems * 100;
+          });
+
+          var largestRemainder = document.createElement('nuxeo-util-largest-remainder');
+          largestRemainder.valuesToFix = tempPercentages;
+
+          var fixedPercentages = largestRemainder.computePercentages();
+
+          this._totalItems = totalItems;
+          this._chartData = data.map(function(item, index) {
+            return {
+              "label": item.label,
+              "value": item.value,
+              "percentage": fixedPercentages[index],
+              "width": fixedPercentages[index] * 2
+            }
+          });
+
+        }
+      },
+
+      // paper-progress bars are 200 pixels wide; I double the percentage to get the width
+      // so that the 3 bars fit in the default space.
+      _convertPercentToProgressWidth: function(percentage) {
+        return percentage * 2;
+      },
+
+      _debug: function(data) {
+        debugger;
+        return data;
+      }
+
+    });
+
+  </script>
+
+</dom-module>
