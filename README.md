@@ -33,4 +33,4 @@ More information is available at [www.nuxeo.com](http://www.nuxeo.com).
 
 Added `nuxeo-labs-percentage-chart` for listing counts that must add up to 100. Uses the Largest Remainder method to make sure the total is 100.
 
-![nuxeo-labs-percentage-chart.png](nuxeo-labs-percentage-chart.png)
+![nuxeo-labs-percentage-chart.png](images/nuxeo-labs-percentage-chart.png)
