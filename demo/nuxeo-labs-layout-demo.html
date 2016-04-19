@@ -40,7 +40,7 @@ Contributors:
   <template is="dom-bind">
     <iron-ajax auto url="data/dublincore-layout.json" handle-as="json" last-response="{{layout}}"></iron-ajax>
     <iron-ajax auto url="data/test-doc.json" handle-as="json" last-response="{{doc}}"></iron-ajax>
-    <nuxeo-labs-layout doc="[[doc]]" layout="[[layout]]"></nuxeo-labs-layout>
+    <nuxeo-labs-layout doc={{doc}} layout="[[layout]]"></nuxeo-labs-layout>
   </template>
 </body>
 

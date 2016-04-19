@@ -20,10 +20,10 @@ Contributors:
 <link rel="import" href="../../../polymer/polymer.html">
 <link rel="import" href="./nuxeo-widget-behavior.html">
 <link rel="import" href="./nuxeo-widget-styles.html">
-<link rel="import" href="../../../nuxeo-elements/nuxeo-document.html">
-<link rel="import" href="../../../nuxeo-elements/widgets/nuxeo-document-suggestion.html">
+<link rel="import" href="../../../nuxeo-elements/nuxeo-resource.html">
+<link rel="import" href="../../../nuxeo-elements/widgets/nuxeo-user-suggestion.html">
 
-<dom-module id="nuxeo-widget-single-document-selection">
+<dom-module id="nuxeo-widget-single-user-selection">
     <template>
         <style include="nuxeo-widget-styles">
 
@@ -44,11 +44,11 @@ Contributors:
         <div class="root">
             <div class="label">[[label]]</div>
             <template is="dom-if" if="[[readOnly]]">
-                <nuxeo-document auto doc-id="{{value}}" on-response="_gotDocument"></nuxeo-document>
+               <nuxeo-resource auto path="/user/{{value}}" on-response="{{_handleResponse}}"></nuxeo-resource>
                 <div class="docTitle">[[docTitle]]</div>
             </template>
             <template is="dom-if" if="[[!readOnly]]">
-                <nuxeo-document-suggestion></nuxeo-document-suggestion>
+                <nuxeo-user-suggestion></nuxeo-user-suggestion>
             </template>
 
         </div>
@@ -56,15 +56,15 @@ Contributors:
 
     <script>
         Polymer({
-            is: 'nuxeo-widget-single-document-selection',
+            is: 'nuxeo-widget-single-user-selection',
 
             behaviors: [NuxeoWidgetBehavior],
 
             ready: function() {
-                console.log("--nuxeo-widget-single-document-selection ready");
+                console.log("--nuxeo-widget-single-user-selection ready");
             },
 
-            _gotDocument: function(e) {
+            _handleResponse: function(e) {
                 console.log("--got document");
                 var doc = e.detail.response;
                 this.docTitle = doc.properties['dc:title'];

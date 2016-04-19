@@ -23,6 +23,7 @@ Contributors:
 <link rel="import" href="./widgets/nuxeo-widget-dropdown.html">
 <link rel="import" href="./widgets/nuxeo-widget-checkbox-multiple.html">
 <link rel="import" href="./widgets/nuxeo-widget-single-document-selection.html">
+<link rel="import" href="./widgets/nuxeo-widget-single-user-selection.html">
 
 <!--
 An element which renders a Nuxeo Layout
@@ -41,150 +42,165 @@ Example:
 
 <dom-module id="nuxeo-labs-layout">
 
-  <template>
-     <style>
-      .row {
-         width:100%;
-         display: flex;
-      }
-      .cell {
-        flex-basis: 100%
-      }
-    </style>
-  </template>
+    <template>
+        <style>
+            .row {
+                width: 100%;
+                display: flex;
+            }
+            .cell {
+                flex-basis: 100%;
+            }
+        </style>
+    </template>
 
-  <script>
-    Polymer({
-      is: 'nuxeo-labs-layout',
+    <script>
+        Polymer({
+            is: 'nuxeo-labs-layout',
 
-      properties: {
+            properties: {
 
-         /**
+                /**
           * A Nuxeo Layout definition object
           * @public
           */
-         layout: {
-            type: Object,
-            notify:true
-         },
+                layout: {
+                    type: Object,
+                    notify: true
+                },
 
-         /**
-          * A boolean
+                /**
+          * Controls whether the layout is read only or not
           * @public
           */
-         readOnly: {
-            type: Boolean,
-            value:false
-         },
+                readOnly: {
+                    type: Boolean,
+                    value: false
+                },
 
-         /**
+                /**
           * A Nuxeo Document object
           * @public
           */
-         doc: {
-            type: Object,
-            notify:true
-         }
-      },
+                doc: {
+                    type: Object,
+                    notify: true
+                }
+            },
 
-      observers: [
-         '_updateLayout(doc,layout)'
-      ],
+            observers: ['_updateLayout(doc,layout)'],
 
-      ready: function() {
-       console.log("--nuxeo-layout ready");
-      },
+            ready: function() {
+                console.log("--nuxeo-layout ready");
+                this.addEventListener('value-changed', function (e) {
+                     console.log("--property changed");
+                     this.doc.properties[e.srcElement.property] = e.srcElement.value; 
+                });
+            },
 
-      _updateLayout: function() {
-         console.log("--update layout");
+            _updateLayout: function() {
+                console.log("--update layout");
 
-         //Remove local DOM
-         var root = this.root;
-          Polymer.dom(this.root).childNodes.forEach(function (entry) {
-            Polymer.dom(root).removeChild(entry);
-         });
+                //Remove local DOM
+                var root = this.root;
+                Polymer.dom(this.root).childNodes.forEach(function(entry) {
+                    Polymer.dom(root).removeChild(entry);
+                });
 
-         // Append to local DOM
-         var rows = this.layout.rows;
-         var widgets = this.layout.widgets;
-         //create a map of widgets
-         {
-            var widgetDefinitionMap = {};
-            for (var i=0;i<widgets.length;i++) {
-               widgetDefinitionMap[widgets[i].name] = widgets[i];
+                // Append to local DOM
+                var rows = this.layout.rows;
+                var widgets = this.layout.widgets;
+                //create a map of widgets
+                {
+                    var widgetDefinitionMap = {};
+                    for (var i = 0; i < widgets.length; i++) {
+                        widgetDefinitionMap[widgets[i].name] = widgets[i];
+                    }
+                    widgets = widgetDefinitionMap;
+                }
+
+                // render layout DOM
+                for (var i = 0; i < rows.length; i++) {
+                    var row = rows[i];
+                    var rowWidgets = row.widgets;
+
+                    //create row
+                    var rowElement = document.createElement('div');
+                    rowElement.setAttribute("class", "row");
+                    Polymer.dom(this.root).appendChild(rowElement);
+
+                    for (var j = 0; j < rowWidgets.length; j++) {
+                        // create cell
+                        var cellElement = document.createElement('div');
+                        cellElement.setAttribute("class", "cell");
+                        Polymer.dom(rowElement).appendChild(cellElement);
+                        var widgetName = rowWidgets[j].name;
+                        if (widgetName === undefined || widgetName === null || widgetName === "")
+                            continue;
+                        var widgetDefinition = widgetDefinitionMap[widgetName];
+                        var widgetElement = this._getElement(widgetDefinition);
+                        widgetElement.set("readOnly", this.readOnly);
+                        widgetElement.set("label", widgetDefinition.labels.any);
+                        var propertyName = widgetDefinition.fields[0].propertyName;
+                        widgetElement.set("property", propertyName);
+                        widgetElement.set("value", this.doc.properties[propertyName]);
+                        Polymer.dom(cellElement).appendChild(widgetElement);
+                    }
+                }
+            },
+
+            _getElement(widget) {
+                var element;
+                switch (widget.type) {
+                    case 'text':
+                        element = document.createElement('nuxeo-widget-text');
+                        break;
+
+                    case 'datetime':
+                        element = document.createElement('nuxeo-widget-date');
+                        break;
+
+                    case 'textarea':
+                        element = document.createElement('nuxeo-widget-textarea');
+                        break;
+
+                    case 'selectOneDirectory':
+                        element = document.createElement('nuxeo-widget-dropdown');
+                        var list = widget.selectOptions;
+                        element.set("list", list);
+                        break;
+
+                    case 'suggestOneDirectory':
+                        element = document.createElement('nuxeo-widget-dropdown');
+                        var list = widget.selectOptions;
+                        element.set("list", list);
+                        break;
+
+                    case 'selectManyCheckboxDirectory':
+                        element = document.createElement('nuxeo-widget-checkbox-multiple');
+                        var list = widget.selectOptions;
+                        element.set("list", list);
+                        break;
+
+                    case 'singleDocumentSuggestion':
+                        element = document.createElement('nuxeo-widget-single-document-selection');
+                        var list = widget.selectOptions;
+                        element.set("list", list);
+                        break;
+
+                    case 'singleUserSuggestion':
+                        element = document.createElement('nuxeo-widget-single-user-selection');
+                        var list = widget.selectOptions;
+                        element.set("list", list);
+                        break;
+
+                    default:
+                        element = document.createElement('nuxeo-widget-text');
+                }
+                return element;
             }
-            widgets = widgetDefinitionMap;
-         }
 
-         // render layout DOM
-         for (var i=0;i<rows.length;i++) {
-            var row = rows[i];
-            var rowWidgets = row.widgets;
-
-            //create row
-            var rowElement = document.createElement('div');
-            rowElement.setAttribute("class","row");
-            Polymer.dom(this.root).appendChild(rowElement);
-
-            for (var j=0;j<rowWidgets.length;j++) {
-               // create cell
-               var cellElement = document.createElement('div');
-               cellElement.setAttribute("class","cell");
-               Polymer.dom(rowElement).appendChild(cellElement);
-               var widgetName =  rowWidgets[j].name;
-               if (widgetName===undefined || widgetName===null || widgetName==="") continue;
-               var widgetDefinition = widgetDefinitionMap[widgetName];
-               var widgetElement = this._getElement(widgetDefinition);
-               widgetElement.set("readOnly",this.readOnly);
-               widgetElement.set("label",widgetDefinition.labels.any);
-               var propertyName = widgetDefinition.fields[0].propertyName;
-               widgetElement.set("value",this.doc.properties[propertyName]);
-               Polymer.dom(cellElement).appendChild(widgetElement);
-            }
-         }
-      },
-
-      _getElement(widget) {
-         var element;
-         switch (widget.type) {
-            case 'text':
-               element = document.createElement('nuxeo-widget-text');
-               break;
-
-         case 'datetime':
-               element = document.createElement('nuxeo-widget-date');
-               break;
-
-            case 'textarea':
-               element = document.createElement('nuxeo-widget-textarea');
-               break;
-
-            case 'selectOneDirectory':
-               element = document.createElement('nuxeo-widget-dropdown');
-               var list = widget.selectOptions;
-               element.set("list",list);
-               break;
-
-            case 'selectManyCheckboxDirectory':
-               element = document.createElement('nuxeo-widget-checkbox-multiple');
-               var list = widget.selectOptions;
-               element.set("list",list);
-               break;
-
-            case 'singleDocumentSuggestion':
-               element = document.createElement('nuxeo-widget-single-document-selection');
-               var list = widget.selectOptions;
-               element.set("list",list);
-               break;
-
-            default:
-               element = document.createElement('nuxeo-widget-text');
-         }
-         return element;
-      }
-
-    });
-
-  </script>
+        });
+    </script>
 
 </dom-module>

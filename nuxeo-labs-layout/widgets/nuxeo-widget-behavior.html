@@ -23,14 +23,22 @@ Contributors:
             label: {
                 type: String
             },
+            property: {
+               type: String
+            },
             value: {
                 type: String,
-                notify: true
+                observer: '_valueChanged'
             },
             readOnly: {
                 type: Boolean,
                 value: true
             }
+        },
+
+        _valueChanged : function() {
+            this.fire('value-changed', {kicked: true});
         }
+
     };
 </script>
