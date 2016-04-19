@@ -18,29 +18,17 @@ Contributors:
 -->
 <link rel="import" href="../../../polymer/polymer.html">
 <link rel="import" href="./nuxeo-widget-behavior.html">
+<link rel="import" href="./nuxeo-widget-styles.html">
 <link rel="import" href="../../../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../../paper-menu/paper-menu.html">
 <link rel="import" href="../../../paper-item/paper-item.html">
 
 <dom-module id="nuxeo-widget-dropdown">
     <template>
-        <style>
-
-            .root {
-                margin-top: 2%;
-                margin-left: 1%;
-                margin-right: 1%;
-            }
-
-            .label {
-                display: inline-block;
-                min-width: 20%;
-            }
-
+        <style include="nuxeo-widget-styles">
             .value {
                 display: inline-block;
             }
-
         </style>
         <div class="root">
             <div class="label">[[label]]</div>
