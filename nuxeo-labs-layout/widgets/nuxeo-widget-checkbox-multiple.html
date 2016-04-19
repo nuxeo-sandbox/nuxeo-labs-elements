@@ -17,61 +17,63 @@ limitations under the License.
 Contributors:
 -->
 <link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="./nuxeo-widget-behavior.html">
 <link rel="import" href="../../../paper-checkbox/paper-checkbox.html">
 
 <dom-module id="nuxeo-widget-checkbox-multiple">
-  <template>
-  <style>
+    <template>
+        <style>
 
-   .root {
-      margin-top: 2%;
-      margin-left: 1%;
-      margin-right: 1%;
-   }
+            .root {
+                margin-top: 2%;
+                margin-left: 1%;
+                margin-right: 1%;
+            }
 
-   .label {
-      display: inline-block;
-      min-width:20%;
-   }
+            .label {
+                display: inline-block;
+                min-width: 20%;
+            }
 
-   paper-checkbox {
-      margin-right: 2%;
-   }
+            paper-checkbox {
+                margin-right: 2%;
+            }
 
-  </style>
+        </style>
 
-     <div class="root">
-        <div class="label">[[label]]</div>
+        <div class="root">
+            <div class="label">[[label]]</div>
             <template is="dom-repeat" items="{{list}}">
-               <paper-checkbox disabled=[[readOnly]] value=[[item.itemValue]] checked="[[_checked(item)]]">[[item.itemLabel]]</paper-checkbox>
+                <paper-checkbox disabled=[[readOnly]] value=[[item.itemValue]] checked="[[_checked(item)]]">[[item.itemLabel]]</paper-checkbox>
             </template>
-     </div>
-  </template>
+        </div>
+    </template>
 
-  <script>
-    Polymer({
-      is: 'nuxeo-widget-checkbox-multiple',
+    <script>
+        Polymer({
+            is: 'nuxeo-widget-checkbox-multiple',
 
-      observers: ['_valueChanged(value)'],
+            behaviors: [NuxeoWidgetBehavior],
 
-      properties: {
-         list: {
-            type: Array,
-            notify:true
-         }
-      },
+            observers: ['_valueChanged(value)'],
 
-      ready: function() {
-       console.log("--nuxeo-widget-checkbox-multiple ready");
-      },
+            properties: {
+                list: {
+                    type: Array,
+                    notify: true
+                }
+            },
 
-      _checked(item) {
-         var index = this.value.indexOf(item.itemValue);
-         return index>=0;
-      }
+            ready: function() {
+                console.log("--nuxeo-widget-checkbox-multiple ready");
+            },
 
-    });
+            _checked(item) {
+                var index = this.value.indexOf(item.itemValue);
+                return index >= 0;
+            }
 
-  </script>
+        });
+    </script>
 
 </dom-module>

@@ -17,64 +17,66 @@ limitations under the License.
 Contributors:
 -->
 <link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="./nuxeo-widget-behavior.html">
 <link rel="import" href="../../../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../../paper-menu/paper-menu.html">
 <link rel="import" href="../../../paper-item/paper-item.html">
 
 <dom-module id="nuxeo-widget-dropdown">
-  <template>
-  <style>
+    <template>
+        <style>
 
-  .root {
-     margin-top: 2%;
-     margin-left: 1%;
-     margin-right: 1%;
-  }
+            .root {
+                margin-top: 2%;
+                margin-left: 1%;
+                margin-right: 1%;
+            }
 
-  .label {
-     display: inline-block;
-     min-width:20%;
-  }
+            .label {
+                display: inline-block;
+                min-width: 20%;
+            }
 
-  .value {
-     display: inline-block;
-  }
+            .value {
+                display: inline-block;
+            }
 
- </style>
-     <div class="root">
-        <div class="label">[[label]]</div>
-        <template is="dom-if" if="[[readOnly]]">
-           <div class="value">[[value]]</div>
-        </template>
-        <template is="dom-if" if="[[!readOnly]]">
-           <paper-dropdown-menu>
-             <paper-menu class="dropdown-content" attr-for-selected="value" selected="{{value}}">
-               <template is="dom-repeat" items="{{list}}">
-                  <paper-item value="[[item.itemValue]]">[[item.itemLabel]]</paper-item>
-               </template>
-             </paper-menu>
-           </paper-dropdown-menu>
-        </template>
-     </div>
-  </template>
+        </style>
+        <div class="root">
+            <div class="label">[[label]]</div>
+            <template is="dom-if" if="[[readOnly]]">
+                <div class="value">[[value]]</div>
+            </template>
+            <template is="dom-if" if="[[!readOnly]]">
+                <paper-dropdown-menu>
+                    <paper-menu class="dropdown-content" attr-for-selected="value" selected="{{value}}">
+                        <template is="dom-repeat" items="{{list}}">
+                            <paper-item value="[[item.itemValue]]">[[item.itemLabel]]</paper-item>
+                        </template>
+                    </paper-menu>
+                </paper-dropdown-menu>
+            </template>
+        </div>
+    </template>
 
-  <script>
-    Polymer({
-      is: 'nuxeo-widget-dropdown',
+    <script>
+        Polymer({
+            is: 'nuxeo-widget-dropdown',
 
-      properties: {
-         list: {
-            type: Array,
-            notify:true
-         }
-      },
+            behaviors: [NuxeoWidgetBehavior],
 
-      ready: function() {
-       console.log("--nuxeo-widget-dropdown ready");
-      }
+            properties: {
+                list: {
+                    type: Array,
+                    notify: true
+                }
+            },
 
-    });
+            ready: function() {
+                console.log("--nuxeo-widget-dropdown ready");
+            }
 
-  </script>
+        });
+    </script>
 
 </dom-module>
