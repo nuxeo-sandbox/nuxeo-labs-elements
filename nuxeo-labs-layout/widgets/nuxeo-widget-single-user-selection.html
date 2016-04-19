@@ -35,7 +35,7 @@ Contributors:
                 display: inline-block;
             }
 
-            nuxeo-document-suggestion {
+            nuxeo-user-suggestion {
                 display: inline-block;
                 min-width: 200px;
             }
@@ -45,10 +45,10 @@ Contributors:
             <div class="label">[[label]]</div>
             <template is="dom-if" if="[[readOnly]]">
                <nuxeo-resource auto path="/user/{{value}}" on-response="{{_handleResponse}}"></nuxeo-resource>
-                <div class="docTitle">[[docTitle]]</div>
+                <div class="docTitle">[[user]]</div>
             </template>
             <template is="dom-if" if="[[!readOnly]]">
-                <nuxeo-user-suggestion></nuxeo-user-suggestion>
+                <nuxeo-user-suggestion value={{value}}></nuxeo-user-suggestion>
             </template>
 
         </div>

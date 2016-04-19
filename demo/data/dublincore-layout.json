@@ -1647,7 +1647,7 @@
         }
     }, {
         "name": "author",
-        "type": "template",
+        "type": "singleUserSuggestion",
         "labels": {
             "any": "Author"
         },
@@ -1700,7 +1700,7 @@
         }
     }, {
         "name": "lastContributor",
-        "type": "template",
+        "type": "singleUserSuggestion",
         "labels": {
             "any": "Last Contributor"
         },
