@@ -71,7 +71,7 @@
     }],
     "widgets": [{
         "name": "nature",
-        "type": "suggestOneDirectory",
+        "type": "selectOneDirectory",
         "labels": {
             "any": "Nature"
         },
@@ -1672,7 +1672,7 @@
         }
     }, {
         "name": "contributors",
-        "type": "template",
+        "type": "multipleUsersSuggestion",
         "labels": {
             "any": "Contributors"
         },

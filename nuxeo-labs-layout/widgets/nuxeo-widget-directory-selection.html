@@ -21,9 +21,9 @@ Contributors:
 <link rel="import" href="./nuxeo-widget-behavior.html">
 <link rel="import" href="./nuxeo-widget-styles.html">
 <link rel="import" href="../../../nuxeo-elements/nuxeo-document.html">
-<link rel="import" href="../../../nuxeo-elements/widgets/nuxeo-document-suggestion.html">
+<link rel="import" href="../../../nuxeo-elements/widgets/nuxeo-directory-suggestion.html">
 
-<dom-module id="nuxeo-widget-single-document-selection">
+<dom-module id="nuxeo-widget-directory-selection">
     <template>
         <style include="nuxeo-widget-styles">
 
@@ -35,7 +35,7 @@ Contributors:
                 display: inline-block;
             }
 
-            nuxeo-document-suggestion {
+            nuxeo-directory-suggestion {
                 display: inline-block;
                 min-width: 200px;
             }
@@ -43,31 +43,34 @@ Contributors:
         </style>
         <div class="root">
             <div class="label">[[label]]</div>
-            <template is="dom-if" if="[[readOnly]]">
-                <nuxeo-document auto doc-id="{{value}}" on-response="_gotDocument"></nuxeo-document>
-                <div class="docTitle">[[docTitle]]</div>
-            </template>
-            <template is="dom-if" if="[[!readOnly]]">
-                <nuxeo-document-suggestion></nuxeo-document-suggestion>
-            </template>
-
+            <nuxeo-directory-suggestion
+                  directory-name=[[directoryName]]
+                  value={{value}}
+                  multiple=[[multiple]]
+                  read-only=[[readOnly]]
+                  dbl10n=[[dbl10n]] >
+            </nuxeo-directory-suggestion>
         </div>
     </template>
 
     <script>
         Polymer({
-            is: 'nuxeo-widget-single-document-selection',
+            is: 'nuxeo-widget-directory-selection',
 
             behaviors: [NuxeoWidgetBehavior],
 
-            ready: function() {
-                console.log("--nuxeo-widget-single-document-selection ready");
+            properties: {
+               directoryName: {
+                   type: String
+                },
+                dbl10n : {
+                   type: Boolean,
+                   value: false
+                }
             },
 
-            _gotDocument: function(e) {
-                console.log("--got document");
-                var doc = e.detail.response;
-                this.docTitle = doc.properties['dc:title'];
+            ready: function() {
+                console.log("--nuxeo-widget-directory-selection ready");
             }
 
         });

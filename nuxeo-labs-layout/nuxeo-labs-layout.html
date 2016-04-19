@@ -22,8 +22,9 @@ Contributors:
 <link rel="import" href="./widgets/nuxeo-widget-date.html">
 <link rel="import" href="./widgets/nuxeo-widget-dropdown.html">
 <link rel="import" href="./widgets/nuxeo-widget-checkbox-multiple.html">
-<link rel="import" href="./widgets/nuxeo-widget-single-document-selection.html">
-<link rel="import" href="./widgets/nuxeo-widget-single-user-selection.html">
+<link rel="import" href="./widgets/nuxeo-widget-document-selection.html">
+<link rel="import" href="./widgets/nuxeo-widget-user-selection.html">
+<link rel="import" href="./widgets/nuxeo-widget-directory-selection.html">
 
 <!--
 An element which renders a Nuxeo Layout
@@ -94,7 +95,7 @@ Example:
                 console.log("--nuxeo-layout ready");
                 this.addEventListener('value-changed', function (e) {
                      console.log("--property changed");
-                     this.doc.properties[e.srcElement.property] = e.srcElement.value; 
+                     this.doc.properties[e.srcElement.property] = e.srcElement.value;
                 });
             },
 
@@ -171,10 +172,17 @@ Example:
                         break;
 
                     case 'suggestOneDirectory':
-                        element = document.createElement('nuxeo-widget-dropdown');
-                        var list = widget.selectOptions;
-                        element.set("list", list);
+                        element = document.createElement('nuxeo-widget-directory-selection');
+                        element.set("directoryName",widget.properties.any.directoryName);
+                        element.set("dbl10n",widget.properties.any.dbl10n);
                         break;
+
+                     case 'suggestManyDirectory':
+                         element = document.createElement('nuxeo-widget-directory-selection');
+                         element.set("directoryName",widget.properties.any.directoryName);
+                         element.set("dbl10n",widget.properties.any.dbl10n);
+                         element.set("multiple",true);
+                         break;
 
                     case 'selectManyCheckboxDirectory':
                         element = document.createElement('nuxeo-widget-checkbox-multiple');
@@ -183,16 +191,22 @@ Example:
                         break;
 
                     case 'singleDocumentSuggestion':
-                        element = document.createElement('nuxeo-widget-single-document-selection');
-                        var list = widget.selectOptions;
-                        element.set("list", list);
+                        element = document.createElement('nuxeo-widget-document-selection');
+                        break;
+
+                    case 'multipleDocumentSuggestion':
+                        element = document.createElement('nuxeo-widget-document-selection');
+                        element.set("multiple", true);
                         break;
 
                     case 'singleUserSuggestion':
-                        element = document.createElement('nuxeo-widget-single-user-selection');
-                        var list = widget.selectOptions;
-                        element.set("list", list);
+                        element = document.createElement('nuxeo-widget-user-selection');
                         break;
+
+                     case 'multipleUsersSuggestion':
+                        element = document.createElement('nuxeo-widget-user-selection');
+                        element.set("multiple", true);
+                     break;
 
                     default:
                         element = document.createElement('nuxeo-widget-text');

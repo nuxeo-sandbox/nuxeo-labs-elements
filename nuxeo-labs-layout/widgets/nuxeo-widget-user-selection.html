@@ -20,10 +20,9 @@ Contributors:
 <link rel="import" href="../../../polymer/polymer.html">
 <link rel="import" href="./nuxeo-widget-behavior.html">
 <link rel="import" href="./nuxeo-widget-styles.html">
-<link rel="import" href="../../../nuxeo-elements/nuxeo-resource.html">
 <link rel="import" href="../../../nuxeo-elements/widgets/nuxeo-user-suggestion.html">
 
-<dom-module id="nuxeo-widget-single-user-selection">
+<dom-module id="nuxeo-widget-user-selection">
     <template>
         <style include="nuxeo-widget-styles">
 
@@ -43,33 +42,26 @@ Contributors:
         </style>
         <div class="root">
             <div class="label">[[label]]</div>
-            <template is="dom-if" if="[[readOnly]]">
-               <nuxeo-resource auto path="/user/{{value}}" on-response="{{_handleResponse}}"></nuxeo-resource>
-                <div class="docTitle">[[user]]</div>
-            </template>
-            <template is="dom-if" if="[[!readOnly]]">
-                <nuxeo-user-suggestion value={{value}}></nuxeo-user-suggestion>
-            </template>
-
+             <nuxeo-user-suggestion value={{value}} multiple=[[multiple]] read-only=[[readOnly]]></nuxeo-user-suggestion>
         </div>
     </template>
 
     <script>
         Polymer({
-            is: 'nuxeo-widget-single-user-selection',
+            is: 'nuxeo-widget-user-selection',
 
             behaviors: [NuxeoWidgetBehavior],
 
-            ready: function() {
-                console.log("--nuxeo-widget-single-user-selection ready");
+            properties: {
+                multiple: {
+                    type: Boolean,
+                    value:false
+                }
             },
 
-            _handleResponse: function(e) {
-                console.log("--got document");
-                var doc = e.detail.response;
-                this.docTitle = doc.properties['dc:title'];
-            }
-
+            ready: function() {
+                console.log("--nuxeo-widget-user-selection ready");
+            },
         });
     </script>
 
