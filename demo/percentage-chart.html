@@ -47,15 +47,13 @@ Contributors:
 
     <style is="custom-style">
       nuxeo-labs-percentage-chart::content {
-        --progress-0-color: green;
+        --percentage-chart-bar-2-color: #109618;
       }
     </style>
 
     <nuxeo-labs-percentage-chart title="Claim Status"
         data-type="Claims">
     </nuxeo-labs-percentage-chart>
-
-    <button onclick="foo();"></button>
 
     <script>
       var percentageChart = document.querySelector('nuxeo-labs-percentage-chart');
@@ -69,11 +67,6 @@ Contributors:
         'label': 'New',
         'value': 140
       }];
-
-      function foo() {
-        var percentageChart = document.querySelector('nuxeo-labs-percentage-chart');
-        Polymer.updateStyles();
-      };
     </script>
 
   </template>
