@@ -45,10 +45,15 @@ Contributors:
 
   <template is="dom-bind">
 
+    <style is="custom-style">
+      nuxeo-labs-percentage-chart::content {
+        --percentage-chart-bar-2-color: #109618;
+      }
+    </style>
+
     <nuxeo-labs-percentage-chart title="Claim Status"
         data-type="Claims">
     </nuxeo-labs-percentage-chart>
-
 
     <script>
       var percentageChart = document.querySelector('nuxeo-labs-percentage-chart');

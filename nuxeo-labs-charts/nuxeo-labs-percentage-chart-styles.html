@@ -23,49 +23,67 @@ Styling from nuxeo-labs-percentage-chart.
 <dom-module id="nuxeo-labs-percentage-chart-styles">
   <template>
     <style>
-      /* These are the default colors used by Google Charts, so I'm just using them.
-"#3366cc", "#dc3912", "#ff9900", "#109618", "#990099", "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395", "#994499", "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707", "#651067", "#329262", "#5574a6", "#3b3eac", "#b77322", "#16d620", "#b91383", "#f4359e", "#9c5935", "#a9c413", "#2a778d", "#668d1c", "#bea413", "#0c5922", "#743411" */
-      
-      .progress-color-0 {
-        --paper-progress-active-color: #3366cc;
-      }
-      
-      .progress-color-1 {
-        --paper-progress-active-color: #dc3912;
-      }
-      
-      .progress-color-2 {
-        --paper-progress-active-color: #ff9900;
-      }
-      
-      .progress-color-3 {
-        --paper-progress-active-color: #109618;
-      }
-      
-      .progress-color-4 {
-        --paper-progress-active-color: #990099;
-      }
-      
-      .progress-color-5 {
-        --paper-progress-active-color: #0099c6;
-      }
-      
-      .progress-color-6 {
-        --paper-progress-active-color: #dd4477;
-      }
-      
-      .progress-color-7 {
-        --paper-progress-active-color: #66aa00;
-      }
-      
-      .progress-color-8 {
-        --paper-progress-active-color: #b82e2e;
-      }
-      
-      .progress-color-9 {
-        --paper-progress-active-color: #316395;
+      /**
+      /* These are the default colors used by Google Charts, so I'm just
+      /* re-using them. "#3366cc", "#dc3912", "#ff9900", "#109618", "#990099",
+      /* "#0099c6", "#dd4477", "#66aa00", "#b82e2e", "#316395", "#994499",
+      /* "#22aa99", "#aaaa11", "#6633cc", "#e67300", "#8b0707", "#651067",
+      /* "#329262", "#5574a6", "#3b3eac", "#b77322", "#16d620", "#b91383",
+      /* "#f4359e", "#9c5935", "#a9c413", "#2a778d", "#668d1c", "#bea413",
+      /* "#0c5922", "#743411" */
+
+      :host {
+        --percentage-chart-bar-0-color: #3366cc;
+        --percentage-chart-bar-1-color: #dc3912;
+        --percentage-chart-bar-2-color: #ff9900;
+        --percentage-chart-bar-3-color: #109618;
+        --percentage-chart-bar-4-color: #990099;
+        --percentage-chart-bar-5-color: #0099c6;
+        --percentage-chart-bar-6-color: #dd4477;
+        --percentage-chart-bar-7-color: #66aa00;
+        --percentage-chart-bar-8-color: #b82e2e;
+        --percentage-chart-bar-9-color: #316395;
       }
 
+      .percentage-chart-progress-0 {
+        --paper-progress-active-color: var(--percentage-chart-bar-0-color);
+      }
+
+      .percentage-chart-progress-1 {
+        --paper-progress-active-color: var(--percentage-chart-bar-1-color);
+      }
+
+      .percentage-chart-progress-2 {
+        --paper-progress-active-color: var(--percentage-chart-bar-2-color);
+      }
+
+      .percentage-chart-progress-3 {
+        --paper-progress-active-color: var(--percentage-chart-bar-3-color);
+      }
+
+      .percentage-chart-progress-4 {
+        --paper-progress-active-color: var(--percentage-chart-bar-4-color);
+      }
+
+      .percentage-chart-progress-5 {
+        --paper-progress-active-color: var(--percentage-chart-bar-5-color);
+      }
+
+      .percentage-chart-progress-6 {
+        --paper-progress-active-color: var(--percentage-chart-bar-6-color);
+      }
+
+      .percentage-chart-progress-7 {
+        --paper-progress-active-color: var(--percentage-chart-bar-7-color);
+      }
+
+      .percentage-chart-progress-8 {
+        --paper-progress-active-color: var(--percentage-chart-bar-8-color);
+      }
+
+      .percentage-chart-progress-9 {
+        --paper-progress-active-color: var(--percentage-chart-bar-9-color);
+      }
     </style>
   </template>
 </dom-module>
