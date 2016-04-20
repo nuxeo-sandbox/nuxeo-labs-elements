@@ -1,0 +1,79 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+-->
+
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="./nuxeo-widget-behavior.html">
+<link rel="import" href="./nuxeo-widget-styles.html">
+<link rel="import" href="../../../nuxeo-elements/nuxeo-document.html">
+<link rel="import" href="../../../nuxeo-elements/widgets/nuxeo-directory-suggestion.html">
+
+<dom-module id="nuxeo-widget-directory-selection">
+    <template>
+        <style include="nuxeo-widget-styles">
+
+            .docTitle {
+                display: inline-block;
+            }
+
+            paper-textarea {
+                display: inline-block;
+            }
+
+            nuxeo-directory-suggestion {
+                display: inline-block;
+                min-width: 200px;
+            }
+
+        </style>
+        <div class="root">
+            <div class="label">[[label]]</div>
+            <nuxeo-directory-suggestion
+                  directory-name=[[directoryName]]
+                  value={{value}}
+                  multiple=[[multiple]]
+                  read-only=[[readOnly]]
+                  dbl10n=[[dbl10n]] >
+            </nuxeo-directory-suggestion>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'nuxeo-widget-directory-selection',
+
+            behaviors: [NuxeoWidgetBehavior],
+
+            properties: {
+               directoryName: {
+                   type: String
+                },
+                dbl10n : {
+                   type: Boolean,
+                   value: false
+                }
+            },
+
+            ready: function() {
+                console.log("--nuxeo-widget-directory-selection ready");
+            }
+
+        });
+    </script>
+
+</dom-module>
