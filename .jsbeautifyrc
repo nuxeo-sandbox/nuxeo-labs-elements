@@ -1,5 +1,7 @@
 {
-    "html": {
-        "wrap_attributes": "force"
-    }
+  "indent_size": 2,
+  "indent_char": " ",
+  "html": {
+    "wrap_attributes": "force"
+  }
 }
