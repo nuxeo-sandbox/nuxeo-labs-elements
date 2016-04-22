@@ -41,6 +41,7 @@ The following custom properties and mixins are available for styling:
 Custom property | Description | Default
 ----------------|-------------|----------
 `--nuxeo-labs-percentage-chart` | Mixin applied to the element | `{}`
+`--percentage-chart-header-color` | Color for the header | #236ba5
 `--percentage-chart-bar-0-color` | Color for bar 0 | #3366cc
 `--percentage-chart-bar-1-color` | Color for bar 1 | #dc3912
 `--percentage-chart-bar-2-color` | Color for bar 2 | #ff9900
@@ -76,7 +77,7 @@ http://there4.io/2012/05/02/google-chart-color-list/)
 
       .main-header {
         color: #ffffff;
-        background: #236ba5;
+        background: var(--percentage-chart-header-color);
         font-size: 18px;
         padding-left: 16px;
         padding-right: 16px;
