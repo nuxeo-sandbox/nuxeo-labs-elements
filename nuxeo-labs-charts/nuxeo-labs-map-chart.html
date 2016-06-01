@@ -1,0 +1,166 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+  Joshua Fletcher <jfletcher@nuxeo.com>
+-->
+<link rel="import"
+    href="../../polymer/polymer.html">
+<link rel="import"
+    href="../../paper-card/paper-card.html">
+<link rel="import"
+    href="../../google-chart/google-chart.html">
+<!--
+An element for displaying a chart of progress bars with a progress histogram at the bottom.
+
+Example:
+
+    <nuxeo-labs-map-chart title="Chart Title"
+                                 data="[[data]]"
+                                 document-type="Claims">
+    </nuxeo-labs-map-chart>
+
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--nuxeo-labs-map-chart` | Mixin applied to the element | `{}`
+`--map-chart-header-background` | Color for the header background | #236ba5
+`--map-chart-header-color` | Color for the header foreground | #ffffff
+
+@group Nuxeo CM Demo Elements
+@element nuxeo-labs-map-chart
+@demo demo/map-chart.html
+-->
+<dom-module id="nuxeo-labs-map-chart">
+
+  <template>
+
+    <style>
+      :host {
+        --map-chart-header-background: #236ba5;
+        --map-chart-header-color: #ffffff;
+        @apply(--nuxeo-labs-map-chart);
+      }
+
+      paper-card {
+        --paper-card-header-color: var(--map-chart-header-color);
+        --paper-card-header: {
+          text-align: center;
+          background: var(--map-chart-header-background);
+        }
+        ;
+      }
+    </style>
+
+
+
+    <paper-card heading="[[title]]"
+        elevation="2">
+      <div class="card-content">
+        <google-chart type='geo'
+            options='{"region":"US", "resolution": "provinces"}'
+            cols='[{"label": "State", "type": "string"},{"label": "Count", "type": "number"}]'
+            rows="[[_rowsFor(data)]]">
+        </google-chart>
+      </div>
+    </paper-card>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'nuxeo-labs-map-chart',
+
+      properties: {
+        /**
+         * Start date for range filter.
+         * @public
+         */
+        startDate: String,
+
+        /**
+         * End date for range filter.
+         * @public
+         */
+        endDate: String,
+
+        /**
+         * The title for the chart.
+         * @public
+         */
+        title: {
+          type: String
+        },
+
+        /**
+         * The data for the chart.
+         * @type {Array<{label: string, value: number}>}
+         * @public
+         */
+        data: {
+          type: Array
+        },
+        /**
+         * Document type for aggregagate data.
+         * @public
+         */
+        documentType: {
+          type: String
+        }
+      },
+
+      _incidentBetween: function(start, end) {
+        if (start && end) {
+          return [{
+            'range': {
+              'incl:incident_date': {
+                'gte': start,
+                'lte': end
+              }
+            }
+          }];
+        }
+
+        return null;
+      },
+
+      _rowsFor: function(data) {
+        return data.map(function(e) {
+          var res = [e.key];
+          if (Array.isArray(e.value)) {
+            e.value.forEach(function(v) {
+              res.push(v.value);
+            });
+          } else {
+            res.push(e.value);
+          }
+          return res;
+        });
+      },
+
+      _debug: function(data) {
+        debugger;
+        return data;
+      }
+
+    });
+  </script>
+
+</dom-module>
