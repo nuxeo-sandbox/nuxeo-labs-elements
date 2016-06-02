@@ -56,25 +56,16 @@ Contributors:
 
     <script>
       var mapChart = document.querySelector('nuxeo-labs-map-chart');
-      mapChart.data = [{
-        "key": "NY",
-        "value": 95
-      }, {
-        "key": "CA",
-        "value": 72
-      }, {
-        "key": "FL",
-        "value": 43
-      }, {
-        "key": "GA",
-        "value": 43
-      }, {
-        "key": "WA",
-        "value": 43
-      }, {
-        "key": "MA",
-        "value": 39
-      }];
+      mapChart.data = [
+        ["State", "Count"],
+        ["NY", 95],
+        ["CA", 72],
+        ["FL", 62],
+        ["GA", 43],
+        ["WA", 25],
+        ["MA", 39],
+        ["NV", 10]
+      ];
     </script>
 
   </template>

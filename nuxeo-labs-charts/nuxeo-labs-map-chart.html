@@ -69,15 +69,11 @@ Custom property | Description | Default
       }
     </style>
 
-
-
-    <paper-card heading="[[title]]"
-        elevation="2">
+    <paper-card heading="[[title]]">
       <div class="card-content">
         <google-chart type='geo'
             options='{"region":"US", "resolution": "provinces"}'
-            cols='[{"label": "State", "type": "string"},{"label": "Count", "type": "number"}]'
-            rows="[[_rowsFor(data)]]">
+            data="[[data]]">
         </google-chart>
       </div>
     </paper-card>
@@ -99,48 +95,12 @@ Custom property | Description | Default
 
         /**
          * The data for the chart.
-         * @type {Array<{label: string, value: number}>}
+         * @type {Array<{key: string, value: number}>}
          * @public
          */
         data: {
           type: Array
-        },
-        /**
-         * Document type for aggregagate data.
-         * @public
-         */
-        documentType: {
-          type: String
         }
-      },
-
-      _incidentBetween: function(start, end) {
-        if (start && end) {
-          return [{
-            'range': {
-              'incl:incident_date': {
-                'gte': start,
-                'lte': end
-              }
-            }
-          }];
-        }
-
-        return null;
-      },
-
-      _rowsFor: function(data) {
-        return data.map(function(e) {
-          var res = [e.key];
-          if (Array.isArray(e.value)) {
-            e.value.forEach(function(v) {
-              res.push(v.value);
-            });
-          } else {
-            res.push(e.value);
-          }
-          return res;
-        });
       },
 
       _debug: function(data) {
