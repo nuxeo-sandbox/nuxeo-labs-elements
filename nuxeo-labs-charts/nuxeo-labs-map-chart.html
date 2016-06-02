@@ -45,8 +45,6 @@ The following custom properties and mixins are available for styling:
 Custom property | Description | Default
 ----------------|-------------|----------
 `--nuxeo-labs-map-chart` | Mixin applied to the element | `{}`
-`--map-chart-header-background` | Color for the header background | #236ba5
-`--map-chart-header-color` | Color for the header foreground | #ffffff
 
 @group Nuxeo CM Demo Elements
 @element nuxeo-labs-map-chart
@@ -58,30 +56,15 @@ Custom property | Description | Default
 
     <style>
       :host {
-        --map-chart-header-background: #236ba5;
-        --map-chart-header-color: #ffffff;
         @apply(--nuxeo-labs-map-chart);
-      }
-
-      paper-card {
-        --paper-card-header-color: var(--map-chart-header-color);
-        --paper-card-header: {
-          text-align: center;
-          background: var(--map-chart-header-background);
-        }
-        ;
       }
     </style>
 
-    <paper-card heading="[[title]]">
-      <div class="card-content">
-        <google-chart type='geo'
-            options="[[_options]]"
-            data="[[data]]"
-            on-google-chart-select="_handleSelect">
-        </google-chart>
-      </div>
-    </paper-card>
+    <google-chart type='geo'
+        options="[[_options]]"
+        data="[[data]]"
+        on-google-chart-select="_handleSelect">
+    </google-chart>
 
   </template>
 
@@ -148,7 +131,7 @@ Custom property | Description | Default
 
       _handleSelect: function(event) {
         if (event.detail.selection.length > 0) {
-          this.selectedValue= this.data[event.detail.selection[0].row + 1][0];
+          this.selectedValue = this.data[event.detail.selection[0].row + 1][0];
           console.log(this.data[event.detail.selection[0].row + 1][0]);
         }
       },
