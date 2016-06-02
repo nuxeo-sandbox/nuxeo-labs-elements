@@ -29,6 +29,12 @@ More information is available at [www.nuxeo.com](http://www.nuxeo.com).
 
 ## Change Log
 
+### June 2, 2016
+
+Added `nuxeo-labs-map-chart` for displaying aggregate data using a geographical map. If the use selects a region the value is returned.
+
+![nuxeo-labs-map-chart.png](images/nuxeo-labs-map-chart.png)
+
 ### April 8, 2016
 
 Added `nuxeo-labs-percentage-chart` for listing counts that must add up to 100. Uses the Largest Remainder method to make sure the total is 100.
