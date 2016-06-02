@@ -51,9 +51,12 @@ Contributors:
 
   <template is="dom-bind">
 
+    <div>Selected State: [[selectedState]]</div>
+
     <nuxeo-labs-map-chart title="Incidents per State"
         region="US"
-        resolution="provinces">
+        resolution="provinces"
+        selected-value="{{selectedState}}">
     </nuxeo-labs-map-chart>
 
     <script>
