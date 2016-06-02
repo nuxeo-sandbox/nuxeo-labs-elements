@@ -24,15 +24,15 @@ Contributors:
 <link rel="import"
     href="../../google-chart/google-chart.html">
 <!--
-An element for displaying a chart of progress bars with a progress histogram at the bottom.
+An element for displaying aggregate data using a map.
 
 Example:
 
-    <nuxeo-labs-map-chart title="Chart Title"
-                                 data="[[data]]"
-                                 document-type="Claims">
+    <nuxeo-labs-map-chart title="Incidents per State"
+                          region="US"
+                          resolution="provinces"
+                          data="[[data]]">
     </nuxeo-labs-map-chart>
-
 
 ### Styling
 
@@ -89,19 +89,30 @@ Custom property | Description | Default
          * The title for the chart.
          * @public
          */
-        title: {
-          type: String
-        },
+        title: String,
 
         /**
          * The data for the chart.
-         * @type {Array<{key: string, value: number}>}
+         *
+         * Example:
+         * <pre>[["State", "Count"],
+         *  ["NY", 53],
+         *  ["CA", 33]]</pre>
+         * @type google.visualization.DataTable, array, object, or string
          * @public
          */
         data: {
-          type: Array
+          type: Object, // or array, or object, or string
         },
+        /**
+         * The region for the chart, e.g. "US".
+         * @public
+         */
         region: String,
+        /**
+         * The resolution for the chart, e.g. "provinces"
+         * @public
+         */
         resolution: String,
         _options: Object
       },
