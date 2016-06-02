@@ -72,7 +72,7 @@ Custom property | Description | Default
     <paper-card heading="[[title]]">
       <div class="card-content">
         <google-chart type='geo'
-            options='{"region":"US", "resolution": "provinces"}'
+            options="[[_options]]"
             data="[[data]]">
         </google-chart>
       </div>
@@ -100,7 +100,19 @@ Custom property | Description | Default
          */
         data: {
           type: Array
-        }
+        },
+        region: String,
+        resolution: String,
+        _options: Object
+      },
+
+      observers: ['_computeOptions(region,resolution)'],
+
+      _computeOptions: function(region, resolution) {
+        this._options = {
+          "region": this.region,
+          "resolution": this.resolution
+        };
       },
 
       _debug: function(data) {
