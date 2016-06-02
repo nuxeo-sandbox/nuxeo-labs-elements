@@ -52,20 +52,14 @@ Contributors:
 
   <template is="dom-bind">
 
-    <style is="custom-style">
-
-    </style>
     <!-- Support filtering data by date range. -->
     <div style="margin-bottom: 5px;">
-      <span class="dateLabel">From </span>
+      <span>From </span>
       <input type="date"
-          value="{{startDate::change}}"
-          class="dateInput"></input>
-      <span style="padding-left: 3px;"
-          class="dateLabel">To </span>
+          value="{{startDate::change}}"></input>
+      <span style="padding-left: 3px;">To </span>
       <input type="date"
-          value="{{endDate::change}}"
-          class="dateInput"></input>
+          value="{{endDate::change}}"></input>
     </div>
 
     <nuxeo-labs-map-chart title="Incidents per State"
