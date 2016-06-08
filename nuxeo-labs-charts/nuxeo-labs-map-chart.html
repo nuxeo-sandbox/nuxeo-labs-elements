@@ -112,18 +112,30 @@ Custom property | Description | Default
          */
         resolution: String,
 
+        width: {
+          type: Number,
+          value: 400
+        },
+
+        height: {
+          type: Number,
+          value: 300
+        },
+
         /**
          * Chart options.
          */
         _options: Object
       },
 
-      observers: ['_computeOptions(region,resolution)'],
+      observers: ['_computeOptions(region,resolution,width,height)'],
 
       _computeOptions: function(region, resolution) {
         this._options = {
           "region": this.region,
-          "resolution": this.resolution
+          "resolution": this.resolution,
+          "width": this.width,
+          "height": this.height
         };
       },
 
