@@ -32,8 +32,8 @@ Contributors:
 
         <div class="root">
             <div class="label">[[label]]</div>
-            <paper-input type="date" readonly="{{readOnly}}" value={{date}}></paper-input>
-            <paper-input type="time" readonly="{{readOnly}}" value={{time}}></paper-input>
+            <paper-input type="date" readonly="{{readOnly}}" required="{{required}}" value={{date}}></paper-input>
+            <paper-input type="time" readonly="{{readOnly}}" required="{{required}}" value={{time}}></paper-input>
         </div>
     </template>
 
@@ -50,8 +50,10 @@ Contributors:
             },
 
             _valueChanged() {
-                this.date = this.value.substring(0, 10);
-                this.time = this.value.substring(11, this.value.length - 4);
+                if (this.value!==null && this.value!==undefined) {
+                   this.date = this.value.substring(0, 10);
+                   this.time = this.value.substring(11, this.value.length - 4);
+                }
             }
 
         });
