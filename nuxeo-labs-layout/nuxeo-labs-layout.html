@@ -72,6 +72,14 @@ Example:
                 },
 
                 /**
+          * Layout mode (edit,view,create or any)
+          * @public
+          */
+               mode: {
+                   type: String,
+               },
+
+                /**
           * Controls whether the layout is read only or not
           * @public
           */
@@ -109,9 +117,9 @@ Example:
                     Polymer.dom(root).removeChild(entry);
                 });
 
-                // Append to local DOM
                 var rows = this.layout.rows;
                 var widgets = this.layout.widgets;
+
                 //create a map of widgets
                 {
                     var widgetDefinitionMap = {};
@@ -141,11 +149,16 @@ Example:
                             continue;
                         var widgetDefinition = widgetDefinitionMap[widgetName];
                         var widgetElement = this._getElement(widgetDefinition);
+
                         widgetElement.set("readOnly", this.readOnly);
                         widgetElement.set("label", widgetDefinition.labels.any);
                         var propertyName = widgetDefinition.fields[0].propertyName;
                         widgetElement.set("property", propertyName);
                         widgetElement.set("value", this.doc.properties[propertyName]);
+
+                        var required = widgetDefinition.propertiesByWidgetMode[this.mode].required;
+                        if (required!==undefined) widgetElement.set("required", required);
+
                         Polymer.dom(cellElement).appendChild(widgetElement);
                     }
                 }
@@ -174,14 +187,14 @@ Example:
 
                     case 'suggestOneDirectory':
                         element = document.createElement('nuxeo-widget-directory-selection');
-                        element.set("directoryName",widget.properties.any.directoryName);
-                        element.set("dbl10n",widget.properties.any.dbl10n);
+                        element.set("directoryName",widget.propertiesByWidgetMode.any.directoryName);
+                        element.set("dbl10n",widget.propertiesByWidgetMode.any.dbl10n);
                         break;
 
                      case 'suggestManyDirectory':
                          element = document.createElement('nuxeo-widget-directory-selection');
-                         element.set("directoryName",widget.properties.any.directoryName);
-                         element.set("dbl10n",widget.properties.any.dbl10n);
+                         element.set("directoryName",widget.propertiesByWidgetMode.any.directoryName);
+                         element.set("dbl10n",widget.propertiesByWidgetMode.any.dbl10n);
                          element.set("multiple",true);
                          break;
 
