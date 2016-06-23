@@ -129,6 +129,8 @@ Example:
                     widgets = widgetDefinitionMap;
                 }
 
+                var topElement = document.createElement('div');
+
                 // render layout DOM
                 for (var i = 0; i < rows.length; i++) {
                     var row = rows[i];
@@ -137,7 +139,7 @@ Example:
                     //create row
                     var rowElement = document.createElement('div');
                     rowElement.setAttribute("class", "row");
-                    Polymer.dom(this.root).appendChild(rowElement);
+                    Polymer.dom(topElement).appendChild(rowElement);
 
                     for (var j = 0; j < rowWidgets.length; j++) {
                         // create cell
@@ -162,6 +164,8 @@ Example:
                         Polymer.dom(cellElement).appendChild(widgetElement);
                     }
                 }
+
+                Polymer.dom(root).appendChild(topElement);
             },
 
             _getElement(widget) {
