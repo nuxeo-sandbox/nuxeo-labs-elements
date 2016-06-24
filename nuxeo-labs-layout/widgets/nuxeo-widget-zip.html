@@ -21,15 +21,28 @@ Contributors:
 <link rel="import" href="./nuxeo-widget-styles.html">
 <link rel="import" href="../../../gold-zip-input/gold-zip-input.html">
 
+<!--
+An element which renders a ZIP code widget
+
+Example:
+
+      <nuxeo-widget-zip
+         label="[[label]]"
+         value="{{value}}"
+         readonly
+         required
+      </nuxeo-widget-zip>
+
+@group Nuxeo Labs UI elements
+@element nuxeo-widget-zip
+@demo demo/nuxeo-widget-zip-demo.html
+-->
 <dom-module id="nuxeo-widget-zip">
     <template>
         <style include="nuxeo-widget-styles">
-            paper-input {
-                display: inline-block;
-            }
         </style>
         <div class="root">
-            <gold-zip-input readonly="{{readOnly}}" required="{{required}}"  value={{value}} label="[[label]]"></gold-zip-input>
+            <gold-zip-input readonly="{{readonly}}" required="{{required}}"  value={{value}} label="[[label]]"></gold-zip-input>
         </div>
     </template>
 
@@ -41,7 +54,7 @@ Contributors:
             behaviors: [NuxeoWidgetBehavior],
 
             ready: function() {
-                console.log("--nuxeo-widget-text ready");
+                console.log("--nuxeo-widget-zip ready");
             }
 
         });

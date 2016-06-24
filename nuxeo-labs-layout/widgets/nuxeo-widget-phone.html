@@ -21,15 +21,28 @@ Contributors:
 <link rel="import" href="./nuxeo-widget-styles.html">
 <link rel="import" href="../../../gold-phone-input/gold-phone-input.html">
 
+<!--
+An element which renders a phone number widget
+
+Example:
+
+      <nuxeo-widget-phone
+         label="[[label]]"
+         value="{{value}}"
+         readonly
+         required
+      </nuxeo-widget-phone>
+
+@group Nuxeo Labs UI elements
+@element nuxeo-widget-phone
+@demo demo/nuxeo-widget-phone-demo.html
+-->
 <dom-module id="nuxeo-widget-phone">
     <template>
         <style include="nuxeo-widget-styles">
-            paper-input {
-                display: inline-block;
-            }
         </style>
         <div class="root">
-            <gold-phone-input readonly="{{readOnly}}" required="{{required}}"  value={{value}} label="[[label]]"></gold-phone-input>
+            <gold-phone-input readonly="{{readonly}}" required="{{required}}"  value={{value}} label="[[label]]"></gold-phone-input>
         </div>
     </template>
 
@@ -41,7 +54,7 @@ Contributors:
             behaviors: [NuxeoWidgetBehavior],
 
             ready: function() {
-                console.log("--nuxeo-widget-text ready");
+                console.log("--nuxeo-widget-phone ready");
             }
 
         });

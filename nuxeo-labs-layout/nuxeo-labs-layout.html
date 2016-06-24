@@ -38,7 +38,7 @@ Example:
       <nuxeo-labs-layout
          doc="[[doc]]"
          layout="[[layout]]"
-         read-only>
+         readonly>
       </nuxeo-labs-layout>
 
 @group Nuxeo Labs UI elements
@@ -87,7 +87,7 @@ Example:
           * Controls whether the layout is read only or not
           * @public
           */
-                readOnly: {
+                readonly: {
                     type: Boolean,
                     value: false
                 },
@@ -156,7 +156,7 @@ Example:
                         var widgetDefinition = widgetDefinitionMap[widgetName];
                         var widgetElement = this._getElement(widgetDefinition);
 
-                        widgetElement.set("readOnly", this.readOnly);
+                        widgetElement.set("readonly", this.readonly);
                         widgetElement.set("label", widgetDefinition.labels.any);
                         var propertyName = widgetDefinition.fields[0].propertyName;
                         widgetElement.set("property", propertyName);

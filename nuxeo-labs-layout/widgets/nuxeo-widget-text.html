@@ -21,16 +21,33 @@ Contributors:
 <link rel="import" href="./nuxeo-widget-styles.html">
 <link rel="import" href="../../../paper-input/paper-input.html">
 
+<!--
+An element which renders a simple text widget
+
+Example:
+
+      <nuxeo-widget-text
+         label="[[label]]"
+         value="{{value}}"
+         readonly
+         required
+      </nuxeo-widget-text>
+
+@group Nuxeo Labs UI elements
+@element nuxeo-widget-text
+@demo demo/nuxeo-widget-text-demo.html
+-->
+
 <dom-module id="nuxeo-widget-text">
     <template>
         <style include="nuxeo-widget-styles">
             paper-input {
-                display: inline-block;
+               width:100%;
             }
         </style>
 
         <div class="root">
-            <paper-input readonly="{{readOnly}}" required="{{required}}"  value={{value}} label="[[label]]"></paper-input>
+            <paper-input readonly={{readonly}} required={{required}}  value={{value}} label="[[label]]"></paper-input>
         </div>
     </template>
 

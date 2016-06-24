@@ -21,16 +21,31 @@ Contributors:
 <link rel="import" href="./nuxeo-widget-styles.html">
 <link rel="import" href="../../../paper-input/paper-textarea.html">
 
+<!--
+An element which renders a simple text widget
+
+Example:
+
+      <nuxeo-widget-textarea
+         label="[[label]]"
+         value="{{value}}"
+         readonly
+         required
+      </nuxeo-widget-textarea>
+
+@group Nuxeo Labs UI elements
+@element nuxeo-widget-textarea
+@demo demo/nuxeo-widget-textarea-demo.html
+-->
 <dom-module id="nuxeo-widget-textarea">
     <style include="nuxeo-widget-styles">
         paper-textarea {
-            display: inline-block;
+            width:100%;
         }
-
     </style>
     <template>
         <div class="root">
-            <paper-textarea readonly="{{readOnly}}" required="{{required}}" value="{{value}}" label="[[label]]"></paper-textarea>
+            <paper-textarea readonly="{{readonly}}" required="{{required}}" value="{{value}}" label="[[label]]"></paper-textarea>
         </div>
     </template>
 
