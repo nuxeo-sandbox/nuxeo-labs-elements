@@ -18,10 +18,14 @@ Contributors:
 -->
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="./widgets/nuxeo-widget-text.html">
+<link rel="import" href="./widgets/nuxeo-widget-ssn.html">
+<link rel="import" href="./widgets/nuxeo-widget-phone.html">
+<link rel="import" href="./widgets/nuxeo-widget-zip.html">
 <link rel="import" href="./widgets/nuxeo-widget-textarea.html">
 <link rel="import" href="./widgets/nuxeo-widget-date.html">
 <link rel="import" href="./widgets/nuxeo-widget-dropdown.html">
 <link rel="import" href="./widgets/nuxeo-widget-checkbox-multiple.html">
+<link rel="import" href="./widgets/nuxeo-widget-checkbox.html">
 <link rel="import" href="./widgets/nuxeo-widget-document-selection.html">
 <link rel="import" href="./widgets/nuxeo-widget-user-selection.html">
 <link rel="import" href="./widgets/nuxeo-widget-directory-selection.html">
@@ -159,12 +163,13 @@ Example:
                         widgetElement.set("value", this.doc.properties[propertyName]);
 
                         // set required property
-                        var widgetProperties = widget.propertiesByWidgetMode[this.mode]:
-                        if (widgetProperties!==undefined) {
-                           var required = widgetDefinition.propertiesByWidgetMode[this.mode].required;
-                           if (required!==undefined) widgetElement.set("required", required);
+                        if (widgetDefinition.propertiesByWidgetMode!==undefined) {
+                           var widgetProperties = widgetDefinition.propertiesByWidgetMode[this.mode];
+                           if (widgetProperties!==undefined) {
+                              var required = widgetDefinition.propertiesByWidgetMode[this.mode].required;
+                              if (required!==undefined) widgetElement.set("required", required);
+                           }
                         }
-
                         Polymer.dom(cellElement).appendChild(widgetElement);
                     }
                 }
@@ -178,7 +183,7 @@ Example:
                 //get widget properties
                 var widgetProperties = undefined;
                 if (widget.propertiesByWidgetMode!==undefined) {
-                   widgetProperties = widget.propertiesByWidgetMode[this.mode]:
+                   widgetProperties = widget.propertiesByWidgetMode[this.mode];
                 }
 
                 switch (widget.type) {
