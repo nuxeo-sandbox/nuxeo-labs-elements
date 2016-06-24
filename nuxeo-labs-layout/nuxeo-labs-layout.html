@@ -158,8 +158,12 @@ Example:
                         widgetElement.set("property", propertyName);
                         widgetElement.set("value", this.doc.properties[propertyName]);
 
-                        var required = widgetDefinition.propertiesByWidgetMode[this.mode].required;
-                        if (required!==undefined) widgetElement.set("required", required);
+                        // set required property
+                        var widgetProperties = widget.propertiesByWidgetMode[this.mode]:
+                        if (widgetProperties!==undefined) {
+                           var required = widgetDefinition.propertiesByWidgetMode[this.mode].required;
+                           if (required!==undefined) widgetElement.set("required", required);
+                        }
 
                         Polymer.dom(cellElement).appendChild(widgetElement);
                     }
@@ -170,16 +174,28 @@ Example:
 
             _getElement(widget) {
                 var element;
+
+                //get widget properties
+                var widgetProperties = undefined;
+                if (widget.propertiesByWidgetMode!==undefined) {
+                   widgetProperties = widget.propertiesByWidgetMode[this.mode]:
+                }
+
                 switch (widget.type) {
                     case 'text':
-                        var format = widget.propertiesByWidgetMode[this.mode].format;
-                        switch (format) {
-                           case 'ssn': element = document.createElement('nuxeo-widget-ssn');break;
-                           case 'phone': element = document.createElement('nuxeo-widget-phone');break;
-                           case 'zip': element = document.createElement('nuxeo-widget-zip');break;
-                           default: element = document.createElement('nuxeo-widget-text');
+                        if (widgetProperties===undefined) {
+                           element = document.createElement('nuxeo-widget-text');
+                        } else {
+                           var format = widget.propertiesByWidgetMode[this.mode].format;
+                           switch (format) {
+                              case 'ssn': element = document.createElement('nuxeo-widget-ssn');break;
+                              case 'phone': element = document.createElement('nuxeo-widget-phone');break;
+                              case 'zip': element = document.createElement('nuxeo-widget-zip');break;
+                              default: element = document.createElement('nuxeo-widget-text');
+                           }
                         }
                         break;
+
                     case 'datetime':
                         element = document.createElement('nuxeo-widget-date');
                         break;
@@ -196,14 +212,14 @@ Example:
 
                     case 'suggestOneDirectory':
                         element = document.createElement('nuxeo-widget-directory-selection');
-                        element.set("directoryName",widget.propertiesByWidgetMode.any.directoryName);
-                        element.set("dbl10n",widget.propertiesByWidgetMode.any.dbl10n);
+                        element.set("directoryName",widgetProperties[this.mode].directoryName);
+                        element.set("dbl10n",widgetProperties[this.mode].dbl10n);
                         break;
 
                      case 'suggestManyDirectory':
                          element = document.createElement('nuxeo-widget-directory-selection');
-                         element.set("directoryName",widget.propertiesByWidgetMode.any.directoryName);
-                         element.set("dbl10n",widget.propertiesByWidgetMode.any.dbl10n);
+                         element.set("directoryName",widgetProperties[this.mode].directoryName);
+                         element.set("dbl10n",widgetProperties[this.mode].dbl10n);
                          element.set("multiple",true);
                          break;
 
