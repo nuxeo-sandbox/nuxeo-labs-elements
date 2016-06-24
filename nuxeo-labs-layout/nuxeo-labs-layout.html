@@ -172,9 +172,14 @@ Example:
                 var element;
                 switch (widget.type) {
                     case 'text':
-                        element = document.createElement('nuxeo-widget-text');
+                        var format = widget.propertiesByWidgetMode[this.mode].format;
+                        switch (format) {
+                           case 'ssn': element = document.createElement('nuxeo-widget-ssn');break;
+                           case 'phone': element = document.createElement('nuxeo-widget-phone');break;
+                           case 'zip': element = document.createElement('nuxeo-widget-zip');break;
+                           default: element = document.createElement('nuxeo-widget-text');
+                        }
                         break;
-
                     case 'datetime':
                         element = document.createElement('nuxeo-widget-date');
                         break;
