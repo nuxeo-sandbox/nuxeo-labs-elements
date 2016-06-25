@@ -31,10 +31,10 @@ Contributors:
             }
         </style>
         <div class="root">
-            <template is="dom-if" if="[[readOnly]]">
+            <template is="dom-if" if="[[readonly]]">
                 <div class="value">[[value]]</div>
             </template>
-            <template is="dom-if" if="[[!readOnly]]">
+            <template is="dom-if" if="[[!readonly]]">
                 <paper-dropdown-menu required="{{required}}" label="[[label]]">
                     <paper-menu class="dropdown-content" attr-for-selected="value" selected="{{value}}">
                         <template is="dom-repeat" items="{{list}}">
