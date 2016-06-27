@@ -1,0 +1,149 @@
+<script>
+NuxeoLayoutBehavior = {
+
+    properties: {
+
+        /**
+        * A Nuxeo Layout definition object
+        * @public
+        */
+        layout: {
+            type: Object,
+            notify: true
+        },
+
+        /**
+        * Layout mode (edit,view,create or any)
+        * @public
+        */
+        mode: {
+           type: String,
+        },
+
+        /**
+        * Controls whether the layout is read only or not
+        * @public
+        */
+        readonly: {
+            type: Boolean,
+            value: false
+        },
+
+        /**
+        * A Nuxeo Document object
+        * @public
+        */
+        doc: {
+            type: Object,
+            notify: true
+        }
+        },
+
+
+    getWidgetElement: function(widgetDefinition) {
+       var widgetElement = this.getNuxeoWidget(widgetDefinition);
+
+       // Bind doc property
+       var propertyName = widgetDefinition.fields[0].propertyName;
+       widgetElement.set("property", propertyName);
+       widgetElement.set("value", this.doc.properties[propertyName]);
+
+       // set widget property
+       widgetElement.set("label", widgetDefinition.labels.any);
+       widgetElement.set("readonly", this.readonly);
+
+       if (widgetDefinition.propertiesByWidgetMode!==undefined) {
+          var widgetProperties = widgetDefinition.propertiesByWidgetMode[this.mode];
+          if (widgetProperties!==undefined) {
+             var required = widgetDefinition.propertiesByWidgetMode[this.mode].required;
+             if (required!==undefined) widgetElement.set("required", required);
+          }
+       }
+       return widgetElement;
+    },
+
+    getNuxeoWidget: function(widgetDefinition) {
+        var element;
+        //get widget properties
+        var widgetProperties = undefined;
+        if (widgetDefinition.propertiesByWidgetMode!==undefined) {
+           widgetProperties = widgetDefinition.propertiesByWidgetMode[this.mode];
+        }
+
+        switch (widgetDefinition.type) {
+            case 'text':
+                if (widgetProperties===undefined) {
+                   element = document.createElement('nuxeo-widget-text');
+                } else {
+                   var format = widgetProperties.format;
+                   switch (format) {
+                      case 'ssn': element = document.createElement('nuxeo-widget-ssn');break;
+                      case 'phone': element = document.createElement('nuxeo-widget-phone');break;
+                      case 'zip': element = document.createElement('nuxeo-widget-zip');break;
+                      default: element = document.createElement('nuxeo-widget-text');
+                   }
+                }
+                break;
+
+            case 'datetime':
+                element = document.createElement('nuxeo-widget-date');
+                break;
+
+             case 'checkbox':
+                 element = document.createElement('nuxeo-widget-checkbox');
+                 break;
+
+            case 'textarea':
+                element = document.createElement('nuxeo-widget-textarea');
+                break;
+
+            case 'selectOneDirectory':
+                element = document.createElement('nuxeo-widget-dropdown');
+                var list = widgetDefinition.selectOptions;
+                element.set("list", list);
+                break;
+
+            case 'suggestOneDirectory':
+                element = document.createElement('nuxeo-widget-directory-selection');
+                element.set("directoryName",widgetProperties[this.mode].directoryName);
+                element.set("dbl10n",widgetProperties[this.mode].dbl10n);
+                break;
+
+             case 'suggestManyDirectory':
+                 element = document.createElement('nuxeo-widget-directory-selection');
+                 element.set("directoryName",widgetProperties[this.mode].directoryName);
+                 element.set("dbl10n",widgetProperties[this.mode].dbl10n);
+                 element.set("multiple",true);
+                 break;
+
+            case 'selectManyCheckboxDirectory':
+                element = document.createElement('nuxeo-widget-checkbox-multiple');
+                var list = widgetDefinition.selectOptions;
+                element.set("list", list);
+                break;
+
+            case 'singleDocumentSuggestion':
+                element = document.createElement('nuxeo-widget-document-selection');
+                break;
+
+            case 'multipleDocumentSuggestion':
+                element = document.createElement('nuxeo-widget-document-selection');
+                element.set("multiple", true);
+                break;
+
+            case 'singleUserSuggestion':
+                element = document.createElement('nuxeo-widget-user-selection');
+                break;
+
+             case 'multipleUsersSuggestion':
+                element = document.createElement('nuxeo-widget-user-selection');
+                element.set("multiple", true);
+             break;
+
+            default:
+                element = document.createElement('nuxeo-widget-text');
+        }
+        return element;
+    }
+};
+</script>
