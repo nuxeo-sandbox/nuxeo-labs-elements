@@ -1,3 +1,17 @@
+<link rel="import" href="./widgets/nuxeo-widget-text.html">
+<link rel="import" href="./widgets/nuxeo-widget-number.html">
+<link rel="import" href="./widgets/nuxeo-widget-ssn.html">
+<link rel="import" href="./widgets/nuxeo-widget-phone.html">
+<link rel="import" href="./widgets/nuxeo-widget-zip.html">
+<link rel="import" href="./widgets/nuxeo-widget-textarea.html">
+<link rel="import" href="./widgets/nuxeo-widget-date.html">
+<link rel="import" href="./widgets/nuxeo-widget-dropdown.html">
+<link rel="import" href="./widgets/nuxeo-widget-checkbox-multiple.html">
+<link rel="import" href="./widgets/nuxeo-widget-checkbox.html">
+<link rel="import" href="./widgets/nuxeo-widget-document-selection.html">
+<link rel="import" href="./widgets/nuxeo-widget-user-selection.html">
+<link rel="import" href="./widgets/nuxeo-widget-directory-selection.html">
+
 <script>
 NuxeoLayoutBehavior = {
 
@@ -82,6 +96,14 @@ NuxeoLayoutBehavior = {
                       case 'zip': element = document.createElement('nuxeo-widget-zip');break;
                       default: element = document.createElement('nuxeo-widget-text');
                    }
+                }
+                break;
+
+            case 'double':
+                element = document.createElement('nuxeo-widget-number');
+                if (widgetProperties!==undefined) {
+                    element.set("prefix",widgetProperties.prefix);
+                    element.set("suffix",widgetProperties.suffix);
                 }
                 break;
 
