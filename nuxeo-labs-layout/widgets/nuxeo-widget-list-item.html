@@ -1,0 +1,119 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../behaviors/nuxeo-labs-layout-behavior.html">
+<link rel="import" href="../nuxeo-widgets.html">
+
+<!--
+An element which renders a complex list widget
+
+Example:
+
+<nuxeo-widget-list
+   value="{{value}}"
+   widgetList="[[widgetList]]"
+   readonly
+   required>
+</nuxeo-labs-layout>
+
+@group Nuxeo Labs UI elements
+@element nuxeo-widget-list-item
+@demo demo/nuxeo-widget-list-item-demo.html
+-->
+
+<dom-module id="nuxeo-widget-list-item">
+  <template>
+      <style>
+      .cell {
+          display: inline-block;
+      }
+      </style>
+  </template>
+  <script>
+    Polymer({
+
+      is: 'nuxeo-widget-list-item',
+
+      behaviors: [NuxeoLabsLayoutBehavior],
+
+      properties: {
+        /**
+        * @public
+        */
+        item: {
+          type: Object,
+        },
+
+        /**
+        * A list of widgets to display for list elements
+        * @public
+        */
+        widgetList: {
+          type: Array,
+          observer: '_onDisplayChanged'
+        }
+      },
+
+      _onDisplayChanged:function() {
+        //Remove local DOM
+        var root = this.root;
+        Polymer.dom(this.root).childNodes.forEach(function(entry) {
+            Polymer.dom(root).removeChild(entry);
+        });
+
+        var topElement = document.createElement('div');
+        topElement.setAttribute("class", "topElement");
+
+        // render layout DOM
+        for (var i = 0; i < this.widgetList.length; i++) {
+          var cellElement = document.createElement('div');
+          cellElement.setAttribute("class", "cell");
+
+          var widgetDefinition = this.widgetList[i];
+          var widgetElement = this.getNuxeoWidget(widgetDefinition);
+
+          // Bind doc property
+          var propertyName = widgetDefinition.fields[0].propertyName;
+          widgetElement.set("property", propertyName);
+          widgetElement.set("value", this.item[propertyName]);
+
+          // set widget property
+          widgetElement.set("label", widgetDefinition.labels.any);
+          widgetElement.set("readonly", this.readonly);
+
+          Polymer.dom(cellElement).appendChild(widgetElement);
+          Polymer.dom(topElement).appendChild(cellElement);
+        }
+
+        Polymer.dom(root).appendChild(topElement);
+      },
+
+      ready: function() {
+        console.log("--nuxeo-widget-list-item ready");
+        var item = this.item;
+        this.addEventListener('widget-value-changed', function (e) {
+             console.log("--sub property changed");
+             e.stopPropagation();
+             item[e.detail.property] = e.detail.value;
+        });
+      }
+
+    });
+  </script>
+</dom-module>

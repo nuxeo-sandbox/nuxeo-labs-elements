@@ -27,7 +27,7 @@ Contributors:
                type: String
             },
             value: {
-                type: String,
+                type: Object,
                 observer: '_valueChanged'
             },
             readonly: {
@@ -41,7 +41,12 @@ Contributors:
         },
 
         _valueChanged : function() {
-            this.fire('value-changed', {kicked: true});
+          if (this.property===undefined || this.value===undefined) return;
+
+          this.fire('widget-value-changed', {
+            kicked: true,
+            property: this.property,
+            value: this.value});
         }
 
     };

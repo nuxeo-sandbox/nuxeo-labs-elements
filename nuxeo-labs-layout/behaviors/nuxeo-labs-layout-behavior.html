@@ -1,19 +1,5 @@
-<link rel="import" href="./widgets/nuxeo-widget-text.html">
-<link rel="import" href="./widgets/nuxeo-widget-number.html">
-<link rel="import" href="./widgets/nuxeo-widget-ssn.html">
-<link rel="import" href="./widgets/nuxeo-widget-phone.html">
-<link rel="import" href="./widgets/nuxeo-widget-zip.html">
-<link rel="import" href="./widgets/nuxeo-widget-textarea.html">
-<link rel="import" href="./widgets/nuxeo-widget-date.html">
-<link rel="import" href="./widgets/nuxeo-widget-dropdown.html">
-<link rel="import" href="./widgets/nuxeo-widget-checkbox-multiple.html">
-<link rel="import" href="./widgets/nuxeo-widget-checkbox.html">
-<link rel="import" href="./widgets/nuxeo-widget-document-selection.html">
-<link rel="import" href="./widgets/nuxeo-widget-user-selection.html">
-<link rel="import" href="./widgets/nuxeo-widget-directory-selection.html">
-
 <script>
-NuxeoLayoutBehavior = {
+NuxeoLabsLayoutBehavior = {
 
     properties: {
 
@@ -107,6 +93,14 @@ NuxeoLayoutBehavior = {
                 }
                 break;
 
+            case 'int':
+                element = document.createElement('nuxeo-widget-number');
+                if (widgetProperties!==undefined) {
+                    element.set("prefix",widgetProperties.prefix);
+                    element.set("suffix",widgetProperties.suffix);
+                }
+                break;
+
             case 'datetime':
                 element = document.createElement('nuxeo-widget-date');
                 break;
@@ -121,7 +115,7 @@ NuxeoLayoutBehavior = {
 
             case 'selectOneDirectory':
                 element = document.createElement('nuxeo-widget-dropdown');
-                var list = widgetDefinition.selectOptions;
+                element.set("directoryName",widgetProperties.directoryName);
                 element.set("list", list);
                 break;
 
@@ -160,7 +154,13 @@ NuxeoLayoutBehavior = {
              case 'multipleUsersSuggestion':
                 element = document.createElement('nuxeo-widget-user-selection');
                 element.set("multiple", true);
-             break;
+                break;
+
+             case 'list':
+                element = document.createElement('nuxeo-widget-list');
+                element.set("widgetList", widgetDefinition.subWidgets);
+                element.set("mode", this.mode);
+                break;
 
             default:
                 element = document.createElement('nuxeo-widget-text');

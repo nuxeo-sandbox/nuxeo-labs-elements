@@ -17,8 +17,8 @@ limitations under the License.
 Contributors:
 -->
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="./nuxeo-labs-layout-behavior.html">
-
+<link rel="import" href="./behaviors/nuxeo-labs-layout-behavior.html">
+<link rel="import" href="./nuxeo-widgets.html">
 
 <!--
 An element which renders a Nuxeo Layout
@@ -57,7 +57,7 @@ Example:
         Polymer({
             is: 'nuxeo-labs-layout',
 
-            behaviors: [NuxeoLayoutBehavior],
+            behaviors: [NuxeoLabsLayoutBehavior],
 
             properties: {},
 
@@ -65,7 +65,7 @@ Example:
 
             ready: function() {
                 console.log("--nuxeo-layout ready");
-                this.addEventListener('value-changed', function (e) {
+                this.addEventListener('widget-value-changed', function (e) {
                      console.log("--property changed");
                      this.doc.properties[e.srcElement.property] = e.srcElement.value;
                 });

@@ -17,11 +17,13 @@ limitations under the License.
 Contributors:
 -->
 <link rel="import" href="../../../polymer/polymer.html">
-<link rel="import" href="./nuxeo-widget-behavior.html">
-<link rel="import" href="./nuxeo-widget-styles.html">
 <link rel="import" href="../../../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../../paper-menu/paper-menu.html">
 <link rel="import" href="../../../paper-item/paper-item.html">
+<link rel="import" href="../../../nuxeo-elements/nuxeo-resource.html">
+
+<link rel="import" href="../behaviors/nuxeo-widget-behavior.html">
+<link rel="import" href="./nuxeo-widget-styles.html">
 
 <dom-module id="nuxeo-widget-dropdown">
     <template>
@@ -30,6 +32,7 @@ Contributors:
                 display: inline-block;
             }
         </style>
+        <nuxeo-resource id="directoryLoader" on-response="_directoryReceived"></nuxeo-resource>
         <div class="root">
             <template is="dom-if" if="[[readonly]]">
                 <div class="value">[[value]]</div>
@@ -38,7 +41,7 @@ Contributors:
                 <paper-dropdown-menu required="{{required}}" label="[[label]]">
                     <paper-menu class="dropdown-content" attr-for-selected="value" selected="{{value}}">
                         <template is="dom-repeat" items="{{list}}">
-                            <paper-item value="[[item.itemValue]]">[[item.itemLabel]]</paper-item>
+                            <paper-item value="[[item.properties.id]]">[[item.properties.label]]</paper-item>
                         </template>
                     </paper-menu>
                 </paper-dropdown-menu>
@@ -53,14 +56,23 @@ Contributors:
             behaviors: [NuxeoWidgetBehavior],
 
             properties: {
-                list: {
-                    type: Array,
-                    notify: true
-                }
+              directoryName: {
+                  type: String,
+                  observer: '_inDirectoryNameChanged'
+               }
             },
 
             ready: function() {
                 console.log("--nuxeo-widget-dropdown ready");
+            },
+
+            _inDirectoryNameChanged: function() {
+              this.$.directoryLoader.path='directory/'+this.directoryName;
+              this.$.directoryLoader.execute();
+            },
+
+            _directoryReceived:function(e) {
+              this.set('list',e.detail.response.entries);
             }
 
         });
