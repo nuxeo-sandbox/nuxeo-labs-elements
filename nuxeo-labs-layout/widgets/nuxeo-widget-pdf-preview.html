@@ -1,0 +1,60 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../nuxeo-ui-elements/viewers/nuxeo-pdf-viewer.html">
+<link rel="import" href="../behaviors/nuxeo-labs-layout-behavior.html">
+
+<!--
+An element which renders a pdf preview
+
+Example:
+
+<nuxeo-widget-pdf-preview
+   value="{{value}}"
+</nuxeo-widget-pdf-preview>
+
+@group Nuxeo Labs UI elements
+@element nuxeo-widget-pdf-preview
+-->
+
+<dom-module id="nuxeo-widget-pdf-preview">
+  <template>
+      <style>
+      </style>
+      <nuxeo-pdf-viewer src="{{src}}"></nuxeo-pdf-viewer>
+  </template>
+  <script>
+    Polymer({
+
+      is: 'nuxeo-widget-pdf-preview',
+
+      /**
+      * @public
+      */
+      src: {
+        type: String,
+      },
+
+      ready: function() {
+        console.log("--nuxeo-widget-pdf-preview ready");
+      }
+
+    });
+  </script>
+</dom-module>

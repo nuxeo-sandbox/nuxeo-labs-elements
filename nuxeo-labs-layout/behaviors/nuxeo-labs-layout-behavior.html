@@ -162,6 +162,10 @@ NuxeoLabsLayoutBehavior = {
                 element.set("mode", this.mode);
                 break;
 
+              case 'file_preview':
+                element = document.createElement('nuxeo-widget-pdf-preview');
+                widgetElement.set("src", this.doc.properties[propertyName].data);
+
             default:
                 element = document.createElement('nuxeo-widget-text');
         }
