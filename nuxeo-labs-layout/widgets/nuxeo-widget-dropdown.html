@@ -29,7 +29,10 @@ Contributors:
     <template>
         <style include="nuxeo-widget-styles">
             .value {
-                display: inline-block;
+              display: inline-block;
+            }
+            paper-dropdown-menu {
+              width:100%;
             }
         </style>
         <nuxeo-resource id="directoryLoader" on-response="_directoryReceived"></nuxeo-resource>
