@@ -88,6 +88,7 @@ NuxeoLabsLayoutBehavior = {
             case 'double':
                 element = document.createElement('nuxeo-widget-number');
                 if (widgetProperties!==undefined) {
+                    element.set("size",widgetProperties.size);
                     element.set("prefix",widgetProperties.prefix);
                     element.set("suffix",widgetProperties.suffix);
                 }
@@ -96,6 +97,7 @@ NuxeoLabsLayoutBehavior = {
             case 'int':
                 element = document.createElement('nuxeo-widget-number');
                 if (widgetProperties!==undefined) {
+                    element.set("size",widgetProperties.size);
                     element.set("prefix",widgetProperties.prefix);
                     element.set("suffix",widgetProperties.suffix);
                 }
