@@ -1,0 +1,214 @@
+{
+    "name": "test@create",
+    "rows": [{
+        "name": "layout_row_0",
+        "properties": {
+            "any": {
+                "nxl_colspan_0": "1"
+            }
+        },
+        "widgets": [{
+            "name": "title"
+        }]
+    }, {
+        "name": "layout_row_1",
+        "properties": {
+            "any": {
+                "nxl_colspan_0": "1"
+            }
+        },
+        "widgets": [{
+            "name": "description"
+        }]
+    }, {
+        "name": "layout_row_2",
+        "properties": {
+            "any": {
+                "nxl_colspan_0": "1"
+            }
+        },
+        "widgets": [{
+            "name": "created"
+        }]
+    }, {
+        "name": "layout_row_3",
+        "properties": {
+            "any": {
+                "nxl_colspan_0": "1"
+            }
+        },
+        "widgets": [{
+            "name": "amount"
+        }]
+    }, {
+        "name": "layout_row_4",
+        "properties": {
+            "any": {
+                "nxl_colspan_0": "1"
+            }
+        },
+        "widgets": [{
+            "name": "benificiaries"
+        }]
+    }, {
+        "name": "layout_row_5",
+        "properties": {
+            "any": {
+                "nxl_colspan_0": "1"
+            }
+        },
+        "widgets": [{
+            "name": "zip"
+        }]
+    }, {
+        "name": "layout_row_6",
+        "properties": {
+            "any": {
+                "nxl_colspan_0": "1"
+            }
+        },
+        "widgets": [{
+            "name": "cell_phone"
+        }]
+    }],
+    "widgets": [{
+        "name": "title",
+        "type": "text",
+        "labels": {
+            "any": "Title"
+        },
+        "translated": false,
+        "handlingLabels": false,
+        "fields": [{
+            "fieldName": "dc:title",
+            "propertyName": "dc:title"
+        }],
+        "propertiesByWidgetMode": {
+            "edit": {
+                "required": "true",
+                "styleClass": "dataInputText"
+            }
+        }
+    }, {
+        "name": "description",
+        "type": "textarea",
+        "labels": {
+            "any": "Description"
+        },
+        "translated": false,
+        "handlingLabels": false,
+        "fields": [{
+            "fieldName": "dc:description",
+            "propertyName": "dc:description"
+        }],
+        "propertiesByWidgetMode": {
+            "edit": {
+                "styleClass": "dataInputText"
+            }
+        }
+    }, {
+        "name": "created",
+        "type": "datetime",
+        "labels": {
+            "any": "Created"
+        },
+        "translated": false,
+        "handlingLabels": false,
+        "fields": [{
+            "fieldName": "dc:created",
+            "propertyName": "dc:created"
+        }]
+    }, {
+        "name": "amount",
+        "type": "double",
+        "labels": {
+            "any": "Amount"
+        },
+        "translated": false,
+        "handlingLabels": false,
+        "fields": [{
+            "fieldName": "policy:amount",
+            "propertyName": "policy:amount"
+        }],
+        "propertiesByWidgetMode": {
+            "edit": {
+                "maxLength": "7",
+                "prefix": "USD",
+                "size": "7",
+                "suffix": "$"
+            }
+        }
+    }, {
+        "name": "benificiaries",
+        "type": "list",
+        "labels": {
+            "any": "Benificiaries"
+        },
+        "translated": false,
+        "handlingLabels": false,
+        "fields": [{
+            "fieldName": "policy:benificiaries",
+            "propertyName": "policy:benificiaries"
+        }],
+        "subWidgets": [{
+            "name": "sub0",
+            "type": "text",
+            "labels": {
+                "any": "Fullname"
+            },
+            "translated": false,
+            "handlingLabels": false,
+            "fields": [{
+                "fieldName": "fullname",
+                "propertyName": "fullname"
+            }]
+        }, {
+            "name": "sub1",
+            "type": "int",
+            "labels": {
+                "any": "Percentage"
+            },
+            "translated": false,
+            "handlingLabels": false,
+            "fields": [{
+                "fieldName": "percentage",
+                "propertyName": "percentage"
+            }]
+        }]
+    }, {
+        "name": "zip",
+        "type": "text",
+        "labels": {
+            "any": "Zip"
+        },
+        "translated": false,
+        "handlingLabels": false,
+        "fields": [{
+            "fieldName": "address:zip",
+            "propertyName": "address:zip"
+        }],
+        "propertiesByWidgetMode": {
+            "edit": {
+                "format": "zip"
+            }
+        }
+    }, {
+        "name": "cell_phone",
+        "type": "text",
+        "labels": {
+            "any": "Cell Phone"
+        },
+        "translated": false,
+        "handlingLabels": false,
+        "fields": [{
+            "fieldName": "address:cell_phone",
+            "propertyName": "address:cell_phone"
+        }],
+        "propertiesByWidgetMode": {
+            "edit": {
+                "format": "phone",
+                "required": "true"
+            }
+        }
+    }]
+}

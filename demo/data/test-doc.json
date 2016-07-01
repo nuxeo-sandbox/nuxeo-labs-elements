@@ -1,173 +1,86 @@
 {
   "entity-type": "document",
   "repository": "default",
-  "uid": "9165aab5-c276-4b40-af67-c6abab83da4d",
-  "path": "/default-domain/workspaces/Project A/Release notes/5.9.3 Release Notes (1).",
-  "type": "File",
-  "state": "project",
-  "parentRef": "70575fdf-85fb-44fc-84a7-eab0206259fe",
-  "isCheckedOut": false,
-  "changeToken": "1424820708386",
-  "title": "5.9.3 Release Notes (1).pdf",
-  "lastModified": "2015-02-24T23:31:48.38Z",
+  "uid": "7f28a8a0-fac8-4fbf-a0c6-651af447e319",
+  "path": "/default-domain/applications/LIA.1467403860740",
+  "type": "LifeInsuranceApplication",
+  "state": "draft",
+  "parentRef": "74277752-97b5-4397-900e-4864d89797dd",
+  "isCheckedOut": true,
+  "changeToken": "1467415327000",
+  "title": "LIA000000003",
+  "lastModified": "2016-07-01T23:22:07.00Z",
   "properties": {
     "uid:uid": null,
     "uid:major_version": 0,
-    "uid:minor_version": 2,
-    "thumb:thumbnail": {
-      "name": "0438ecc5f78c2e41aea85136c0682271",
-      "mime-type": "application/octet-stream",
-      "encoding": null,
-      "digestAlgorithm": "MD5",
-      "digest": "0438ecc5f78c2e41aea85136c0682271",
-      "length": "23326",
-      "data": "http://demo.nuxeo.com/nuxeo/nxfile/default/9165aab5-c276-4b40-af67-c6abab83da4d/thumbnail:thumb:thumbnail/0438ecc5f78c2e41aea85136c0682271"
-    },
-    "file:filename": "5.9.3 Release Notes (1).pdf",
-    "file:content": {
-      "name": "5.9.3 Release Notes (1).pdf",
-      "mime-type": "application/pdf",
-      "encoding": null,
-      "digestAlgorithm": "MD5",
-      "digest": "a51842d9ea6f178ff23365bd4c7b2f34",
-      "length": "1059144",
-      "data": "http://demo.nuxeo.com/nuxeo/nxfile/default/9165aab5-c276-4b40-af67-c6abab83da4d/file:content/5.9.3%20Release%20Notes%20(1).pdf"
-    },
-    "common:size": 1059144,
+    "uid:minor_version": 0,
+    "address:state": "AK",
+    "address:zip": "78786",
+    "address:street": "50 UNiversity Avenue",
+    "address:cell_phone": "353-454-3545",
+    "address:city": "Los Gatos",
+    "address:home_phone": "543-545-4354",
+    "file:filename": null,
+    "file:content": null,
+    "common:size": 0,
     "common:icon-expanded": null,
-    "common:icon": "/icons/pdf.png",
-    "files:files": [],
-    "dc:description": "",
-    "dc:language": "",
-    "dc:coverage": "africa/Botswana",
+    "common:icon": "/img/application.png",
+    "gq:felony_misdemeanor_convictions": false,
+    "gq:driver_license_suspension": false,
+    "gq:travel_abroad": false,
+    "gq:armed_forces_member": false,
+    "gq:aircraft_pilot": false,
+    "gq:risky_activities": false,
+    "gq:explanations": null,
+    "gq:drug_convictions": false,
+    "identity:ssn": "545-53-5345",
+    "identity:gender": "male",
+    "identity:marital_status": "single",
+    "identity:firstname": "Bob",
+    "identity:birthdate": "2016-07-11T07:00:00.00Z",
+    "identity:citizenship": "FR",
+    "identity:lastname": "Leponge",
+    "identity:birthcountry": "FR",
+    "mh:explanations": null,
+    "mh:std": false,
+    "mh:malignent_disorder": false,
+    "mh:blood_condition": false,
+    "mh:heart_blood_vessels_condition": false,
+    "mh:imune_system_disorder": null,
+    "mh:diabetes": false,
+    "dc:description": null,
+    "dc:language": null,
+    "dc:coverage": null,
     "dc:valid": null,
     "dc:creator": "Administrator",
-    "dc:modified": "2015-02-24T23:31:48.38Z",
+    "dc:modified": "2016-07-01T23:22:07.00Z",
     "dc:lastContributor": "Administrator",
-    "dc:rights": "",
-    "dc:expired": "2015-02-18T23:00:00.00Z",
-    "dc:format": "",
-    "dc:created": "2015-02-24T22:58:02.23Z",
-    "dc:title": "5.9.3 Release Notes (1).pdf",
+    "dc:rights": null,
+    "dc:expired": null,
+    "dc:format": null,
+    "dc:created": "2016-07-01T20:11:00.74Z",
+    "dc:title": "LIA000000003",
     "dc:issued": null,
-    "dc:nature": "CDRom",
-    "dc:subjects": [
-      "art/danse",
-      "art/comics"
-    ],
+    "dc:nature": null,
+    "dc:subjects": [],
     "dc:contributors": [
       "Administrator"
     ],
-    "dc:source": "",
+    "dc:source": null,
     "dc:publisher": null,
-    "relatedtext:relatedtextresources": []
+    "policy:benificiaries": [
+      {
+        "percentage": 100,
+        "fullname": "Bobette",
+        "relationship": "child",
+        "ssn": null
+      }
+    ],
+    "policy:payment_frequency": "semiannual",
+    "policy:payment_method": "DirectBill",
+    "policy:amount": 1000000
   },
   "facets": [
-    "Versionable",
-    "Publishable",
-    "Commentable",
-    "HasRelatedText",
-    "Thumbnail",
-    "Downloadable"
-  ],
-  "contextParameters": {
-    "breadcrumb": {
-      "entity-type": "documents",
-      "entries": [
-        {
-          "entity-type": "document",
-          "repository": "default",
-          "uid": "837faafd-7505-432c-92ea-53ada7f1c077",
-          "path": "/default-domain",
-          "type": "Domain",
-          "state": "project",
-          "parentRef": "a5491fde-cdca-4001-bc91-093343b887f4",
-          "isCheckedOut": true,
-          "changeToken": "1424105481137",
-          "title": "Default domain",
-          "lastModified": "2015-02-16T16:51:21.13Z",
-          "facets": [
-            "Folderish",
-            "SuperSpace",
-            "NotCollectionMember"
-          ]
-        },
-        {
-          "entity-type": "document",
-          "repository": "default",
-          "uid": "19c011a8-5ab4-4515-b4e2-8996cc432db4",
-          "path": "/default-domain/workspaces",
-          "type": "WorkspaceRoot",
-          "state": "project",
-          "parentRef": "837faafd-7505-432c-92ea-53ada7f1c077",
-          "isCheckedOut": true,
-          "changeToken": "1424105481140",
-          "title": "Workspaces",
-          "lastModified": "2015-02-16T16:51:21.14Z",
-          "facets": [
-            "Folderish",
-            "SuperSpace",
-            "NotCollectionMember"
-          ]
-        },
-        {
-          "entity-type": "document",
-          "repository": "default",
-          "uid": "ab66faa5-0ebf-4dfe-8e2b-3ee48e7d5366",
-          "path": "/default-domain/workspaces/Project A",
-          "type": "Workspace",
-          "state": "project",
-          "parentRef": "19c011a8-5ab4-4515-b4e2-8996cc432db4",
-          "isCheckedOut": true,
-          "changeToken": "1424793910648",
-          "title": "Project A",
-          "lastModified": "2015-02-24T16:05:10.64Z",
-          "facets": [
-            "Folderish",
-            "SuperSpace"
-          ]
-        },
-        {
-          "entity-type": "document",
-          "repository": "default",
-          "uid": "70575fdf-85fb-44fc-84a7-eab0206259fe",
-          "path": "/default-domain/workspaces/Project A/Release notes",
-          "type": "Folder",
-          "state": "project",
-          "parentRef": "ab66faa5-0ebf-4dfe-8e2b-3ee48e7d5366",
-          "isCheckedOut": true,
-          "changeToken": "1424818672094",
-          "title": "Release notes",
-          "lastModified": "2015-02-24T22:57:52.09Z",
-          "facets": [
-            "Folderish"
-          ]
-        },
-        {
-          "entity-type": "document",
-          "repository": "default",
-          "uid": "9165aab5-c276-4b40-af67-c6abab83da4d",
-          "path": "/default-domain/workspaces/Project A/Release notes/5.9.3 Release Notes (1).",
-          "type": "File",
-          "state": "project",
-          "parentRef": "70575fdf-85fb-44fc-84a7-eab0206259fe",
-          "isCheckedOut": false,
-          "changeToken": "1424820708386",
-          "title": "5.9.3 Release Notes (1).pdf",
-          "lastModified": "2015-02-24T23:31:48.38Z",
-          "facets": [
-            "Versionable",
-            "Publishable",
-            "Commentable",
-            "HasRelatedText",
-            "Thumbnail",
-            "Downloadable"
-          ]
-        }
-      ]
-    },
-    "thumbnail": {
-      "url": "http://demo.nuxeo.com/nuxeo/nxthumb/default/9165aab5-c276-4b40-af67-c6abab83da4d/thumb:thumbnail/0438ecc5f78c2e41aea85136c0682271"
-    }
-  }
+    "Folderish"
+  ]
 }

@@ -26,11 +26,7 @@ Contributors:
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
   <script src="../../jquery/dist/jquery.min.js"></script>
-  <script src="../../select2/select2.min.js"></script>
 
-  <link rel="stylesheet" href="../../select2/select2.css">
-
-  <link rel="import" href="../../nuxeo-elements/nuxeo-connection.html">
   <link rel="import" href="../../iron-ajax/iron-ajax.html">
   <link rel="import" href="../nuxeo-labs-layout/nuxeo-labs-layout.html">
 
@@ -44,10 +40,9 @@ Contributors:
 
 <body unresolved class="fullbleed">
   <template is="dom-bind">
-    <nuxeo-connection url="http://localhost:8080/nuxeo" username="Administrator" password="Admministrator"></nuxeo-connection>
-    <iron-ajax auto url="data/dublincore-layout.json" handle-as="json" last-response="{{layout}}"></iron-ajax>
-    <iron-ajax auto url="data/test-doc.json" handle-as="json" last-response="{{doc}}"></iron-ajax>
-    <nuxeo-labs-layout doc={{doc}} layout="[[layout]]" mode="edit"></nuxeo-labs-layout>
+    <iron-ajax auto url="./data/test-layout.json" handle-as="json" last-response="{{layout}}"></iron-ajax>
+    <iron-ajax auto url="./data/test-doc.json" handle-as="json" last-response="{{doc}}"></iron-ajax>
+    <nuxeo-labs-layout input={{doc.properties}} layout="[[layout]]" mode="edit"></nuxeo-labs-layout>
   </template>
 </body>
 
