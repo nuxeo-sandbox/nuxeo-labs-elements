@@ -62,13 +62,13 @@ Example:
 
             properties: {},
 
-            observers: ['_updateLayout(doc,layout)'],
+            observers: ['_updateLayout(input,layout)'],
 
             ready: function() {
                 console.log("--nuxeo-layout ready");
                 this.addEventListener('widget-value-changed', function (e) {
                      console.log("--property changed");
-                     this.doc.properties[e.srcElement.property] = e.srcElement.value;
+                     this.input[e.srcElement.property] = e.srcElement.value;
                 });
             },
 

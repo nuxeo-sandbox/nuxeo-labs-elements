@@ -51,9 +51,9 @@ Example:
       <h4>{{label}}</h4>
       <template is="dom-repeat" items="{{value}}">
         <div>
-          <nuxeo-widget-list-item item="{{item}}" widget-list={{widgetList}} mode={{mode}}></nuxeo-widget-list-item>
+          <nuxeo-widget-list-item input="{{item}}" widget-list={{widgetList}} mode={{mode}}></nuxeo-widget-list-item>
           <template is="dom-if" if="[[!readonly]]">
-            <paper-icon-button icon="clear" on-click="_removeRow"></paper-icon-button>
+            <paper-icon-button icon="clear" on-click="_removeRow" index={{index}}></paper-icon-button>
           </template>
         </div>
       </template>

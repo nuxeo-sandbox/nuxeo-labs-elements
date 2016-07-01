@@ -54,13 +54,6 @@ Example:
 
       properties: {
         /**
-        * @public
-        */
-        item: {
-          type: Object,
-        },
-
-        /**
         * A list of widgets to display for list elements
         * @public
         */
@@ -86,16 +79,7 @@ Example:
           cellElement.setAttribute("class", "cell");
 
           var widgetDefinition = this.widgetList[i];
-          var widgetElement = this.getNuxeoWidget(widgetDefinition);
-
-          // Bind doc property
-          var propertyName = widgetDefinition.fields[0].propertyName;
-          widgetElement.set("property", propertyName);
-          widgetElement.set("value", this.item[propertyName]);
-
-          // set widget property
-          widgetElement.set("label", widgetDefinition.labels.any);
-          widgetElement.set("readonly", this.readonly);
+          var widgetElement = this.getWidgetElement(widgetDefinition);
 
           Polymer.dom(cellElement).appendChild(widgetElement);
           Polymer.dom(topElement).appendChild(cellElement);
@@ -106,11 +90,11 @@ Example:
 
       ready: function() {
         console.log("--nuxeo-widget-list-item ready");
-        var item = this.item;
+        var input = this.input;
         this.addEventListener('widget-value-changed', function (e) {
              console.log("--sub property changed");
              e.stopPropagation();
-             item[e.detail.property] = e.detail.value;
+             input[e.detail.property] = e.detail.value;
         });
       }
 

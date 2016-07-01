@@ -30,78 +30,52 @@ NuxeoLabsLayoutBehavior = {
         },
 
         /**
-        * A Nuxeo Document object
+        * The input object to bind to the layout
         * @public
         */
-        doc: {
+        input: {
             type: Object,
             notify: true
         }
-        },
+    },
 
 
     getWidgetElement: function(widgetDefinition) {
        var widgetElement = this.getNuxeoWidget(widgetDefinition);
 
-       // Bind doc property
+       // Bind input property
        var propertyName = widgetDefinition.fields[0].propertyName;
        widgetElement.set("property", propertyName);
-       widgetElement.set("value", this.doc.properties[propertyName]);
+       widgetElement.set("value", this.input[propertyName]);
 
        // set widget property
        widgetElement.set("label", widgetDefinition.labels.any);
        widgetElement.set("readonly", this.readonly);
 
-       if (widgetDefinition.propertiesByWidgetMode!==undefined) {
-          var widgetProperties = widgetDefinition.propertiesByWidgetMode[this.mode];
-          if (widgetProperties!==undefined) {
-             var required = widgetDefinition.propertiesByWidgetMode[this.mode].required;
-             if (required!==undefined) widgetElement.set("required", required);
-          }
-       }
+       this.setWidgetProperties(widgetDefinition,widgetElement);
+
        return widgetElement;
     },
 
     getNuxeoWidget: function(widgetDefinition) {
         var element;
-        //get widget properties
-        var widgetProperties = undefined;
-        if (widgetDefinition.propertiesByWidgetMode!==undefined) {
-           widgetProperties = widgetDefinition.propertiesByWidgetMode[this.mode];
-        }
 
         switch (widgetDefinition.type) {
             case 'text':
-                if (widgetProperties===undefined) {
-                   element = document.createElement('nuxeo-widget-text');
-                } else {
-                   var format = widgetProperties.format;
-                   switch (format) {
-                      case 'ssn': element = document.createElement('nuxeo-widget-ssn');break;
-                      case 'phone': element = document.createElement('nuxeo-widget-phone');break;
-                      case 'zip': element = document.createElement('nuxeo-widget-zip');break;
-                      default: element = document.createElement('nuxeo-widget-text');
-                   }
-                }
+				var format = this.getWidgetProperty(widgetDefinition,'format');
+				switch (format) {
+				  case 'ssn': element = document.createElement('nuxeo-widget-ssn');break;
+				  case 'phone': element = document.createElement('nuxeo-widget-phone');break;
+				  case 'zip': element = document.createElement('nuxeo-widget-zip');break;
+				  default: element = document.createElement('nuxeo-widget-text');
+				}
                 break;
 
             case 'double':
-                element = document.createElement('nuxeo-widget-number');
-                if (widgetProperties!==undefined) {
-                    element.set("size",widgetProperties.size);
-                    element.set("prefix",widgetProperties.prefix);
-                    element.set("suffix",widgetProperties.suffix);
-                }
-                break;
+                element = document.createElement('nuxeo-widget-number');break;
 
             case 'int':
-                element = document.createElement('nuxeo-widget-number');
-                if (widgetProperties!==undefined) {
-                    element.set("size",widgetProperties.size);
-                    element.set("prefix",widgetProperties.prefix);
-                    element.set("suffix",widgetProperties.suffix);
-                }
-                break;
+                element = document.createElement('nuxeo-widget-number');break;
 
             case 'datetime':
                 element = document.createElement('nuxeo-widget-date');
@@ -116,21 +90,13 @@ NuxeoLabsLayoutBehavior = {
                 break;
 
             case 'selectOneDirectory':
-                element = document.createElement('nuxeo-widget-dropdown');
-                element.set("directoryName",widgetProperties.directoryName);
-                element.set("list", list);
-                break;
+                element = document.createElement('nuxeo-widget-dropdown');break;
 
             case 'suggestOneDirectory':
-                element = document.createElement('nuxeo-widget-directory-selection');
-                element.set("directoryName",widgetProperties[this.mode].directoryName);
-                element.set("dbl10n",widgetProperties[this.mode].dbl10n);
-                break;
+                element = document.createElement('nuxeo-widget-directory-selection');break;
 
              case 'suggestManyDirectory':
                  element = document.createElement('nuxeo-widget-directory-selection');
-                 element.set("directoryName",widgetProperties[this.mode].directoryName);
-                 element.set("dbl10n",widgetProperties[this.mode].dbl10n);
                  element.set("multiple",true);
                  break;
 
@@ -167,13 +133,44 @@ NuxeoLabsLayoutBehavior = {
               case 'file_preview':
                 element = document.createElement('nuxeo-widget-pdf-preview');
                 var propertyName = widgetDefinition.fields[0].propertyName;
-                element.set("src", this.doc.properties[propertyName].data);
+                element.set("src", this.input[propertyName].data);
                 break;
 
             default:
                 element = document.createElement('nuxeo-widget-text');
         }
         return element;
+    },
+
+
+    getWidgetProperty: function(widgetDefinition, propertyName) {
+      var propertyValue;
+
+      if (widgetDefinition.propertiesByWidgetMode===undefined) return propertyValue;
+
+      var widgetProperties = widgetDefinition.propertiesByWidgetMode[this.mode];
+      if (widgetProperties !== undefined && widgetProperties !== null) {
+       propertyValue = widgetProperties[propertyName];
+      }
+
+      if (propertyValue !== undefined && propertyValue !== null) return propertyValue;
+      //if empty for current mode, try any
+
+      widgetProperties = widgetDefinition.propertiesByWidgetMode.any;
+      if (widgetProperties !== undefined && widgetProperties !== null) {
+       propertyValue = widgetProperties[propertyName];
+      }
+
+      return propertyValue;
+    },
+
+    setWidgetProperties: function(widgetDefinition, widgetElement) {
+      if (widgetDefinition.propertiesByWidgetMode === undefined) return;
+      var widgetProperties = widgetDefinition.propertiesByWidgetMode[this.mode];
+      if (widgetProperties === undefined) return;
+      for (var property in widgetProperties) {
+        widgetElement.set(property, widgetProperties[property]);
+      }
     }
 };
 </script>
