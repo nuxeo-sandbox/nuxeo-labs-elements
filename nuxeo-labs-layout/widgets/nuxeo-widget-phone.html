@@ -41,12 +41,17 @@ Example:
 <dom-module id="nuxeo-widget-phone">
     <template>
         <style include="nuxeo-widget-styles">
-          gold-phone-input {
-            display:inline-block;
-          }
+            gold-phone-input {
+                display: inline-block;
+            }
         </style>
         <div class="root">
-            <gold-phone-input readonly="{{readonly}}" required="{{required}}"  value={{value}} label="[[label]]"></gold-phone-input>
+            <gold-phone-input
+                readonly="[[readonly]]"
+                required="[[required]]"
+                value="{{value}}"
+                label="[[label]]">
+            </gold-phone-input>
         </div>
     </template>
 
