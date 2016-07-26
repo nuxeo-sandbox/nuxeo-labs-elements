@@ -24,7 +24,7 @@ Contributors:
                 type: String
             },
             property: {
-               type: String
+                type: String
             },
             value: {
                 type: Object,
@@ -35,18 +35,18 @@ Contributors:
                 value: false
             },
             required: {
-               type: Boolean,
-               value: false
+                type: Boolean,
+                value: false
             }
         },
 
-        _valueChanged : function() {
-          if (this.property===undefined || this.value===undefined) return;
-
-          this.fire('widget-value-changed', {
-            kicked: true,
-            property: this.property,
-            value: this.value});
+        _valueChanged: function() {
+            if (this.property === undefined || this.value === undefined) return;
+            this.fire('widget-value-changed', {
+                kicked: true,
+                property: this.property,
+                value: this.value
+            });
         }
 
     };

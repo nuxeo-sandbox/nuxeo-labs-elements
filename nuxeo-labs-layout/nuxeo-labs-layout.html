@@ -16,9 +16,12 @@ limitations under the License.
 
 Contributors:
 -->
-<link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="./behaviors/nuxeo-labs-layout-behavior.html">
-<link rel="import" href="./nuxeo-widgets.html">
+<link rel="import"
+    href="../../polymer/polymer.html">
+<link rel="import"
+    href="./behaviors/nuxeo-labs-layout-behavior.html">
+<link rel="import"
+    href="./nuxeo-widgets.html">
 
 <!--
 An element which renders a Nuxeo Layout
@@ -40,13 +43,15 @@ Example:
 
     <template>
         <style>
-              :host {
-                  width: 100%;
-              }
+            :host {
+                width: 100%;
+            }
+
             .row {
                 width: 100%;
                 display: flex;
             }
+
             .cell {
                 flex-basis: 100%;
                 margin: 1% 2% 1% 0;
@@ -66,9 +71,9 @@ Example:
 
             ready: function() {
                 console.log("--nuxeo-layout ready");
-                this.addEventListener('widget-value-changed', function (e) {
-                     console.log("--property changed");
-                     this.input[e.srcElement.property] = e.srcElement.value;
+                this.addEventListener('widget-value-changed', function(e) {
+                    console.log("--property changed");
+                    this.input[e.srcElement.property] = e.srcElement.value;
                 });
             },
 

@@ -1,176 +1,187 @@
 <script>
-NuxeoLabsLayoutBehavior = {
+    NuxeoLabsLayoutBehavior = {
 
-    properties: {
+        properties: {
 
-        /**
-        * A Nuxeo Layout definition object
-        * @public
-        */
-        layout: {
-            type: Object,
-            notify: true
+            /**
+             * A Nuxeo Layout definition object
+             * @public
+             */
+            layout: {
+                type: Object,
+                notify: true
+            },
+
+            /**
+             * Layout mode (edit,view,create or any)
+             * @public
+             */
+            mode: {
+                type: String,
+            },
+
+            /**
+             * Controls whether the layout is read only or not
+             * @public
+             */
+            readonly: {
+                type: Boolean,
+                value: false
+            },
+
+            /**
+             * The input object to bind to the layout
+             * @public
+             */
+            input: {
+                type: Object,
+                notify: true
+            }
         },
 
-        /**
-        * Layout mode (edit,view,create or any)
-        * @public
-        */
-        mode: {
-           type: String,
+
+        getWidgetElement: function(widgetDefinition) {
+            var widgetElement = this.getNuxeoWidget(widgetDefinition);
+
+            // Bind input property
+            var propertyName = widgetDefinition.fields[0].propertyName;
+            widgetElement.set("property", propertyName);
+            widgetElement.set("value", this.input[propertyName]);
+
+            // set widget property
+            widgetElement.set("label", widgetDefinition.labels.any);
+            widgetElement.set("readonly", this.readonly);
+
+            this.setWidgetProperties(widgetDefinition, widgetElement);
+
+            return widgetElement;
         },
 
-        /**
-        * Controls whether the layout is read only or not
-        * @public
-        */
-        readonly: {
-            type: Boolean,
-            value: false
+        getNuxeoWidget: function(widgetDefinition) {
+            var element;
+
+            switch (widgetDefinition.type) {
+                case 'text':
+                    var format = this.getWidgetProperty(widgetDefinition, 'format');
+                    switch (format) {
+                        case 'ssn':
+                            element = document.createElement('nuxeo-widget-ssn');
+                            break;
+                        case 'phone':
+                            element = document.createElement('nuxeo-widget-phone');
+                            break;
+                        case 'zip':
+                            element = document.createElement('nuxeo-widget-zip');
+                            break;
+                        default:
+                            element = document.createElement('nuxeo-widget-text');
+                    }
+                    break;
+
+                case 'double':
+                    element = document.createElement('nuxeo-widget-number');
+                    break;
+
+                case 'int':
+                    element = document.createElement('nuxeo-widget-number');
+                    break;
+
+                case 'datetime':
+                    element = document.createElement('nuxeo-widget-date');
+                    break;
+
+                case 'checkbox':
+                    element = document.createElement('nuxeo-widget-checkbox');
+                    break;
+
+                case 'textarea':
+                    element = document.createElement('nuxeo-widget-textarea');
+                    break;
+
+                case 'selectOneDirectory':
+                    element = document.createElement('nuxeo-widget-dropdown');
+                    break;
+
+                case 'suggestOneDirectory':
+                    element = document.createElement('nuxeo-widget-directory-selection');
+                    break;
+
+                case 'suggestManyDirectory':
+                    element = document.createElement('nuxeo-widget-directory-selection');
+                    element.set("multiple", true);
+                    break;
+
+                case 'selectManyCheckboxDirectory':
+                    element = document.createElement('nuxeo-widget-checkbox-multiple');
+                    var list = widgetDefinition.selectOptions;
+                    element.set("list", list);
+                    break;
+
+                case 'singleDocumentSuggestion':
+                    element = document.createElement('nuxeo-widget-document-selection');
+                    break;
+
+                case 'multipleDocumentSuggestion':
+                    element = document.createElement('nuxeo-widget-document-selection');
+                    element.set("multiple", true);
+                    break;
+
+                case 'singleUserSuggestion':
+                    element = document.createElement('nuxeo-widget-user-selection');
+                    break;
+
+                case 'multipleUsersSuggestion':
+                    element = document.createElement('nuxeo-widget-user-selection');
+                    element.set("multiple", true);
+                    break;
+
+                case 'list':
+                    element = document.createElement('nuxeo-widget-list');
+                    element.set("widgetList", widgetDefinition.subWidgets);
+                    element.set("mode", this.mode);
+                    break;
+
+                case 'file_preview':
+                    element = document.createElement('nuxeo-widget-pdf-preview');
+                    var propertyName = widgetDefinition.fields[0].propertyName;
+                    element.set("src", this.input[propertyName].data);
+                    break;
+
+                default:
+                    element = document.createElement('nuxeo-widget-text');
+            }
+            return element;
         },
 
-        /**
-        * The input object to bind to the layout
-        * @public
-        */
-        input: {
-            type: Object,
-            notify: true
+
+        getWidgetProperty: function(widgetDefinition, propertyName) {
+            var propertyValue;
+
+            if (widgetDefinition.propertiesByWidgetMode === undefined) return propertyValue;
+
+            var widgetProperties = widgetDefinition.propertiesByWidgetMode[this.mode];
+            if (widgetProperties !== undefined && widgetProperties !== null) {
+                propertyValue = widgetProperties[propertyName];
+            }
+
+            if (propertyValue !== undefined && propertyValue !== null) return propertyValue;
+            //if empty for current mode, try any
+
+            widgetProperties = widgetDefinition.propertiesByWidgetMode.any;
+            if (widgetProperties !== undefined && widgetProperties !== null) {
+                propertyValue = widgetProperties[propertyName];
+            }
+
+            return propertyValue;
+        },
+
+        setWidgetProperties: function(widgetDefinition, widgetElement) {
+            if (widgetDefinition.propertiesByWidgetMode === undefined) return;
+            var widgetProperties = widgetDefinition.propertiesByWidgetMode[this.mode];
+            if (widgetProperties === undefined) return;
+            for (var property in widgetProperties) {
+                widgetElement.set(property, widgetProperties[property]);
+            }
         }
-    },
-
-
-    getWidgetElement: function(widgetDefinition) {
-       var widgetElement = this.getNuxeoWidget(widgetDefinition);
-
-       // Bind input property
-       var propertyName = widgetDefinition.fields[0].propertyName;
-       widgetElement.set("property", propertyName);
-       widgetElement.set("value", this.input[propertyName]);
-
-       // set widget property
-       widgetElement.set("label", widgetDefinition.labels.any);
-       widgetElement.set("readonly", this.readonly);
-
-       this.setWidgetProperties(widgetDefinition,widgetElement);
-
-       return widgetElement;
-    },
-
-    getNuxeoWidget: function(widgetDefinition) {
-        var element;
-
-        switch (widgetDefinition.type) {
-            case 'text':
-				var format = this.getWidgetProperty(widgetDefinition,'format');
-				switch (format) {
-				  case 'ssn': element = document.createElement('nuxeo-widget-ssn');break;
-				  case 'phone': element = document.createElement('nuxeo-widget-phone');break;
-				  case 'zip': element = document.createElement('nuxeo-widget-zip');break;
-				  default: element = document.createElement('nuxeo-widget-text');
-				}
-                break;
-
-            case 'double':
-                element = document.createElement('nuxeo-widget-number');break;
-
-            case 'int':
-                element = document.createElement('nuxeo-widget-number');break;
-
-            case 'datetime':
-                element = document.createElement('nuxeo-widget-date');
-                break;
-
-             case 'checkbox':
-                 element = document.createElement('nuxeo-widget-checkbox');
-                 break;
-
-            case 'textarea':
-                element = document.createElement('nuxeo-widget-textarea');
-                break;
-
-            case 'selectOneDirectory':
-                element = document.createElement('nuxeo-widget-dropdown');break;
-
-            case 'suggestOneDirectory':
-                element = document.createElement('nuxeo-widget-directory-selection');break;
-
-             case 'suggestManyDirectory':
-                 element = document.createElement('nuxeo-widget-directory-selection');
-                 element.set("multiple",true);
-                 break;
-
-            case 'selectManyCheckboxDirectory':
-                element = document.createElement('nuxeo-widget-checkbox-multiple');
-                var list = widgetDefinition.selectOptions;
-                element.set("list", list);
-                break;
-
-            case 'singleDocumentSuggestion':
-                element = document.createElement('nuxeo-widget-document-selection');
-                break;
-
-            case 'multipleDocumentSuggestion':
-                element = document.createElement('nuxeo-widget-document-selection');
-                element.set("multiple", true);
-                break;
-
-            case 'singleUserSuggestion':
-                element = document.createElement('nuxeo-widget-user-selection');
-                break;
-
-             case 'multipleUsersSuggestion':
-                element = document.createElement('nuxeo-widget-user-selection');
-                element.set("multiple", true);
-                break;
-
-             case 'list':
-                element = document.createElement('nuxeo-widget-list');
-                element.set("widgetList", widgetDefinition.subWidgets);
-                element.set("mode", this.mode);
-                break;
-
-              case 'file_preview':
-                element = document.createElement('nuxeo-widget-pdf-preview');
-                var propertyName = widgetDefinition.fields[0].propertyName;
-                element.set("src", this.input[propertyName].data);
-                break;
-
-            default:
-                element = document.createElement('nuxeo-widget-text');
-        }
-        return element;
-    },
-
-
-    getWidgetProperty: function(widgetDefinition, propertyName) {
-      var propertyValue;
-
-      if (widgetDefinition.propertiesByWidgetMode===undefined) return propertyValue;
-
-      var widgetProperties = widgetDefinition.propertiesByWidgetMode[this.mode];
-      if (widgetProperties !== undefined && widgetProperties !== null) {
-       propertyValue = widgetProperties[propertyName];
-      }
-
-      if (propertyValue !== undefined && propertyValue !== null) return propertyValue;
-      //if empty for current mode, try any
-
-      widgetProperties = widgetDefinition.propertiesByWidgetMode.any;
-      if (widgetProperties !== undefined && widgetProperties !== null) {
-       propertyValue = widgetProperties[propertyName];
-      }
-
-      return propertyValue;
-    },
-
-    setWidgetProperties: function(widgetDefinition, widgetElement) {
-      if (widgetDefinition.propertiesByWidgetMode === undefined) return;
-      var widgetProperties = widgetDefinition.propertiesByWidgetMode[this.mode];
-      if (widgetProperties === undefined) return;
-      for (var property in widgetProperties) {
-        widgetElement.set(property, widgetProperties[property]);
-      }
-    }
-};
+    };
 </script>
