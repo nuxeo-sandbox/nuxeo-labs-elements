@@ -35,7 +35,12 @@ Contributors:
         <div class="root">
             <div class="label">[[label]]</div>
             <template is="dom-repeat" items="{{list}}">
-                <paper-checkbox disabled=[[readOnly]] value=[[item.itemValue]] checked="[[_checked(item)]]">[[item.itemLabel]]</paper-checkbox>
+                <paper-checkbox
+                  disabled="[[readOnly]]"
+                  value="[[item.itemValue]]"
+                  checked="[[_checked(item)]]">
+                  [[item.itemLabel]]
+                </paper-checkbox>
             </template>
         </div>
     </template>

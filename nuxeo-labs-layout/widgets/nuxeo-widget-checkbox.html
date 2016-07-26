@@ -32,7 +32,7 @@ Contributors:
         </style>
 
         <div class="root">
-            <paper-checkbox disabled=[[readOnly]] checked={{value}}>[[label]]</paper-checkbox>
+            <paper-checkbox disabled="[[readOnly]]" checked="{{value}}">[[label]]</paper-checkbox>
         </div>
     </template>
 
@@ -43,7 +43,7 @@ Contributors:
             behaviors: [NuxeoWidgetBehavior],
 
             ready: function() {
-                console.log("--nuxeo-widget-checkbox-multiple ready");
+                console.log("--nuxeo-widget-checkbox ready");
             },
 
         });
