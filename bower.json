@@ -18,14 +18,14 @@
     "polymer": "Polymer/polymer#^1.1.4",
     "paper-elements": "PolymerElements/paper-elements#^1.0.5",
     "gold-elements": "PolymerElements/gold-elements#^1.0.1",
-    "nuxeo-util-elements": "nuxeo-sandbox/nuxeo-util-elements#^1.0.1",
     "google-chart": "GoogleWebComponents/google-chart#^1.0.4",
     "paper-date-picker":"bendavis78/paper-date-picker#^1.1.4",
-    "nuxeo-elements": "nuxeo/nuxeo-elements#^0.3.0",
-    "nuxeo-ui-elements": "nuxeo/nuxeo-ui-elements#^0.1.1"
+    "nuxeo-elements": "nuxeo/nuxeo-elements#^0.4.0",
+    "nuxeo-ui-elements": "nuxeo/nuxeo-ui-elements#^0.2.0",
+    "nuxeo-util-elements": "nuxeo-sandbox/nuxeo-util-elements#^1.1.0"
   },
   "devDependencies": {
-    "moment": "^2.13.0",
+    "moment": "^2.10.6",
     "font-roboto": "PolymerElements/font-roboto#^1.0.1"
   }
 }
