@@ -1,0 +1,113 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+-->
+
+<link rel="import" href="../../../nuxeo-elements/nuxeo-resource.html">
+
+<!--
+An element which adds a label to each aggregate entry assuming the key is directory entry
+
+Example:
+
+    <nuxeo-es-bucket-directory-label-enricher
+      input={{input_agg}}
+      output={{output_agg}}
+      directory-name="subjects">
+    </nuxeo-es-bucket-directory-label-enricher>
+
+@group Nuxeo Labs Elements
+@element nuxeo-es-bucket-directory-label-enricher
+-->
+<dom-module id="nuxeo-es-bucket-directory-label-enricher">
+  <style>
+    :host {
+      display: none;
+    }
+
+  </style>
+  <template>
+    <nuxeo-resource
+      id="directoryGetter"
+      path="/directory/{{directoryName}}"
+      on-response="_onDirectoryLoaded">
+    </nuxeo-resource>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'nuxeo-es-bucket-directory-label-enricher',
+
+        properties: {
+
+          input: {
+            type: Array,
+            observer: '_convert'
+          },
+
+          output: {
+            type: Array,
+            notify: true,
+            readOnly: true
+          },
+
+          directoryName: {
+            type:String
+          }
+        },
+
+        _convert: function() {
+          // Don't query if we don't acutally have an input.
+          if (!this.input || this.input.length === 0) {
+            this._setOutput([]);
+            return;
+          }
+
+          // fetch documents
+          this.$.directoryGetter.params = {
+            pageSize: 0,
+            maxResults: 0
+          };
+          this.$.directoryGetter.get();
+        },
+
+        _onDirectoryLoaded: function(e) {
+          var response = e.detail.response;
+          if (response === undefined || response === null) return;
+
+          var aggregates = this.input;
+          var entries = response.entries;
+          var results = [];
+
+          for (var i = 0; i < aggregates.length; i++) {
+            var aggregate = aggregates[i];
+            for (var j = 0; j < entries.length; j++) {
+              var entry = entries[j];
+              if (entry.properties.id === aggregate.key) {
+                aggregate.label = entry.properties.label;
+                results.push(aggregate);
+              }
+            }
+          }
+          this._setOutput(results);
+        }
+      });
+    })();
+
+  </script>
+</dom-module>
