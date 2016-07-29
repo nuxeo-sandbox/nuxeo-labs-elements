@@ -18,17 +18,20 @@ Contributors:
   Josh Fletcher <jfletcher@nuxeo.com>
 -->
 <link rel="import"
-    href="../../polymer/polymer.html">
+    href="../../nuxeo-util-elements/nuxeo-util-mimetypes.html">
 <link rel="import"
     href="nuxeo-labs-chart-data-behavior.html">
 <!--
 An element to convert data returned from Nuxeo into labels, series, and values
-for use with charts.
+for use with charts (chart.js and Google Chart).
 
     <nuxeo-labs-chart-data data="[[data]]"
                           labels="{{labels}}"
                           series="{{series}}"
-                          values="{{values}}">
+                          values="{{values}}"
+                          rows="{{rows}}"
+                          rows-from-mime-type="{{rowsFromMimeType}}"
+                          table-for-treemap="{{tableForTreemap}}">
     </nuxeo-labs-chart-data>
 
 @group Nuxeo Labs Elements
@@ -57,13 +60,32 @@ for use with charts.
         values: {
           type: Array,
           notify: true
+        },
+        rows: {
+          type: Array,
+          notify: true
+        },
+        rowsFromMimeType: {
+          type: Array,
+          notify: true
+        },
+        tableForTreemap: {
+          type: Array,
+          notify: true
+        },
+        isMimeType: {
+          type: Boolean,
+          value: false
         }
       },
 
       observers: [
         '_computeSeries(data)',
         '_computeValues(data)',
-        '_computeLabels(data)'
+        '_computeLabels(data)',
+        '_computeRows(data)',
+        '_computeRowsFromMimeType(data,isMimeType)',
+        '_computeTableForTreemap(data)'
       ],
 
       _computeSeries: function(data) {
@@ -76,7 +98,21 @@ for use with charts.
 
       _computeLabels: function(data) {
         this.lables = this._labels(data);
+      },
+
+      _computeRows: function(data) {
+        this.rows = this._rows(data);
+      },
+
+      _computeRowsFromMimeType: function(data) {
+        if (this.isMimeType)
+          this.rowsFromMimeType = this._rowsFromMimeType(data);
+      },
+
+      _computeTableForTreemap: function(data) {
+        this.tableForTreemap = this._tableForTreemap(data);
       }
+
     });
   </script>
 

@@ -36,14 +36,44 @@ Contributors:
       href="../bower_components/paper-card/paper-card.html">
   <link rel="import"
       href="../bower_components/chart-elements/chart-pie.html">
+  <link rel="import"
+      href="../bower_components/google-chart/google-chart.html">
+
 
   <link rel="import"
       href="../nuxeo-labs-charts/nuxeo-labs-chart-data.html">
 
-  <style>
+  <style is="custom-style">
     body {
       font-family: Arial, Helvetica, sans-serif;
       padding: 10px;
+      display: inline-flex;
+    }
+
+    chart-pie {
+      height: 300px;
+      margin: 25px auto 0 auto;
+      width: 300px;
+      display: block;
+      font-size: 0.8em;
+    }
+
+    chart-pie::content .chart-legend ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    chart-pie::content .chart-legend li {
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 5px;
+    }
+
+    chart-pie::content .chart-legend li span {
+      height: 12px;
+      width: 12px;
+      border-radius: 3px;
+      display: table-cell;
     }
   </style>
 
@@ -54,7 +84,8 @@ Contributors:
 
   <template is="dom-bind">
 
-    <nuxeo-connection url="http://dam.cloud.nuxeo.com"></nuxeo-connection>
+    <nuxeo-connection url="http://cm.cloud.nuxeo.com/nuxeo">
+    </nuxeo-connection>
 
     <nuxeo-repository-data ecm-primary-type="File,Note,Folder,Collection,Workspace"
         grouped-by="ecm:primaryType"
@@ -64,14 +95,27 @@ Contributors:
 
     <nuxeo-labs-chart-data data="[[typeCount]]"
         values="{{values}}"
-        series="{{series}}"></nuxeo-labs-chart-data>
+        series="{{series}}"
+        rows="{{rows}}"></nuxeo-labs-chart-data>
 
+    <!-- Chart.js -->
     <paper-card heading="Entity Types">
       <div class="card-content">
         <chart-pie values="[[values]]"
             series="[[series]]"
             options='{"responsive": true, "animation": false}'>
         </chart-pie>
+      </div>
+    </paper-card>
+
+    <!-- Google Chart -->
+    <paper-card heading="Entity Types">
+      <div class="card-content">
+        <google-chart class="center-chart"
+            type="pie"
+            cols='[{"label": "Type", "type": "string"},{"label": "Value", "type": "number"}]'
+            rows="[[rows]]">
+        </google-chart>
       </div>
     </paper-card>
 

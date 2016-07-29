@@ -20,30 +20,98 @@ Contributors:
 Copied from: https://raw.githubusercontent.com/nuxeo/nuxeo-web-ui/master/app/elements/nuxeo-admin/nuxeo-chart-data-behavior.html
 -->
 <script>
-var Nuxeo = Nuxeo || {};
-Nuxeo.LabsChartDataBehavior = {
-  _labels: function(data) {
-    return data.map(function(entry) {
-      if (Array.isArray(entry.value)) {
-        return entry.value.map(this._labels.bind(this));
-      } else {
-        return entry.key;
+  var Nuxeo = Nuxeo || {};
+  Nuxeo.LabsChartDataBehavior = {
+
+    // Extract data labels for use with chart.js
+    _labels: function(data) {
+      return data.map(function(entry) {
+        if (Array.isArray(entry.value)) {
+          return entry.value.map(this._labels.bind(this));
+        } else {
+          return entry.key;
+        }
+      });
+    },
+
+    // Extract data series for use with chart.js
+    _series: function(data) {
+      return data.map(function(obj) {
+        return obj.key;
+      });
+    },
+
+    // Extract data values for use with chart.js
+    _values: function(data) {
+      return [data.map(function(entry) {
+        if (Array.isArray(entry.value)) {
+          return entry.value.map(this._values.bind(this));
+        } else {
+          return entry.value;
+        }
+      })];
+    },
+
+    // Extract data rows for use with Google Chart
+    _rows: function(data) {
+      return data.map(function(e) {
+        return [e.key, e.value];
+      });
+    },
+
+    // Extract data rows for use with Google Chart
+    // Instead of just returning the rows (using _rows), convert the MIME Types to something more friendly.
+    _rowsFromMimeType: function(data) {
+      for (var i = 0; i < data.length; i++) {
+        var mimeType = data[i].key;
+        var friendlyName = this._convertMimeType(mimeType, 'true')
+        if (friendlyName) {
+          data[i].key = friendlyName;
+        } else {
+          var fileExts = this._convertMimeType(mimeType);
+          if (fileExts) {
+            data[i].key = fileExts;
+          }
+        }
       }
-    });
-  },
-  _series: function(data) {
-    return data.map(function(obj) {
-      return obj.key;
-    });
-  },
-  _values: function(data) {
-    return [data.map(function(entry) {
-      if (Array.isArray(entry.value)) {
-        return entry.value.map(this._values.bind(this));
-      } else {
-        return entry.value;
+      return this._rows(data);
+    },
+
+    // Convert the MIME Type so something more friendly for the user.
+    _convertMimeType: function(mimeType, friendly) {
+      var mimeTypeLookup = document.createElement('nuxeo-util-mimetypes');
+      mimeTypeLookup.mimeType = mimeType;
+      mimeTypeLookup.friendly = friendly;
+      return mimeTypeLookup.query();
+    },
+
+    // Extract data for use with Google Chart
+    // produces a table with "Label", "Parent", "Value"] for usage in a treemap
+    _tableForTreemap: function(data, separator) {
+      var separator = separator || '/',
+        res = [
+          ["", "Parent", "Value"],
+          ["All", null, 0]
+        ],
+        parents = {}; // aggregate results in the parent
+      data.forEach(function(e) {
+        var parts = e.key.split(separator),
+          parentKey = parts[0],
+          key = parts[1];
+        res.push([key, parentKey, e.value]);
+
+        if (!parents[parentKey]) {
+          parents[parentKey] = e.value;
+        } else {
+          parents[parentKey] += e.value;
+        }
+      });
+
+      for (var key in parents) {
+        res.push([key, "All", parents[key]]);
       }
-    })];
-  }
-};
+      return res;
+    }
+
+  };
 </script>
