@@ -1,0 +1,83 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and contributors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+  Josh Fletcher <jfletcher@nuxeo.com>
+-->
+<link rel="import"
+    href="../../polymer/polymer.html">
+<link rel="import"
+    href="nuxeo-labs-chart-data-behavior.html">
+<!--
+An element to convert data returned from Nuxeo into labels, series, and values
+for use with charts.
+
+    <nuxeo-labs-chart-data data="[[data]]"
+                          labels="{{labels}}"
+                          series="{{series}}"
+                          values="{{values}}">
+    </nuxeo-labs-chart-data>
+
+@group Nuxeo Labs Elements
+@element nuxeo-labs-chart-data
+@demo demo/chart-data.html
+-->
+<dom-module id="nuxeo-labs-chart-data">
+  <script>
+    Polymer({
+      is: 'nuxeo-labs-chart-data',
+
+      behaviors: [Nuxeo.LabsChartDataBehavior],
+
+      properties: {
+        data: {
+          type: Object
+        },
+        labels: {
+          type: Array,
+          notify: true
+        },
+        series: {
+          type: Array,
+          notify: true
+        },
+        values: {
+          type: Array,
+          notify: true
+        }
+      },
+
+      observers: [
+        '_computeSeries(data)',
+        '_computeValues(data)',
+        '_computeLabels(data)'
+      ],
+
+      _computeSeries: function(data) {
+        this.series = this._series(data);
+      },
+
+      _computeValues: function(data) {
+        this.values = this._values(data);
+      },
+
+      _computeLabels: function(data) {
+        this.lables = this._labels(data);
+      }
+    });
+  </script>
+
+</dom-module>
