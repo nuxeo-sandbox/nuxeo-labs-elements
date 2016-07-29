@@ -1,0 +1,157 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+  Joshua Fletcher <jfletcher@nuxeo.com>
+-->
+<link rel="import"
+    href="../../polymer/polymer.html">
+<link rel="import"
+    href="../../google-chart/google-chart.html">
+<!--
+An element for displaying aggregate data using a map. If the user clicks a
+region, the value is returned. Uses Google GeoChart.
+
+https://developers.google.com/chart/interactive/docs/gallery/geochart
+
+Example:
+
+    <nuxeo-labs-map-chart title="Incidents per State"
+                          region="US"
+                          resolution="provinces"
+                          data="[[data]]"
+                          selected-value="{{selectedValue}}">
+    </nuxeo-labs-map-chart>
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--nuxeo-labs-map-chart` | Mixin applied to the element | `{}`
+
+@group Nuxeo Labs Elements
+@element nuxeo-labs-map-chart
+@demo demo/map-chart.html
+-->
+<dom-module id="nuxeo-labs-map-chart">
+
+  <template>
+
+    <style>
+      :host {
+        @apply(--nuxeo-labs-map-chart);
+      }
+    </style>
+
+    <google-chart type='geo'
+        options="[[_options]]"
+        data="[[data]]"
+        on-google-chart-select="_handleSelect">
+    </google-chart>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'nuxeo-labs-map-chart',
+
+      properties: {
+        /**
+         * The title for the chart.
+         * @public
+         */
+        title: String,
+
+        /**
+         * The data for the chart.
+         *
+         * Example:
+         * <pre>[["State", "Count"],
+         *  ["NY", 53],
+         *  ["CA", 33]]</pre>
+         * @type google.visualization.DataTable, array, object, or string
+         * @public
+         */
+        data: {
+          type: Object, // or array, or object, or string
+        },
+
+        /**
+         * The value selected by the user.
+         * @public
+         */
+        selectedValue: {
+          type: String,
+          notify: true
+        },
+
+        /**
+         * The region for the chart, e.g. "US".
+         * @public
+         */
+        region: String,
+
+        /**
+         * The resolution for the chart, e.g. "provinces"
+         * @public
+         */
+        resolution: String,
+
+        width: {
+          type: Number,
+          value: 400
+        },
+
+        height: {
+          type: Number,
+          value: 300
+        },
+
+        /**
+         * Chart options.
+         */
+        _options: Object
+      },
+
+      observers: ['_computeOptions(region,resolution,width,height)'],
+
+      _computeOptions: function(region, resolution) {
+        this._options = {
+          "region": this.region,
+          "resolution": this.resolution,
+          "width": this.width,
+          "height": this.height
+        };
+      },
+
+      _handleSelect: function(event) {
+        if (event.detail.selection.length > 0) {
+          this.selectedValue = this.data[event.detail.selection[0].row + 1][0];
+          console.log(this.data[event.detail.selection[0].row + 1][0]);
+        }
+      },
+
+      _debug: function(data) {
+        debugger;
+        return data;
+      }
+
+    });
+  </script>
+
+</dom-module>

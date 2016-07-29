@@ -1,0 +1,41 @@
+{
+  "name": "nuxeo-dataviz-elements",
+  "authors": [
+    "Nelson Silva <nsilva@nuxeo.com>"
+  ],
+  "description": "A set of elements for Nuxeo Data Visualization.",
+  "keywords": [
+    "web-components",
+    "polymer",
+    "nuxeo",
+    "workflow",
+    "metrics"
+  ],
+  "main": "nuxeo-dataviz-elements.html",
+  "license": "Apache 2.0",
+  "homepage": "https://github.com/nuxeo/nuxeo-dataviz-elements/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.4",
+    "nuxeo-elements": "nuxeo/nuxeo-elements#0.4.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#1.0.5",
+    "moment": "2.10.6",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0",
+    "web-component-tester": "*"
+  },
+  "version": "0.4.0",
+  "_release": "0.4.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.4.0",
+    "commit": "2e935eafb97a558ed6d221820af89f4ef5798f5a"
+  },
+  "_source": "git://github.com/nuxeo/nuxeo-dataviz-elements.git",
+  "_target": "^0.4.0",
+  "_originalSource": "nuxeo/nuxeo-dataviz-elements"
+}

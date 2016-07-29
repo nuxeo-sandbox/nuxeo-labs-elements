@@ -1,0 +1,48 @@
+{
+  "subWidgets": [
+  {
+    "name": "sub0",
+    "type": "text",
+    "labels": {"any": "Full Name"},
+    "translated": false,
+    "handlingLabels": false,
+    "fields": [          {
+      "fieldName": "fullname",
+      "propertyName": "fullname"
+    }]
+  },
+  {
+    "name": "sub1",
+    "type": "int",
+    "labels": {"any": "Percentage"},
+    "translated": false,
+    "handlingLabels": false,
+    "fields": [          {
+      "fieldName": "percentage",
+      "propertyName": "percentage"
+    }]
+  },
+  {
+    "name": "sub2",
+    "type": "selectOneDirectory",
+    "labels": {"any": "Relationship"},
+    "translated": false,
+    "handlingLabels": false,
+    "fields": [          {
+      "fieldName": "relationship",
+      "propertyName": "relationship"
+    }],
+    "propertiesByWidgetMode": {"edit": {"directoryName": "Relationship"}}
+  },
+  {
+    "name": "sub3",
+    "type": "text",
+    "labels": {"any": "SSN"},
+    "translated": false,
+    "handlingLabels": false,
+    "fields": [          {
+      "fieldName": "ssn",
+      "propertyName": "ssn"
+    }]
+  }
+]}

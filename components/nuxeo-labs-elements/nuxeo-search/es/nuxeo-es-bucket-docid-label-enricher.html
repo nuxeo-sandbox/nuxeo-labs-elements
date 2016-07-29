@@ -1,0 +1,114 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+-->
+
+<link rel="import" href="../../../nuxeo-elements/nuxeo-resource.html">
+
+<!--
+An element which adds a label to each aggregate entry assuming the key is a document ID
+
+Example:
+
+    <nuxeo-es-bucket-docid-label-enricher
+      input={{input_agg}}
+      output={{output_agg}}>
+    </nuxeo-es-bucket-docid-label-enricher>
+
+@group Nuxeo Labs Elements
+@element nuxeo-es-bucket-docid-label-enricher
+-->
+<dom-module id="nuxeo-es-bucket-docid-label-enricher">
+  <style>
+    :host {
+      display: none;
+    }
+
+  </style>
+  <template>
+    <nuxeo-resource id="queryExecutor" path="/query" on-response="_onQueryExecuted"></nuxeo-resource>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'nuxeo-es-bucket-docid-label-enricher',
+
+        properties: {
+
+          input: {
+            type: Array,
+            observer: '_convert'
+          },
+
+          output: {
+            type: Array,
+            notify: true,
+            readOnly: true
+          }
+        },
+
+        _convert: function() {
+          // Don't query if we don't acutally have an input.
+          if (!this.input || this.input.length === 0) {
+            this._setOutput([]);
+            return;
+          }
+
+          // Build id list
+          var ids = "(";
+          for (var i = 0; i < this.input.length; i++) {
+            if (i !== 0)
+              ids += ',';
+            ids += "'" + this.input[i].key + "'";
+          }
+          ids += ')';
+          if (ids.length < 3)
+            return;
+
+          // fetch documents
+          this.$.queryExecutor.params = {
+            query: "SELECT * FROM Document WHERE ecm:uuid IN " + ids
+          };
+          this.$.queryExecutor.get();
+        },
+
+        _onQueryExecuted: function(e) {
+          var response = e.detail.response;
+          if (response === undefined || response === null) return;
+
+          var aggregates = this.input;
+          var entries = response.entries;
+          var results = [];
+
+          for (var i = 0; i < aggregates.length; i++) {
+            var aggregate = aggregates[i];
+            for (var j = 0; j < entries.length; j++) {
+              var entry = entries[j];
+              if (entry.uid === aggregate.key) {
+                aggregate.label = entry.title;
+                results.push(aggregate);
+              }
+            }
+          }
+          this._setOutput(results);
+        }
+      });
+    })();
+
+  </script>
+</dom-module>

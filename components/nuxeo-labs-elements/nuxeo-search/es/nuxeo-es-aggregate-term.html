@@ -1,0 +1,152 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+  Michael Vachette <mvachette@nuxeo.com>
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<!--
+An element which builds an aggregate filter
+
+Example:
+
+    <nuxeo-es-aggregate-term></nuxeo-es-aggregate-term>
+
+@group Nuxeo Labs Elements
+@element nuxeo-es-aggregate-term
+-->
+<dom-module id="nuxeo-es-aggregate-term">
+   <style>
+      :host {
+         display: none;
+      }
+
+   </style>
+   <template></template>
+
+   <script>
+      Polymer({
+         is: 'nuxeo-es-aggregate-term',
+
+         properties: {
+
+            /**
+           * The name of the aggregate.
+           */
+            name: {
+               type: String
+            },
+
+            /**
+           * The field to aggregate.
+           */
+            field: {
+               type: String
+            },
+
+            /**
+           * The selected values
+           */
+            selectedValues: {
+               type: Array,
+               value: function() {
+                  return [];
+               },
+               notify:true
+            },
+
+            /**
+           * The aggregate query corresponding to the field and name
+           */
+            agg: {
+               type: Object,
+               notify: true,
+               computed: '_computeAgg(name,field)'
+            },
+
+            /**
+           * The filter corresponding to the field, name and slected values
+           */
+            filter: {
+               type: Object,
+               notify: true,
+               readOnly:true
+            }
+         },
+
+         observers: ['_notify(agg,filter)','_computeFilter(name,field)','_onSelectedValuesChange(selectedValues.splices)'],
+
+         isAggregate: function() {
+            return true;
+         },
+
+         reset: function() {
+            if (this.selectedValues === undefined || this.selectedValues ===null) return;
+            this.splice('selectedValues',0,this.selectedValues.length);
+         },
+
+         ready: function() {
+            //When component is ready.
+         },
+
+         _computeAgg: function() {
+            if (this.name === undefined || this.field === undefined)
+               return;
+            var agg = {
+               filter: {
+                  match_all: {}
+               },
+               aggregations: {}
+            };
+
+            agg.aggregations["" + this.name + "_agg"] = {
+               terms: {
+                  field: this.field,
+                  order: {
+                     _count: "desc"
+                  }
+               }
+            };
+            return agg;
+         },
+
+         _computeFilter: function() {
+            if (this.name === undefined || this.field === undefined)
+               return;
+
+            var filter={};
+            if (this.selectedValues.length>0) {
+               filter = {
+                  terms: {}
+               }
+               filter.terms[this.field] = this.selectedValues;
+            }
+            this._setFilter(filter);
+         },
+
+         _onSelectedValuesChange:function() {
+            this._computeFilter();
+         },
+
+         _notify: function() {
+            if (this.filter !== undefined && this.agg !== undefined)
+               this.fire('aggregate-change', {kicked: true});
+            }
+
+      });
+   </script>
+
+</dom-module>

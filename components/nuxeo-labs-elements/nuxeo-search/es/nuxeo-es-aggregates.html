@@ -1,0 +1,134 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+  Michael Vachette <mvachette@nuxeo.com>
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<!--
+An element which build an agg filter using child elements
+
+Example:
+
+    <nuxeo-es-aggregates></nuxeo-es-aggregates>
+
+@group Nuxeo Labs Elements
+@element nuxeo-es-aggregates
+-->
+<dom-module id="nuxeo-es-aggregates">
+  <style>
+
+  </style>
+  <template>
+     <content id="aggregates"></content>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'nuxeo-es-aggregates',
+
+        properties: {
+          /**
+           * The computed aggregation
+           */
+         agg : {
+            type: Object,
+            readOnly: true,
+            notify:true,
+            value: function() {
+               return {};
+            }
+         },
+
+         /**
+          * The computed query post filters
+          */
+         postFilters : {
+            type: Object,
+            readOnly: true,
+            notify:true,
+            value: function() {
+               return {};
+            }
+         }
+
+        },
+
+        ready: function() {
+          //When component is ready.
+          this._setListeners();
+        },
+
+        reset:function() {
+            var children = this.getContentChildren('#aggregates');
+            for (var i=0;i<children.length;i++) {
+               var child = children[i];
+               if (child.isAggregate === undefined) continue;
+               child.reset();
+            }
+         },
+
+        _setListeners:function() {
+            var children = Polymer.dom(this).children;
+            var _this=this;
+            this.addEventListener('aggregate-change', function (e) {
+               _this._computeProperties();
+            });
+        },
+
+        _computeProperties:function() {
+            //var children = Polymer.dom(this).children;
+            var children = this.getContentChildren('#aggregates');
+            var agg = {};
+            var postFilters = {};
+            console.log('compute properties');
+            for(var i=0;i<children.length;i++) {
+                  var current = children[i];
+
+                  if (current.isAggregate === undefined) continue // this is not an aggregate elements
+
+                  if (!current.agg && !current.filter) return; //aggregates elements not fully initialized, no need to continue
+
+                  //add aggregation
+                  agg[current.name+"_agg_filter"] = {};
+                  agg[current.name+"_agg_filter"].aggregations = current.agg.aggregations;
+                  agg[current.name+"_agg_filter"].filter = current.agg.filter;
+
+                  // add post filter
+                  if (current.selectedValues && current.selectedValues.length>0) {
+                     if (postFilters.and ===undefined) postFilters = {and:{filters:[]}};
+                     postFilters.and.filters.push(current.filter);
+                  }
+                  // set own filter in agg
+                  for(var j=0;j<children.length;j++) {
+                     if (i==j) continue;
+                     var other = children[j];
+                     if (current.isAggregate !== undefined && other.filter!==undefined && other.selectedValues && other.selectedValues.length>0) {
+                           if (agg[current.name+"_agg_filter"].filter.and === undefined) agg[current.name+"_agg_filter"].filter = {and: {filters: []}};
+                           agg[current.name+"_agg_filter"].filter.and.filters.push(other.filter);
+                     }
+                  }
+            }
+            this._setAgg(agg);
+            this._setPostFilters(postFilters);
+        }
+
+      });
+    })();
+  </script>
+
+</dom-module>

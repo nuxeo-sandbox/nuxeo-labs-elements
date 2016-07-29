@@ -1,0 +1,84 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+-->
+<link rel="import" href="../../../polymer/polymer.html">
+<link rel="import" href="../../../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../../paper-menu/paper-menu.html">
+<link rel="import" href="../../../paper-item/paper-item.html">
+<link rel="import" href="../../../nuxeo-elements/nuxeo-resource.html">
+
+<link rel="import" href="../behaviors/nuxeo-widget-behavior.html">
+<link rel="import" href="./nuxeo-widget-styles.html">
+
+<dom-module id="nuxeo-widget-dropdown">
+    <template>
+        <style include="nuxeo-widget-styles">
+            .value {
+              display: inline-block;
+            }
+            paper-dropdown-menu {
+              width:100%;
+            }
+        </style>
+        <nuxeo-resource id="directoryLoader" on-response="_directoryReceived"></nuxeo-resource>
+        <div class="root">
+            <template is="dom-if" if="[[readonly]]">
+                <div class="value">[[value]]</div>
+            </template>
+            <template is="dom-if" if="[[!readonly]]">
+                <paper-dropdown-menu required="{{required}}" label="[[label]]">
+                    <paper-menu class="dropdown-content" attr-for-selected="value" selected="{{value}}">
+                        <template is="dom-repeat" items="{{list}}">
+                            <paper-item value="[[item.properties.id]]">[[item.properties.label]]</paper-item>
+                        </template>
+                    </paper-menu>
+                </paper-dropdown-menu>
+            </template>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'nuxeo-widget-dropdown',
+
+            behaviors: [NuxeoWidgetBehavior],
+
+            properties: {
+              directoryName: {
+                  type: String,
+                  observer: '_inDirectoryNameChanged'
+               }
+            },
+
+            ready: function() {
+                console.log("--nuxeo-widget-dropdown ready");
+            },
+
+            _inDirectoryNameChanged: function() {
+              this.$.directoryLoader.path='directory/'+this.directoryName;
+              this.$.directoryLoader.execute();
+            },
+
+            _directoryReceived:function(e) {
+              this.set('list',e.detail.response.entries);
+            }
+
+        });
+    </script>
+
+</dom-module>

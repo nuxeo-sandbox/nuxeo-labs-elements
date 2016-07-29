@@ -1,0 +1,28 @@
+{
+  "name": "chart-elements",
+  "keywords": [
+    "seed",
+    "polymer",
+    "web-components"
+  ],
+  "main": "chart-elements.html",
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "chartjs": "^1.0.2",
+    "Chart.HorizontalBar.js": "chart.horizontalbar#~1.0.3",
+    "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#^1.0.3"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+  },
+  "homepage": "https://github.com/nuxeo/chart-elements",
+  "_release": "dc4be42cd8",
+  "_resolution": {
+    "type": "branch",
+    "branch": "nuxeo-chart-elements",
+    "commit": "dc4be42cd872cf3814e7a22e647ba375ca0ef06e"
+  },
+  "_source": "git://github.com/nuxeo/chart-elements.git",
+  "_target": "nuxeo-chart-elements",
+  "_originalSource": "nuxeo/chart-elements"
+}

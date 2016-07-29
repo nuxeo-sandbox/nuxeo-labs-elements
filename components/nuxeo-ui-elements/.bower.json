@@ -1,0 +1,51 @@
+{
+  "name": "nuxeo-ui-elements",
+  "authors": [
+    "Nelson Silva <nsilva@nuxeo.com>",
+    "Guillaume Renard <grenard@nuxeo.com>"
+  ],
+  "description": "Nuxeo UI Web Components.",
+  "keywords": [
+    "nuxeo",
+    "web-components",
+    "polymer",
+    "metrics",
+    "d3js"
+  ],
+  "main": "nuxeo-ui-elements.html",
+  "license": "Apache 2.0",
+  "homepage": "https://github.com/nuxeo/nuxeo-ui-elements/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0",
+    "videojs": "5.10.6",
+    "cropperjs": "0.5.6",
+    "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#~1.0.2",
+    "iron-elements": "PolymerElements/iron-elements#^1.0.0",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.1",
+    "nuxeo-elements": "nuxeo/nuxeo-elements#0.4.0",
+    "gold-email-input": "PolymerElements/gold-email-input#^1.0.6",
+    "better-dateinput-polyfill": "1.5.2",
+    "moment": "2.10.6",
+    "d3": "3.5.17",
+    "randomcolor": "0.4.1",
+    "paper-typeahead": "nuxeo/paper-typeahead#0.2.1"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
+    "web-component-tester": "^4.0.0"
+  },
+  "version": "0.2.0",
+  "_release": "0.2.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.2.0",
+    "commit": "5301bfe33e23c3f391390f3ae59b3a5f40e75040"
+  },
+  "_source": "git://github.com/nuxeo/nuxeo-ui-elements.git",
+  "_target": "^0.2.0",
+  "_originalSource": "nuxeo/nuxeo-ui-elements"
+}

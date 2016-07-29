@@ -1,0 +1,134 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+-->
+<link rel="import"
+    href="../../polymer/polymer.html">
+<link rel="import"
+    href="./behaviors/nuxeo-labs-layout-behavior.html">
+<link rel="import"
+    href="./nuxeo-widgets.html">
+
+<!--
+An element which renders a Nuxeo Layout
+
+Example:
+
+      <nuxeo-labs-layout
+         doc="[[doc]]"
+         layout="[[layout]]"
+         readonly>
+      </nuxeo-labs-layout>
+
+@group Nuxeo Labs UI elements
+@element nuxeo-labs-layout
+@demo demo/nuxeo-labs-layout-demo.html
+-->
+
+<dom-module id="nuxeo-labs-layout">
+
+    <template>
+        <style>
+            :host {
+                width: 100%;
+            }
+
+            .row {
+                width: 100%;
+                display: flex;
+            }
+
+            .cell {
+                flex-basis: 100%;
+                margin: 1% 2% 1% 0;
+            }
+        </style>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'nuxeo-labs-layout',
+
+            behaviors: [NuxeoLabsLayoutBehavior],
+
+            properties: {},
+
+            observers: ['_updateLayout(input,layout)'],
+
+            ready: function() {
+                console.log("--nuxeo-layout ready");
+                this.addEventListener('widget-value-changed', function(e) {
+                    console.log("--property changed");
+                    this.input[e.srcElement.property] = e.srcElement.value;
+                });
+            },
+
+            _updateLayout: function() {
+                console.log("--update layout");
+
+                //Remove local DOM
+                var root = this.root;
+                Polymer.dom(this.root).childNodes.forEach(function(entry) {
+                    Polymer.dom(root).removeChild(entry);
+                });
+
+                var rows = this.layout.rows;
+                var widgets = this.layout.widgets;
+
+                //create a map of widgets
+                {
+                    var widgetDefinitionMap = {};
+                    for (var i = 0; i < widgets.length; i++) {
+                        widgetDefinitionMap[widgets[i].name] = widgets[i];
+                    }
+                    widgets = widgetDefinitionMap;
+                }
+
+                var topElement = document.createElement('div');
+                topElement.setAttribute("class", "topElement");
+
+                // render layout DOM
+                for (var i = 0; i < rows.length; i++) {
+                    var row = rows[i];
+                    var rowWidgets = row.widgets;
+
+                    //create row
+                    var rowElement = document.createElement('div');
+                    rowElement.setAttribute("class", "row");
+                    Polymer.dom(topElement).appendChild(rowElement);
+
+                    for (var j = 0; j < rowWidgets.length; j++) {
+                        // create cell
+                        var cellElement = document.createElement('div');
+                        cellElement.setAttribute("class", "cell");
+                        Polymer.dom(rowElement).appendChild(cellElement);
+                        var widgetName = rowWidgets[j].name;
+                        if (widgetName === undefined || widgetName === null || widgetName === "")
+                            continue;
+                        var widgetDefinition = widgetDefinitionMap[widgetName];
+                        var widgetElement = this.getWidgetElement(widgetDefinition);
+                        Polymer.dom(cellElement).appendChild(widgetElement);
+                    }
+                }
+
+                Polymer.dom(root).appendChild(topElement);
+            }
+
+        });
+    </script>
+
+</dom-module>
