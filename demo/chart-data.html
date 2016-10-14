@@ -1,0 +1,126 @@
+<!--
+@license
+(C) Copyright 2016 Nuxeo SA (http://nuxeo.com/) and others.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Contributors:
+  Joshua Fletcher <jfletcher@nuxeo.com>
+-->
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+      content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+  <title>nuxeo-labs-chart-data Demo</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import"
+      href="../bower_components/nuxeo-elements/nuxeo-connection.html">
+  <link rel="import"
+      href="../bower_components/nuxeo-dataviz-elements/nuxeo-repository-data.html">
+  <link rel="import"
+      href="../bower_components/paper-card/paper-card.html">
+  <link rel="import"
+      href="../bower_components/chart-elements/chart-pie.html">
+  <link rel="import"
+      href="../bower_components/google-chart/google-chart.html">
+
+
+  <link rel="import"
+      href="../nuxeo-labs-charts/nuxeo-labs-chart-data.html">
+
+  <style is="custom-style">
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 10px;
+      display: inline-flex;
+    }
+
+    chart-pie {
+      height: 300px;
+      margin: 25px auto 0 auto;
+      width: 300px;
+      display: block;
+      font-size: 0.8em;
+    }
+
+    chart-pie::content .chart-legend ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    chart-pie::content .chart-legend li {
+      display: inline-block;
+      margin-right: 10px;
+      margin-bottom: 5px;
+    }
+
+    chart-pie::content .chart-legend li span {
+      height: 12px;
+      width: 12px;
+      border-radius: 3px;
+      display: table-cell;
+    }
+  </style>
+
+</head>
+
+<body unresolved
+    class="fullbleed">
+
+  <template is="dom-bind">
+
+    <nuxeo-connection url="http://cm.cloud.nuxeo.com/nuxeo">
+    </nuxeo-connection>
+
+    <nuxeo-repository-data ecm-primary-type="File,Note,Folder,Collection,Workspace"
+        grouped-by="ecm:primaryType"
+        group-limit="10"
+        data="{{typeCount}}">
+    </nuxeo-repository-data>
+
+    <nuxeo-labs-chart-data data="[[typeCount]]"
+        values="{{values}}"
+        series="{{series}}"
+        rows="{{rows}}"></nuxeo-labs-chart-data>
+
+    <!-- Chart.js -->
+    <paper-card heading="Entity Types">
+      <div class="card-content">
+        <chart-pie values="[[values]]"
+            series="[[series]]"
+            options='{"responsive": true, "animation": false}'>
+        </chart-pie>
+      </div>
+    </paper-card>
+
+    <!-- Google Chart -->
+    <paper-card heading="Entity Types">
+      <div class="card-content">
+        <google-chart class="center-chart"
+            type="pie"
+            cols='[{"label": "Type", "type": "string"},{"label": "Value", "type": "number"}]'
+            rows="[[rows]]">
+        </google-chart>
+      </div>
+    </paper-card>
+
+  </template>
+
+</body>
+
+</html>
