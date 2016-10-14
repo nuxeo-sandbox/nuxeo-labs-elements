@@ -22,6 +22,7 @@ Contributors:
 `nuxeo-checkbox-aggregation`
 @group Nuxeo UI
 @element nuxeo-checkbox-aggregation
+@demo demo/nuxeo-checkbox-aggregation-demo.html
 -->
 <dom-module id="nuxeo-checkbox-aggregation">
 
@@ -31,19 +32,19 @@ Contributors:
       :host {
         display: block;
       }
-      
+
       paper-checkbox {
         display: block;
         font-size: 0.8em;
         --paper-checkbox-label-spacing: 15px;
         margin-bottom: 5px;
       }
-      
+
       label {
         color: #c6c6c6;
         font-style: italic;
       }
-      
+
       .filterItemLabel {
         margin-top: 10px;
         margin-bottom: 8px;
@@ -56,7 +57,7 @@ Contributors:
       <div class="layout vertical">
         <div class="filterItemLabel">{{name}}</div>
         <template is="dom-repeat" items="[[_getBuckets(aggregations, name)]]">
-          <paper-checkbox value="[[item.key]]" on-change="_computeValues" checked="[[_isChecked(item)]]">[[item.key]] ([[item.doc_count]])</paper-checkbox>
+          <paper-checkbox value="[[item.key]]" on-change="_computeValues" checked="[[_isChecked(item)]]">[[_getLabel(item)]] ([[item.doc_count]])</paper-checkbox>
         </template>
       </div>
     </template>
@@ -74,6 +75,11 @@ Contributors:
 
           aggregations: {
             type: Object,
+          },
+
+          labelProperty: {
+            type: String,
+            value: "key"
           },
 
           name: {
@@ -111,7 +117,12 @@ Contributors:
 
         _isChecked: function(item) {
           return this.selectedValues.indexOf(item.key) !== -1;
+        },
+
+        _getLabel: function(item) {
+          return item[this.labelProperty];
         }
+
       });
     })();
 

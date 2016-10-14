@@ -1,0 +1,28 @@
+{
+    "Region_agg_filter": {
+        "doc_count": 92,
+        "Region_agg": {
+            "doc_count_error_upper_bound": 0,
+            "sum_other_doc_count": 0,
+            "buckets": [{
+                "key": "mountain",
+                "doc_count": 66
+            }, {
+                "key": "northeast",
+                "doc_count": 45
+            }, {
+                "key": "midatlantic",
+                "doc_count": 41
+            }, {
+                "key": "midwest",
+                "doc_count": 36
+            }, {
+                "key": "pacific",
+                "doc_count": 34
+            }, {
+                "key": "southeast",
+                "doc_count": 25
+            }]
+        }
+    }
+}
